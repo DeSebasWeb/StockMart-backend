@@ -9,7 +9,9 @@ import sl.sistemaInventarios.excepcion.RecursoNoEncontradoExcepcion;
 import sl.sistemaInventarios.modelo.Producto;
 import sl.sistemaInventarios.servicio.ProductoServicio;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 //http://localhost:8080/inventario-app
@@ -57,6 +59,19 @@ public class ProductoControlador {
         producto.setPrecio(productoRecibido.getPrecio());
         this.productoServicio.guardarProducto(producto);
         return ResponseEntity.ok(producto);
+    }
+
+    @DeleteMapping("/productos/{id}")
+    public ResponseEntity<Map<String, Boolean>> eliminarProducto(@PathVariable Integer id){
+        Producto producto = this.productoServicio.buscarProductoPorId(id);
+        if (producto == null){
+            throw new RecursoNoEncontradoExcepcion("No se ha encontrado ningun recurso");
+        }else {
+            this.productoServicio.eliminarProducto(producto);
+            Map<String, Boolean> respuesta = new HashMap<>();
+            respuesta.put("eliminado", Boolean.TRUE);
+            return ResponseEntity.ok(respuesta);
+        }
     }
 
 
