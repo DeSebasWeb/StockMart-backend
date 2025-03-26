@@ -48,5 +48,16 @@ public class ProductoControlador {
         }
     }
 
+    @PutMapping("/productos/{id}")
+    //La notacion PutMapping funciona para  modificar un elemento
+    public ResponseEntity<Producto> editarProducto(@PathVariable Integer id, @RequestBody Producto productoRecibido){
+        Producto producto = this.productoServicio.buscarProductoPorId(id);
+        producto.setDescripcion(productoRecibido.getDescripcion());
+        producto.setCantExistencia(productoRecibido.getCantExistencia());
+        producto.setPrecio(productoRecibido.getPrecio());
+        this.productoServicio.guardarProducto(producto);
+        return ResponseEntity.ok(producto);
+    }
+
 
 }
