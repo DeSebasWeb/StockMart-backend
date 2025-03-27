@@ -11,5 +11,7 @@ public interface IProductoServicio {
 
     public void eliminarProducto(Producto producto);
 
+    public List<Producto> buscarPorCategoria(String categoria);
+
     public Producto guardarProducto(Producto producto);
 }

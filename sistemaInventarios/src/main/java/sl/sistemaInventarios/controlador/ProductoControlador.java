@@ -74,5 +74,23 @@ public class ProductoControlador {
         }
     }
 
+    @GetMapping("/productos/buscar/id/{id}")
+    public ResponseEntity<Producto> buscarProductoConId(@PathVariable Integer id){
+        Producto producto =  this.productoServicio.buscarProductoPorId(id);
+        if (producto != null){
+            return ResponseEntity.ok(producto);
+        }else {
+            throw new RecursoNoEncontradoExcepcion("No se ha encontrado el producto esperado");
+        }
+    }
 
+    @GetMapping("/productos/buscar/categoria/{categoria}")
+    public ResponseEntity<List<Producto>> buscarProductosPorCategoria(@PathVariable String categoria){
+        List<Producto> productos = this.productoServicio.buscarPorCategoria(categoria);
+        if (productos.isEmpty()){
+            throw new RecursoNoEncontradoExcepcion("No se ha encontrado ningun producto con esa categoria");
+        }else{
+            return ResponseEntity.ok(productos);
+        }
+    }
 }

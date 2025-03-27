@@ -32,4 +32,9 @@ public class ProductoServicio implements IProductoServicio{
     public Producto guardarProducto(Producto producto) {
         return this.productoRepositorio.save(producto);
     }
+
+    @Override
+    public List<Producto> buscarPorCategoria(String categoria){
+        return this.productoRepositorio.findByCategoria(categoria);
+    }
 }
