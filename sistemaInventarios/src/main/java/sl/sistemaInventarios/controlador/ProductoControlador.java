@@ -57,6 +57,7 @@ public class ProductoControlador {
         producto.setDescripcion(productoRecibido.getDescripcion());
         producto.setCantExistencia(productoRecibido.getCantExistencia());
         producto.setPrecio(productoRecibido.getPrecio());
+        producto.setCategoria(productoRecibido.getCategoria());
         this.productoServicio.guardarProducto(producto);
         return ResponseEntity.ok(producto);
     }
