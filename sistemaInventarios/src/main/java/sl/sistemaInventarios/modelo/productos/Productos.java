@@ -26,8 +26,9 @@ public class Productos {
     Integer precioVenta;
     @Column(name = "stock", nullable = false)
     Integer stock;
-    @Column(name = "categoria")
-    String categoria;
+
+    @Column(name = "id_categoria")
+    Integer idCategoria;
     @Column(name = "fecha_registro", insertable = false, updatable = false)
     private LocalDateTime fechaRegistro;
 }

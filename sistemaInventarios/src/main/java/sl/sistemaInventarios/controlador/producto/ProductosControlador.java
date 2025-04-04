@@ -23,7 +23,7 @@ public class ProductosControlador {
     private static final Logger logger = LoggerFactory.getLogger(ProductosControlador.class);
     @Autowired
     private ProductosServicio productosServicio;
-
+    //Muestra los productos
     @GetMapping("/mostrar")
     public List<Productos> mostrarProductos(){
         List<Productos> productos = this.productosServicio.mostrarProductos();
@@ -34,6 +34,7 @@ public class ProductosControlador {
         return productos;
     }
 
+    //Encuentra el producto por el id
     @GetMapping("/id/{id}")
     public ResponseEntity<?> buscarProductoPorId(@PathVariable Integer id){
         Productos producto = this.productosServicio.buscarProductoPorId(id);
@@ -43,7 +44,7 @@ public class ProductosControlador {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new MostrarMensajeExcepcion("No se ha encontrado el producto con el id: " + id));
         }
     }
-
+    //Agrega los productos
     @PostMapping("/agregar")
     public Productos agregarProducto(@RequestBody Productos producto){
         if (producto!= null){
@@ -53,7 +54,7 @@ public class ProductosControlador {
             throw new RecursoNoEncontradoExcepcion("No ha sido posible guardar el producto");
         }
     }
-
+    //Edita los produtcos
     @PutMapping("/editar/{id}")
     public ResponseEntity<?> editarProducto(@PathVariable Integer id, @RequestBody Productos productoRecibido){
         Productos productoEncontrado = this.productosServicio.buscarProductoPorId(id);
@@ -65,12 +66,12 @@ public class ProductosControlador {
         if (productoRecibido.getPrecioCompra() != null) productoEncontrado.setPrecioCompra(productoRecibido.getPrecioCompra());
         if (productoRecibido.getPrecioVenta() != null) productoEncontrado.setPrecioVenta(productoRecibido.getPrecioVenta());
         if (productoRecibido.getStock() != null) productoEncontrado.setStock(productoRecibido.getStock());
-        if (productoRecibido.getCategoria() != null) productoEncontrado.setCategoria(productoRecibido.getCategoria());
+        if (productoRecibido.getIdCategoria() != null) productoEncontrado.setIdCategoria(productoRecibido.getIdCategoria());
 
         this.productosServicio.guardarProducto(productoEncontrado);
         return ResponseEntity.ok(productoEncontrado);
     }
-
+    //borra los productos
     @DeleteMapping("/eliminar/{id}")
     public ResponseEntity<?> eliminarProducto(@PathVariable Integer id){
         Productos producto = this.productosServicio.buscarProductoPorId(id);
