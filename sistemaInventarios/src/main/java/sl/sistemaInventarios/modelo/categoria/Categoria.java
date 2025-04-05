@@ -17,17 +17,17 @@ public class Categoria {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_categoria")
-    Integer id;
+    private Integer id;
 
     @Column(name = "nombre", nullable = false, unique = true)
-    String nombre;
+    private String nombre;
 
     @Column(name = "descripcion")
-    String descripcion;
+    private String descripcion;
 
-    //Corregir el estado, restringir solo a dos valores
+    @Enumerated(EnumType.STRING)
     @Column(name = "estado")
-    String estado;
+    private EstadoCategoria estado;
 
     // Relación con Productos (Opcional, pero útil)
     @OneToMany(mappedBy = "categoria", cascade = CascadeType.ALL, orphanRemoval = true)

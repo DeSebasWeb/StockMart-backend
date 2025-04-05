@@ -2,6 +2,8 @@ package sl.sistemaInventarios.modelo.productos;
 
 import jakarta.persistence.*;
 import lombok.*;
+import sl.sistemaInventarios.modelo.categoria.Categoria;
+
 import java.time.LocalDateTime;
 
 @Entity
@@ -15,20 +17,22 @@ public class Productos {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_producto")
-    Integer id;
+    private Integer id;
     @Column(name = "nombre", nullable = false)
-    String nombre;
+    private String nombre;
     @Column(name = "descripcion", nullable = false)
-    String descripcion;
+    private String descripcion;
     @Column(name = "precio_compra", nullable = false)
-    Integer precioCompra;
+    private Integer precioCompra;
     @Column(name = "precio_venta", nullable = false)
-    Integer precioVenta;
+    private Integer precioVenta;
     @Column(name = "stock", nullable = false)
-    Integer stock;
+    private Integer stock;
 
-    @Column(name = "id_categoria")
-    Integer idCategoria;
+    @ManyToOne
+    @JoinColumn(name = "id_categoria", nullable = false)
+    private Categoria categoria;
+
     @Column(name = "fecha_registro", insertable = false, updatable = false)
     private LocalDateTime fechaRegistro;
 }
