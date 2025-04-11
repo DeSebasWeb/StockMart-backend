@@ -3,7 +3,7 @@ package sl.sistemaInventarios.servicio.productos;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import sl.sistemaInventarios.modelo.producto.Producto;
-import sl.sistemaInventarios.repositorio.productos.ProductosRepositorio;
+import sl.sistemaInventarios.repositorio.producto.ProductosRepositorio;
 
 import java.util.List;
 

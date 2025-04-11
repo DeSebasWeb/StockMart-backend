@@ -3,6 +3,8 @@ package sl.sistemaInventarios.modelo.usuario;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDateTime;
+
 @Entity
 @Data
 @ToString
@@ -20,6 +22,12 @@ public class Usuario {
     @Column(name = "nombre")
     private String nombre;
 
+    @Column(name = "apellido")
+    private String apellido;
+
+    @Column(name = "cedula")
+    private Integer cedula;
+
     @Column(name = "correo")
     private String correo;
 
@@ -27,6 +35,19 @@ public class Usuario {
     private String password;
 
     @ManyToOne
-    @Column(name = "tipo_usuario_id")
+    @JoinColumn(name = "tipo_usuario_id")
     private TipoUsuario tipoUsuarioId;
+
+    @Column(name = "fecha_creacion", insertable = false, updatable = false)
+    private LocalDateTime fechaCreacion;
+
+    @Column(name = "fecha_modificacion", insertable = false, updatable = false)
+    private LocalDateTime fechaModificacion;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "estado")
+    private Estado estado;
+
+    @Column(name = "fecha_eliminacion")
+    private LocalDateTime fechaEliminacion;
 }

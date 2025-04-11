@@ -1,10 +1,22 @@
 package sl.sistemaInventarios.modelo.usuario;
 
-public enum TipoUsuario {
-//    ADMINISTRADOR(1, "administrador"),
-//    Vendedor(2, "vendedor"),
-//    cliente(3, "cliente")
-//
-//    private final int id;
-//    private final String nombre;
+import jakarta.persistence.*;
+import lombok.*;
+
+@Entity
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@EqualsAndHashCode
+@ToString
+@Table(name = "tipo_usuario")
+public class TipoUsuario {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
+    private Integer id;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "nombre")
+    private TipoUsuarioEnum nombre;
 }
