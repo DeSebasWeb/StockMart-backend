@@ -66,7 +66,7 @@ public class ProductosControlador {
         if (productoRecibido.getPrecioCompra() != null) productoEncontrado.setPrecioCompra(productoRecibido.getPrecioCompra());
         if (productoRecibido.getPrecioVenta() != null) productoEncontrado.setPrecioVenta(productoRecibido.getPrecioVenta());
         if (productoRecibido.getStock() != null) productoEncontrado.setStock(productoRecibido.getStock());
-        if (productoRecibido.getIdCategoria() != null) productoEncontrado.setIdCategoria(productoRecibido.getIdCategoria());
+        if (productoRecibido.getProductoCategoria() != null) productoEncontrado.setProductoCategoria(productoRecibido.getProductoCategoria());
 
         this.productosServicio.guardarProducto(productoEncontrado);
         return ResponseEntity.ok(productoEncontrado);
