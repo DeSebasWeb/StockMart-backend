@@ -1,17 +1,17 @@
 package sl.sistemaInventarios.servicio.productos;
 
-import sl.sistemaInventarios.modelo.productos.Productos;
+import sl.sistemaInventarios.modelo.producto.Producto;
 
 import java.util.List;
 
 public interface IProductosServicio {
-    public List<Productos> mostrarProductos();
+    public List<Producto> mostrarProductos();
 
-    public Productos buscarProductoPorId(Integer id);
+    public Producto buscarProductoPorId(Integer id);
 
-    public void eliminarProducto(Productos producto);
+    public void eliminarProducto(Producto producto);
 
-    public List<Productos> buscarPorCategoria(String categoria);
+    public List<Producto> buscarPorCategoria(String categoria);
 
-    public Productos guardarProducto(Productos producto);
+    public Producto guardarProducto(Producto producto);
 }

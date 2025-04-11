@@ -1,8 +1,8 @@
-package sl.sistemaInventarios.modelo.productos;
+package sl.sistemaInventarios.modelo.producto;
 
 import jakarta.persistence.*;
 import lombok.*;
-import sl.sistemaInventarios.modelo.categoria.Categoria;
+import sl.sistemaInventarios.modelo.categoriaProducto.ProductoCategoria;
 
 import java.time.LocalDateTime;
 
@@ -13,26 +13,40 @@ import java.time.LocalDateTime;
 @EqualsAndHashCode
 @ToString
 @Table(name = "productos")
-public class Productos {
+public class Producto {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_producto")
     private Integer id;
+
     @Column(name = "nombre", nullable = false)
     private String nombre;
+
     @Column(name = "descripcion", nullable = false)
     private String descripcion;
-    @Column(name = "precio_compra", nullable = false)
-    private Integer precioCompra;
-    @Column(name = "precio_venta", nullable = false)
-    private Integer precioVenta;
-    @Column(name = "stock", nullable = false)
-    private Integer stock;
 
     @ManyToOne
     @JoinColumn(name = "id_categoria", nullable = false)
-    private Categoria categoria;
+    private ProductoCategoria productoCategoria;
 
-    @Column(name = "fecha_registro", insertable = false, updatable = false)
+    @Column(name = "stock", nullable = false)
+    private Integer stock;
+
+    @Column(name = "precio_compra", nullable = false)
+    private Integer precioCompra;
+
+    @Column(name = "precio_venta", nullable = false)
+    private Integer precioVenta;
+
+    @Column(name = "marca")
+    private String marca;
+
+    @Column(name = "fecha_creacion", insertable = false, updatable = false)
     private LocalDateTime fechaRegistro;
+
+    @Column(name = "fecha_modificacion", insertable = false, updatable = false)
+    private LocalDateTime fechaModificacion;
+
+    @Column(name = "fecha_eliminacion")
+    private LocalDateTime fechaEliminacion;
 }

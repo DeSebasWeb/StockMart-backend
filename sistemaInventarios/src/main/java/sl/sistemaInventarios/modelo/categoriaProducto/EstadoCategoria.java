@@ -1,4 +1,4 @@
-package sl.sistemaInventarios.modelo.categoria;
+package sl.sistemaInventarios.modelo.categoriaProducto;
 
 public enum EstadoCategoria {
     ACTIVO,

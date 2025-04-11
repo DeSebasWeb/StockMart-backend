@@ -2,11 +2,11 @@ package sl.sistemaInventarios.repositorio.productos;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-import sl.sistemaInventarios.modelo.productos.Productos;
+import sl.sistemaInventarios.modelo.producto.Producto;
 
 import java.util.List;
 
 @Repository
-public interface ProductosRepositorio extends JpaRepository<Productos, Integer> {
-    List<Productos> findByCategoria(String categoria);
+public interface ProductosRepositorio extends JpaRepository<Producto, Integer> {
+    List<Producto> findByCategoria(String categoria);
 }

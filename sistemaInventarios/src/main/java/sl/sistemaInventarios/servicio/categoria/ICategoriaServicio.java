@@ -1,20 +1,20 @@
 package sl.sistemaInventarios.servicio.categoria;
 
-import sl.sistemaInventarios.modelo.categoria.Categoria;
+import sl.sistemaInventarios.modelo.categoriaProducto.ProductoCategoria;
 
 import java.util.List;
 
 public interface ICategoriaServicio {
-    public List<Categoria> mostrarCategorias();
+    public List<ProductoCategoria> mostrarCategorias();
 
-    public Categoria buscarCategoriaPorId(Integer idCategoria);
+    public ProductoCategoria buscarCategoriaPorId(Integer idCategoria);
 
-    public Categoria guardarCategria(Categoria categoria);
+    public ProductoCategoria guardarCategria(ProductoCategoria productoCategoria);
 
-    public Categoria inactivarCategoria(Integer idCategoria);
+    public ProductoCategoria inactivarCategoria(Integer idCategoria);
 
-    public Categoria activarCategoria(Integer idCategoria);
+    public ProductoCategoria activarCategoria(Integer idCategoria);
 
-    public void eliminarCategoria(Categoria categoria);
+    public void eliminarCategoria(ProductoCategoria productoCategoria);
 
 }

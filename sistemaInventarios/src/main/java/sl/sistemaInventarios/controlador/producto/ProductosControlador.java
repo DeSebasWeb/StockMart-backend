@@ -8,7 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import sl.sistemaInventarios.excepcion.RecursoNoEncontradoExcepcion;
 import sl.sistemaInventarios.excepcion.MostrarMensajeExcepcion;
-import sl.sistemaInventarios.modelo.productos.Productos;
+import sl.sistemaInventarios.modelo.producto.Producto;
 import sl.sistemaInventarios.servicio.productos.ProductosServicio;
 
 import java.util.HashMap;
@@ -25,8 +25,8 @@ public class ProductosControlador {
     private ProductosServicio productosServicio;
     //Muestra los productos
     @GetMapping("/mostrar")
-    public List<Productos> mostrarProductos(){
-        List<Productos> productos = this.productosServicio.mostrarProductos();
+    public List<Producto> mostrarProductos(){
+        List<Producto> productos = this.productosServicio.mostrarProductos();
         logger.info("Productos obtenidos: ");
         productos.forEach(producto -> {
             logger.info(producto.toString());
@@ -37,7 +37,7 @@ public class ProductosControlador {
     //Encuentra el producto por el id
     @GetMapping("/id/{id}")
     public ResponseEntity<?> buscarProductoPorId(@PathVariable Integer id){
-        Productos producto = this.productosServicio.buscarProductoPorId(id);
+        Producto producto = this.productosServicio.buscarProductoPorId(id);
         if (producto != null){
             return ResponseEntity.ok(producto);
         }else {
@@ -46,7 +46,7 @@ public class ProductosControlador {
     }
     //Agrega los productos
     @PostMapping("/agregar")
-    public Productos agregarProducto(@RequestBody Productos producto){
+    public Producto agregarProducto(@RequestBody Producto producto){
         if (producto!= null){
             logger.info("Se ha guardado la informacion correctamente");
             return this.productosServicio.guardarProducto(producto);
@@ -56,8 +56,8 @@ public class ProductosControlador {
     }
     //Edita los produtcos
     @PutMapping("/editar/{id}")
-    public ResponseEntity<?> editarProducto(@PathVariable Integer id, @RequestBody Productos productoRecibido){
-        Productos productoEncontrado = this.productosServicio.buscarProductoPorId(id);
+    public ResponseEntity<?> editarProducto(@PathVariable Integer id, @RequestBody Producto productoRecibido){
+        Producto productoEncontrado = this.productosServicio.buscarProductoPorId(id);
         if (productoEncontrado == null){
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new MostrarMensajeExcepcion("No se ha encontrado"));
         }
@@ -74,7 +74,7 @@ public class ProductosControlador {
     //borra los productos
     @DeleteMapping("/eliminar/{id}")
     public ResponseEntity<?> eliminarProducto(@PathVariable Integer id){
-        Productos producto = this.productosServicio.buscarProductoPorId(id);
+        Producto producto = this.productosServicio.buscarProductoPorId(id);
         if(producto != null){
             this.productosServicio.eliminarProducto(producto);
             Map<String, Boolean> respuesta = new HashMap<>();

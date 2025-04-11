@@ -1,8 +1,8 @@
-package sl.sistemaInventarios.modelo.categoria;
+package sl.sistemaInventarios.modelo.categoriaProducto;
 
 import jakarta.persistence.*;
 import lombok.*;
-import sl.sistemaInventarios.modelo.productos.Productos;
+import sl.sistemaInventarios.modelo.producto.Producto;
 
 import java.util.List;
 
@@ -13,7 +13,7 @@ import java.util.List;
 @ToString
 @EqualsAndHashCode
 @Table(name = "categoria")
-public class Categoria {
+public class ProductoCategoria {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_categoria")
@@ -31,7 +31,7 @@ public class Categoria {
 
     // Relación con Productos (Opcional, pero útil)
     @OneToMany(mappedBy = "categoria", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Productos> productos;
+    private List<Producto> productos;
 
 //    nombre: Agregamos un campo para almacenar el nombre de la categoría. Sin esto, la tabla no sería útil.
 //
