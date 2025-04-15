@@ -2,7 +2,6 @@ package sl.sistemaInventarios.modelo.usuario;
 
 import jakarta.persistence.*;
 import lombok.*;
-import org.apache.catalina.LifecycleState;
 import sl.sistemaInventarios.modelo.facturacion.Venta;
 
 import java.util.List;
@@ -14,7 +13,6 @@ import java.util.List;
 @NoArgsConstructor
 @EqualsAndHashCode
 public class Vendedor {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "vendedor_id")
@@ -22,7 +20,7 @@ public class Vendedor {
 
     @OneToOne
     @JoinColumn(name = "usuario_id", referencedColumnName = "id_usuario")
-    private Usuario usuario_id;
+    private Usuario usuario;
 
     @Column(name = "numero_ventas")
     private long numeroVentas;
@@ -32,5 +30,4 @@ public class Vendedor {
 
     @OneToMany(mappedBy = "vendedor")
     private List<Venta> ventas;
-
 }

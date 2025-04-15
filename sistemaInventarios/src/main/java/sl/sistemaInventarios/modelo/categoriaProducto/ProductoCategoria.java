@@ -2,6 +2,7 @@ package sl.sistemaInventarios.modelo.categoriaProducto;
 
 import jakarta.persistence.*;
 import lombok.*;
+import sl.sistemaInventarios.modelo.estado.EstadoEnum;
 import sl.sistemaInventarios.modelo.producto.Producto;
 
 import java.time.LocalDateTime;
@@ -25,13 +26,13 @@ public class ProductoCategoria {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "estado")
-    private EstadoCategoria estado;
+    private EstadoEnum estado;
 
     @Column(name = "descripcion")
     private String descripcion;
 
     @Column(name = "precio_minimo")
-    private Integer precioMinimo;
+    private Double precioMinimo;
 
     @Column(name = "fecha_creacion", insertable = false, updatable = false)
     private LocalDateTime fechaCreacion;
@@ -43,7 +44,7 @@ public class ProductoCategoria {
     private LocalDateTime fechaEliminacion;
 
     // Relación con Productos (Opcional, pero útil)
-    @OneToMany(mappedBy = "categoria", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "categoria")
     private List<Producto> productos;
 
 //    nombre: Agregamos un campo para almacenar el nombre de la categoría. Sin esto, la tabla no sería útil.

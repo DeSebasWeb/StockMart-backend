@@ -3,8 +3,10 @@ package sl.sistemaInventarios.modelo.producto;
 import jakarta.persistence.*;
 import lombok.*;
 import sl.sistemaInventarios.modelo.categoriaProducto.ProductoCategoria;
+import sl.sistemaInventarios.modelo.facturacion.DetalleVenta;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Data
@@ -17,12 +19,12 @@ public class Producto {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_producto")
-    private Integer id;
+    private Integer idProducto;
 
     @Column(name = "nombre", nullable = false)
     private String nombre;
 
-    @Column(name = "descripcion", nullable = false)
+    @Column(name = "descripcion")
     private String descripcion;
 
     @ManyToOne
@@ -49,4 +51,11 @@ public class Producto {
 
     @Column(name = "fecha_eliminacion")
     private LocalDateTime fechaEliminacion;
+
+    @Column(name = "cant_producto_vendido")
+    private Integer cantProductoVendido;
+
+    @OneToMany(mappedBy = "producto")
+    private List<DetalleVenta> detalles;
+
 }

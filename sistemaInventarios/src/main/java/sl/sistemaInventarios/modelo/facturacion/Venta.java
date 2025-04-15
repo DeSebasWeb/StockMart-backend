@@ -7,6 +7,7 @@ import sl.sistemaInventarios.modelo.usuario.Usuario;
 import sl.sistemaInventarios.modelo.usuario.Vendedor;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Data
@@ -19,7 +20,7 @@ public class Venta {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_venta")
-    private Long id_venta;
+    private Long idVenta;
 
     @Column(name = "total")
     private Double total;
@@ -44,4 +45,7 @@ public class Venta {
     @Enumerated(EnumType.STRING)
     @Column(name = "estado")
     private EstadoEnum estadoEnum;
+
+    @OneToMany(mappedBy = "venta")
+    private List<DetalleVenta> detalles ;
 }
