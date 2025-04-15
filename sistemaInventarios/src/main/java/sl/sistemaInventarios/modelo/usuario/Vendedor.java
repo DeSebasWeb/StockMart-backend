@@ -2,6 +2,10 @@ package sl.sistemaInventarios.modelo.usuario;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.apache.catalina.LifecycleState;
+import sl.sistemaInventarios.modelo.facturacion.Venta;
+
+import java.util.List;
 
 @Entity
 @Data
@@ -25,4 +29,8 @@ public class Vendedor {
 
     @Column(name = "zona_trabajo")
     private String zonaTrabajo;
+
+    @OneToMany(mappedBy = "vendedor")
+    private List<Venta> ventas;
+
 }

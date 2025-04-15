@@ -1,4 +1,4 @@
-package sl.sistemaInventarios.modelo.usuario;
+package sl.sistemaInventarios.modelo.tipoUsuario;
 
 public enum TipoUsuarioEnum {
     Administrador,

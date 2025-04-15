@@ -2,8 +2,12 @@ package sl.sistemaInventarios.modelo.usuario;
 
 import jakarta.persistence.*;
 import lombok.*;
+import sl.sistemaInventarios.modelo.estado.EstadoEnum;
+import sl.sistemaInventarios.modelo.facturacion.Venta;
+import sl.sistemaInventarios.modelo.tipoUsuario.TipoUsuario;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Data
@@ -46,8 +50,14 @@ public class Usuario {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "estado")
-    private Estado estado;
+    private EstadoEnum estadoEnum;
 
     @Column(name = "fecha_eliminacion")
     private LocalDateTime fechaEliminacion;
+
+    @Column(name = "ventas_hechas")
+    private Integer ventasHechas;
+
+    @OneToMany(mappedBy = "usuario")
+    private List<Venta> ventas;
 }

@@ -12,7 +12,5 @@ public interface IVendedorServicio {
 
     public Vendedor buscarVendedorPorId(Vendedor vendedor);
 
-
-
     public Vendedor eliminarVendedor(Vendedor vendedor);
 }

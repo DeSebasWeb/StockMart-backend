@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 import sl.sistemaInventarios.modelo.producto.Producto;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
@@ -22,12 +23,24 @@ public class ProductoCategoria {
     @Column(name = "nombre", nullable = false, unique = true)
     private String nombre;
 
-    @Column(name = "descripcion")
-    private String descripcion;
-
     @Enumerated(EnumType.STRING)
     @Column(name = "estado")
     private EstadoCategoria estado;
+
+    @Column(name = "descripcion")
+    private String descripcion;
+
+    @Column(name = "precio_minimo")
+    private Integer precioMinimo;
+
+    @Column(name = "fecha_creacion", insertable = false, updatable = false)
+    private LocalDateTime fechaCreacion;
+
+    @Column(name = "fecha_modificacion", insertable = false, updatable = false)
+    private LocalDateTime fechaModificacion;
+
+    @Column(name = "fecha_eliminacion")
+    private LocalDateTime fechaEliminacion;
 
     // Relación con Productos (Opcional, pero útil)
     @OneToMany(mappedBy = "categoria", cascade = CascadeType.ALL, orphanRemoval = true)
