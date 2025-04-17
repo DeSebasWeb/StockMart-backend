@@ -7,6 +7,6 @@ import sl.sistemaInventarios.modelo.producto.Producto;
 import java.util.List;
 
 @Repository
-public interface ProductosRepositorio extends JpaRepository<Producto, Integer> {
+public interface ProductoRepositorio extends JpaRepository<Producto, Integer> {
     List<Producto> findByCategoria(String categoria);
 }
