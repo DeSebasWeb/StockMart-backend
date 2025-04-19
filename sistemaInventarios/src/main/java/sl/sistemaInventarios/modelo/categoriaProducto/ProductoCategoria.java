@@ -2,6 +2,7 @@ package sl.sistemaInventarios.modelo.categoriaProducto;
 
 import jakarta.persistence.*;
 import lombok.*;
+import sl.sistemaInventarios.modelo.estado.Estado;
 import sl.sistemaInventarios.modelo.estado.EstadoEnum;
 import sl.sistemaInventarios.modelo.producto.Producto;
 
@@ -24,9 +25,9 @@ public class ProductoCategoria {
     @Column(name = "nombre", nullable = false, unique = true)
     private String nombre;
 
-    @Enumerated(EnumType.STRING)
-    @Column(name = "estado")
-    private EstadoEnum estado;
+    @ManyToOne
+    @JoinColumn(name = "id_estado_categoria")
+    private Estado estado;
 
     @Column(name = "descripcion")
     private String descripcion;

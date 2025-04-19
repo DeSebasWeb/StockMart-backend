@@ -3,6 +3,7 @@ package sl.sistemaInventarios.modelo.producto;
 import jakarta.persistence.*;
 import lombok.*;
 import sl.sistemaInventarios.modelo.categoriaProducto.ProductoCategoria;
+import sl.sistemaInventarios.modelo.estado.Estado;
 import sl.sistemaInventarios.modelo.facturacion.DetalleVenta;
 
 import java.time.LocalDateTime;
@@ -30,6 +31,10 @@ public class Producto {
     @ManyToOne
     @JoinColumn(name = "id_categoria", nullable = false)
     private ProductoCategoria productoCategoria;
+
+    @ManyToOne
+    @JoinColumn(name = "id_estado")
+    private Estado estado;
 
     @Column(name = "stock", nullable = false)
     private Integer stock;

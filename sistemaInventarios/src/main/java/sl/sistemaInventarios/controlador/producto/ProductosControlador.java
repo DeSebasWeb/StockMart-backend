@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import sl.sistemaInventarios.excepcion.RecursoNoEncontradoExcepcion;
 import sl.sistemaInventarios.excepcion.MostrarMensajeExcepcion;
 import sl.sistemaInventarios.modelo.producto.Producto;
-import sl.sistemaInventarios.servicio.productos.ProductosServicio;
+import sl.sistemaInventarios.servicio.producto.clases.ProductosServicio;
 
 import java.util.HashMap;
 import java.util.List;

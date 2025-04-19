@@ -2,7 +2,7 @@ package sl.sistemaInventarios.modelo.facturacion;
 
 import jakarta.persistence.*;
 import lombok.*;
-import sl.sistemaInventarios.modelo.estado.EstadoEnum;
+import sl.sistemaInventarios.modelo.estado.Estado;
 import sl.sistemaInventarios.modelo.usuario.Usuario;
 import sl.sistemaInventarios.modelo.usuario.Vendedor;
 
@@ -42,10 +42,10 @@ public class Venta {
     @Column(name = "fecha_eliminacion")
     private LocalDateTime fechaEliminacion;
 
-    @Enumerated(EnumType.STRING)
-    @Column(name = "estado")
-    private EstadoEnum estadoEnum;
+    @ManyToOne
+    @JoinColumn(name = "id_estado_venta")
+    private Estado estado;
 
     @OneToMany(mappedBy = "venta")
-    private List<DetalleVenta> detalles ;
+    private List<DetalleVenta> detalles;
 }

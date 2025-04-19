@@ -2,6 +2,7 @@ package sl.sistemaInventarios.modelo.usuario;
 
 import jakarta.persistence.*;
 import lombok.*;
+import sl.sistemaInventarios.modelo.estado.Estado;
 import sl.sistemaInventarios.modelo.estado.EstadoEnum;
 import sl.sistemaInventarios.modelo.tipoUsuario.TipoUsuario;
 
@@ -46,12 +47,10 @@ public class Usuario {
     @Column(name = "fecha_modificacion", insertable = false, updatable = false)
     private LocalDateTime fechaModificacion;
 
-    @Enumerated(EnumType.STRING)
-    @Column(name = "estado")
-    private EstadoEnum estadoEnum;
+    @ManyToOne
+    @JoinColumn(name = "id_estado_usuario")
+    private Estado estado;
 
     @Column(name = "fecha_eliminacion")
     private LocalDateTime fechaEliminacion;
-
-
 }
