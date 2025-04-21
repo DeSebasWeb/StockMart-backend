@@ -21,4 +21,6 @@ public interface IVentaServicio {
     public Vendedor sumarVentaVendedor(Vendedor vendedor);
 
     public List<Integer> mostrarEstadisticaVentas();
+
+    public Venta guardarVenta(Venta venta);
 }

@@ -20,4 +20,6 @@ public interface IProductosServicio {
     public Producto recuperarProducto(Producto producto);
 
     public Producto guardarProducto(Producto producto);
+
+    public Integer estadisticaProducto(Producto producto);
 }

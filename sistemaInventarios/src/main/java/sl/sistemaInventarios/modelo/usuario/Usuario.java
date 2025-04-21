@@ -39,7 +39,7 @@ public class Usuario {
 
     @ManyToOne
     @JoinColumn(name = "tipo_usuario_id")
-    private TipoUsuario tipoUsuarioId;
+    private TipoUsuario tipoUsuario;
 
     @Column(name = "fecha_creacion", insertable = false, updatable = false)
     private LocalDateTime fechaCreacion;

@@ -15,5 +15,5 @@ public interface IUsuarioServicio {
 
     public void eliminarUsuario(Usuario usuario);
 
-    public Usuario editarUsuario(Usuario usuario);
+
 }
