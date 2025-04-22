@@ -12,7 +12,6 @@ import org.springframework.security.web.SecurityFilterChain;
 @Configuration
 @EnableWebSecurity
 public class ConfiguracionSeguridad {
-
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception{
         http.csrf(csrf -> csrf.disable())// Deshabilita CSRF para APIs
@@ -20,7 +19,6 @@ public class ConfiguracionSeguridad {
                         .permitAll().anyRequest().authenticated()) // El resto requiere autenticación
                 .httpBasic(Customizer.withDefaults());// Autenticación básica (usuario y contraseña en el header)
         return http.build();
-
     }
 
     @Bean

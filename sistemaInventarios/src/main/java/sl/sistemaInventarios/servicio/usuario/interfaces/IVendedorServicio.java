@@ -8,9 +8,9 @@ public interface IVendedorServicio {
 
     public List<Vendedor> mostrarVendedores();
 
+    public List<Vendedor> mostrarVendedoresEnZonaTrabajo(String zonaTrabajo);
+
     public Vendedor guardarDatosVendedor(Vendedor vendedor);
 
     public Vendedor buscarVendedorPorId(Vendedor vendedor);
-
-    public Vendedor eliminarVendedor(Vendedor vendedor);
 }

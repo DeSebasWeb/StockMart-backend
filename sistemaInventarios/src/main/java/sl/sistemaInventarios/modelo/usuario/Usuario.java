@@ -3,7 +3,6 @@ package sl.sistemaInventarios.modelo.usuario;
 import jakarta.persistence.*;
 import lombok.*;
 import sl.sistemaInventarios.modelo.estado.Estado;
-import sl.sistemaInventarios.modelo.estado.EstadoEnum;
 import sl.sistemaInventarios.modelo.tipoUsuario.TipoUsuario;
 
 import java.time.LocalDateTime;

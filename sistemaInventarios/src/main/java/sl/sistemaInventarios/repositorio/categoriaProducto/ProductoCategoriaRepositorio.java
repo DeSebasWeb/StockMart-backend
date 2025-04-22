@@ -5,9 +5,9 @@ import org.springframework.stereotype.Repository;
 import sl.sistemaInventarios.modelo.categoriaProducto.ProductoCategoria;
 import sl.sistemaInventarios.modelo.estado.EstadoEnum;
 
-import java.util.Optional;
+import java.util.List;
 
 @Repository
 public interface ProductoCategoriaRepositorio extends JpaRepository<ProductoCategoria, Integer> {
-    Optional<ProductoCategoria> findByEstado(EstadoEnum estado);
+    List<ProductoCategoria> findByEstado_Estado(EstadoEnum estadoEnum);
 }

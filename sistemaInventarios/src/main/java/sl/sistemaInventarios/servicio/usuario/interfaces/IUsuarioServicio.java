@@ -5,7 +5,9 @@ import sl.sistemaInventarios.modelo.usuario.Usuario;
 import java.util.List;
 
 public interface IUsuarioServicio {
-    public List<Usuario> mostrarUsuarios();
+    public List<Usuario> mostrarUsuariosActivos();
+
+    public List<Usuario> mostrarUsuariosInactivos();
 
     public Usuario guardarUsuario(Usuario usuario);
 
@@ -13,7 +15,9 @@ public interface IUsuarioServicio {
 
     public Usuario buscarUsuarioPorCedula(Long cedula);
 
-    public void eliminarUsuario(Usuario usuario);
+    public Usuario softDelete(Usuario usuario);
 
+    public Usuario hardDelete(Usuario usuario);
 
+    public Usuario recuperar(Usuario usuario);
 }
