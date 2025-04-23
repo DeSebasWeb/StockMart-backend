@@ -13,7 +13,7 @@ import sl.sistemaInventarios.servicio.producto.interfaces.IProductosServicio;
 import java.util.List;
 
 @Service
-public class ProductosServicio implements IProductosServicio {
+public class ProductoServicio implements IProductosServicio {
     @Autowired
     private ProductoRepositorio productoRepositorio;
 
@@ -48,7 +48,7 @@ public class ProductosServicio implements IProductosServicio {
         Producto productoSoftDelete = this.buscarProductoPorId(producto);
         productoSoftDelete.setEstado(this.estadoServicio.estaEstadoInactivo());
         Producto productoGuardado = this.guardarProducto(productoSoftDelete);
-        return  productoGuardado;
+        return productoGuardado;
     }
 
     @Override

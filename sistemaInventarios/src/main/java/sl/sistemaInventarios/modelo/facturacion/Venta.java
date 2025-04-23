@@ -20,7 +20,7 @@ public class Venta {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_venta")
-    private Long idVenta;
+    private Integer idVenta;
 
     @Column(name = "total")
     private Double total;
@@ -46,6 +46,6 @@ public class Venta {
     @JoinColumn(name = "id_estado_venta")
     private Estado estado;
 
-    @OneToMany(mappedBy = "venta")
+    @OneToMany(mappedBy = "venta", cascade = CascadeType.ALL )
     private List<DetalleVenta> detalles;
 }

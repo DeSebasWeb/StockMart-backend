@@ -3,7 +3,6 @@ package sl.sistemaInventarios.modelo.categoriaProducto;
 import jakarta.persistence.*;
 import lombok.*;
 import sl.sistemaInventarios.modelo.estado.Estado;
-import sl.sistemaInventarios.modelo.estado.EstadoEnum;
 import sl.sistemaInventarios.modelo.producto.Producto;
 
 import java.time.LocalDateTime;
@@ -15,7 +14,7 @@ import java.util.List;
 @NoArgsConstructor
 @ToString
 @EqualsAndHashCode
-@Table(name = "categoria")
+@Table(name = "producto_categoria")
 public class ProductoCategoria {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -45,7 +44,7 @@ public class ProductoCategoria {
     private LocalDateTime fechaEliminacion;
 
     // Relación con Productos (Opcional, pero útil)
-    @OneToMany(mappedBy = "categoria")
+    @OneToMany(mappedBy = "productoCategoria")
     private List<Producto> productos;
 
 //    nombre: Agregamos un campo para almacenar el nombre de la categoría. Sin esto, la tabla no sería útil.
