@@ -16,7 +16,7 @@ public class Vendedor {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "vendedor_id")
-    private Integer idVendedor;
+    private Long idVendedor;
 
     @OneToOne
     @JoinColumn(name = "usuario_id", referencedColumnName = "id_usuario")
