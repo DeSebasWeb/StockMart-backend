@@ -17,8 +17,13 @@ public class ProductoServicio implements IProductosServicio {
     @Autowired
     private ProductoRepositorio productoRepositorio;
 
+    private final EstadoServicio estadoServicio;
+
     @Autowired
-    private EstadoServicio estadoServicio;
+    public ProductoServicio(EstadoServicio estadoServicio) {
+        this.estadoServicio = estadoServicio;
+    }
+
 
     @Override
     public List<Producto> mostrarProductosPorEstado(EstadoEnum estadoEnum) {

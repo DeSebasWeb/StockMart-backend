@@ -28,7 +28,7 @@ public class Usuario {
     private String apellido;
 
     @Column(name = "cedula")
-    private Integer cedula;
+    private Long cedula;
 
     @Column(name = "correo")
     private String correo;

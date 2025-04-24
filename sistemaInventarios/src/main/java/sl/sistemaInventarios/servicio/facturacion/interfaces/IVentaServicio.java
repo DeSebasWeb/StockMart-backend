@@ -27,4 +27,8 @@ public interface IVentaServicio {
     public Vendedor sumarVentaVendedor( Venta venta);
 
     public List<DetalleVenta> obtenerDetallesPorIdVenta(Venta venta);
+
+    public Venta realizarVenta(Venta venta);
+
+    public void actualizarStock(Venta venta);
 }

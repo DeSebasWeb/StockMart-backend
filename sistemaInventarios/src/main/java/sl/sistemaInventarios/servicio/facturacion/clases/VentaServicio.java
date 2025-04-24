@@ -6,10 +6,12 @@ import org.springframework.transaction.annotation.Transactional;
 import sl.sistemaInventarios.modelo.estado.EstadoEnum;
 import sl.sistemaInventarios.modelo.facturacion.DetalleVenta;
 import sl.sistemaInventarios.modelo.facturacion.Venta;
+import sl.sistemaInventarios.modelo.producto.Producto;
 import sl.sistemaInventarios.modelo.usuario.Vendedor;
 import sl.sistemaInventarios.repositorio.facturacion.VentaRepositorio;
 import sl.sistemaInventarios.servicio.estado.clases.EstadoServicio;
 import sl.sistemaInventarios.servicio.facturacion.interfaces.IVentaServicio;
+import sl.sistemaInventarios.servicio.producto.clases.ProductoServicio;
 
 import java.util.Collections;
 import java.util.List;
@@ -21,15 +23,19 @@ public class VentaServicio implements IVentaServicio {
 
     private final EstadoServicio estadoServicio;
 
+    private final ProductoServicio productoServicio;
+
+    @Autowired
+    public VentaServicio(EstadoServicio estadoServicio, ProductoServicio productoServicio) {
+        this.estadoServicio = estadoServicio;
+        this.productoServicio = productoServicio;
+    }
+
+
     @Override
     public Venta guardarVenta(Venta venta) {
         Venta ventaGuardada = this.ventaRepositorio.save(venta);
         return  ventaGuardada;
-    }
-
-    @Autowired
-    public VentaServicio(EstadoServicio estadoServicio) {
-        this.estadoServicio = estadoServicio;
     }
 
     @Override
@@ -106,5 +112,26 @@ public class VentaServicio implements IVentaServicio {
             return venta.getDetalles();
         }
         return Collections.emptyList();
+    }
+
+    @Override
+    public Venta realizarVenta(Venta venta) {
+
+        return null;
+    }
+
+    @Override
+    public void actualizarStock(Venta venta) {
+        List<DetalleVenta> productosDetalleVenta = obtenerDetallesPorIdVenta(venta);
+        if (!productosDetalleVenta.isEmpty()){
+            productosDetalleVenta.forEach(productoDetalle ->{
+                Producto producto = this.productoServicio.buscarProductoPorId(productoDetalle.getProducto());
+                Integer Stock = producto.getStock();
+                producto.setStock(Stock-productoDetalle.getCantidad());
+                this.productoServicio.guardarProducto(producto);
+            });
+        }else {
+            throw new RuntimeException("No hay ningun producto para actualizar el stock");
+        }
     }
 }
