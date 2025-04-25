@@ -2,7 +2,6 @@ package sl.sistemaInventarios.servicio.facturacion.interfaces;
 
 import sl.sistemaInventarios.modelo.facturacion.DetalleVenta;
 import sl.sistemaInventarios.modelo.facturacion.Venta;
-import sl.sistemaInventarios.modelo.producto.Producto;
 
 import java.util.List;
 

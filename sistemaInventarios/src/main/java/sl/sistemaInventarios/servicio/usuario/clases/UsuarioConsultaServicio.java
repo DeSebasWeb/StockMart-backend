@@ -5,12 +5,12 @@ import org.springframework.stereotype.Service;
 import sl.sistemaInventarios.modelo.estado.EstadoEnum;
 import sl.sistemaInventarios.modelo.usuario.Usuario;
 import sl.sistemaInventarios.repositorio.usuario.UsuarioRepositorio;
-import sl.sistemaInventarios.servicio.usuario.interfaces.IUsuarioGestionServicio;
+import sl.sistemaInventarios.servicio.usuario.interfaces.IUsuarioConsultaServicio;
 
 import java.util.List;
 
 @Service
-public class UsuarioConsultaServicio implements IUsuarioGestionServicio {
+public class UsuarioConsultaServicio implements IUsuarioConsultaServicio {
     @Autowired
     private UsuarioRepositorio usuarioRepositorio;
 

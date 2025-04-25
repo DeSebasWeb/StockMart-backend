@@ -7,22 +7,22 @@ import sl.sistemaInventarios.modelo.usuario.Usuario;
 import sl.sistemaInventarios.repositorio.usuario.UsuarioRepositorio;
 import sl.sistemaInventarios.servicio.estado.clases.EstadoServicio;
 import sl.sistemaInventarios.servicio.seguridad.clases.EncriptacionServicio;
-import sl.sistemaInventarios.servicio.usuario.interfaces.IUsuarioConsultaServicio;
+import sl.sistemaInventarios.servicio.usuario.interfaces.IUsuarioGestionServicio;
 
 @Service
 @Transactional
-public class UsuarioGestionServicio implements IUsuarioConsultaServicio {
+public class UsuarioGestionServicio implements IUsuarioGestionServicio {
 
     @Autowired
     private UsuarioRepositorio usuarioRepositorio;
     private final EstadoServicio estadoServicio;
     private final EncriptacionServicio encriptacionServicio;
-    private final UsuarioConsultaServicio usuarioGestionServicio;
+    private final UsuarioConsultaServicio usuarioConsultaServicio;
     @Autowired
-    public UsuarioGestionServicio(EstadoServicio estadoServicio, EncriptacionServicio encriptacionServicio, UsuarioConsultaServicio usuarioGestionServicio) {
+    public UsuarioGestionServicio(EstadoServicio estadoServicio, EncriptacionServicio encriptacionServicio, UsuarioConsultaServicio usuarioConsultaServicio) {
         this.estadoServicio = estadoServicio;
         this.encriptacionServicio = encriptacionServicio;
-        this.usuarioGestionServicio = usuarioGestionServicio;
+        this.usuarioConsultaServicio = usuarioConsultaServicio;
     }
 
     @Override
@@ -37,7 +37,7 @@ public class UsuarioGestionServicio implements IUsuarioConsultaServicio {
 
     @Override
     public Usuario softDelete(Usuario usuario) {
-        Usuario usuarioEncontrado = this.usuarioGestionServicio.buscarUsuarioPorId(usuario);
+        Usuario usuarioEncontrado = this.usuarioConsultaServicio.buscarUsuarioPorId(usuario);
         if (usuarioEncontrado != null){
             if (usuarioEncontrado.getEstado().equals(this.estadoServicio.estaEstadoActivo().getEstado())){
                 usuarioEncontrado.setEstado(this.estadoServicio.estaEstadoInactivo());
@@ -53,7 +53,7 @@ public class UsuarioGestionServicio implements IUsuarioConsultaServicio {
 
     @Override
     public void hardDelete(Usuario usuario) {
-        Usuario usuarioEncontrado = this.usuarioGestionServicio.buscarUsuarioPorId(usuario);
+        Usuario usuarioEncontrado = this.usuarioConsultaServicio.buscarUsuarioPorId(usuario);
         if (usuarioEncontrado!= null){
             if (usuarioEncontrado.getEstado().equals(this.estadoServicio.estaEstadoInactivo().getEstado())){
                 this.usuarioRepositorio.delete(usuarioEncontrado);
@@ -67,7 +67,7 @@ public class UsuarioGestionServicio implements IUsuarioConsultaServicio {
 
     @Override
     public Usuario recuperar(Usuario usuario) {
-        Usuario usuarioEncontrado = this.usuarioGestionServicio.buscarUsuarioPorId(usuario);
+        Usuario usuarioEncontrado = this.usuarioConsultaServicio.buscarUsuarioPorId(usuario);
         if (usuarioEncontrado!= null){
             if (usuarioEncontrado.getEstado().equals(this.estadoServicio.estaEstadoInactivo().getEstado())){
                 usuarioEncontrado.setEstado(this.estadoServicio.estaEstadoActivo());
@@ -80,4 +80,11 @@ public class UsuarioGestionServicio implements IUsuarioConsultaServicio {
             throw new RuntimeException("El usuario con id: "+usuario.getIdUsuario()+" no existe");
         }
     }
+
+    @Override
+    public boolean validacionCredenciales(String rawPassword, Usuario usuario) {
+        return this.encriptacionServicio.matches(rawPassword, usuario);
+    }
+
+
 }

@@ -6,11 +6,11 @@ import sl.sistemaInventarios.modelo.usuario.Usuario;
 import java.util.List;
 
 public interface IUsuarioConsultaServicio {
-    public Usuario guardarUsuario(Usuario usuario);
+    public Usuario buscarUsuarioPorId(Usuario usuario);
 
-    public Usuario softDelete(Usuario usuario);
+    public Usuario buscarUsuarioPorCedula(Usuario usuario);
 
-    public void hardDelete(Usuario usuario);
+    public List<Usuario> mostrarUsuariosPorEstado(EstadoEnum estadoEnum);
 
-    public Usuario recuperar(Usuario usuario);
+    public List<Usuario> mostrarTodosUsuarios();
 }
