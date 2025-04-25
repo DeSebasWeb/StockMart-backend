@@ -8,19 +8,19 @@ import sl.sistemaInventarios.modelo.estado.EstadoEnum;
 import sl.sistemaInventarios.modelo.producto.Producto;
 import sl.sistemaInventarios.repositorio.producto.ProductoRepositorio;
 import sl.sistemaInventarios.servicio.estado.clases.EstadoServicio;
-import sl.sistemaInventarios.servicio.producto.interfaces.IProductosServicio;
+import sl.sistemaInventarios.servicio.producto.interfaces.IProductosLecturaServicio;
 
 import java.util.List;
 
 @Service
-public class ProductoServicio implements IProductosServicio {
+public class ProductoLecturaServicio implements IProductosLecturaServicio {
     @Autowired
     private ProductoRepositorio productoRepositorio;
 
     private final EstadoServicio estadoServicio;
 
     @Autowired
-    public ProductoServicio(EstadoServicio estadoServicio) {
+    public ProductoLecturaServicio(EstadoServicio estadoServicio) {
         this.estadoServicio = estadoServicio;
     }
 
@@ -48,29 +48,6 @@ public class ProductoServicio implements IProductosServicio {
         return productos;
     }
 
-    @Override
-    public Producto softDelete(Producto producto) {
-        Producto productoSoftDelete = this.buscarProductoPorId(producto);
-        productoSoftDelete.setEstado(this.estadoServicio.estaEstadoInactivo());
-        Producto productoGuardado = this.guardarProducto(productoSoftDelete);
-        return productoGuardado;
-    }
-
-    @Override
-    public Producto recuperarProducto(Producto producto) {
-        return null;
-    }
-
-    @Override
-    public void hardDelete(Producto producto) {
-        this.productoRepositorio.delete(producto);
-    }
-
-    @Override
-    public Producto guardarProducto(Producto producto) {
-        Producto productoGuardado = this.productoRepositorio.save(producto);
-        return productoGuardado;
-    }
     // Use Pageable para limitar la cantidad de productos traídos desde la base de datos.
     // PageRequest.of(0, topN) indica que quiero la "página 0" (es decir, desde el inicio)
     // con un tamaño de 'topN' elementos, ordenados por cantidad de productos vendidos.

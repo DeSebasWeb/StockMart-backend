@@ -22,7 +22,7 @@ public class ProductoServicioTest {
     private EstadoServicio estadoServicio;
 
     @InjectMocks
-    private ProductoServicio productoServicio;
+    private ProductoLecturaServicio productoServicio;
 
     @BeforeEach
     void setUp(){

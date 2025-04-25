@@ -3,6 +3,7 @@ package sl.sistemaInventarios.servicio.usuario.clases;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import sl.sistemaInventarios.modelo.facturacion.Venta;
 import sl.sistemaInventarios.modelo.usuario.Vendedor;
 import sl.sistemaInventarios.repositorio.usuario.VendedorRepositorio;
 import sl.sistemaInventarios.servicio.usuario.interfaces.IVendedorGestionServicio;
@@ -25,13 +26,13 @@ public class VendedorGestionServicio implements IVendedorGestionServicio {
     }
 
     @Override
-    public Vendedor incrementarVenta(Vendedor vendedor) {
-        Vendedor vendedorEncontrado = this.vendedorConsultaServicio.buscarVendedorPorId(vendedor);
+    public Vendedor incrementarVenta(Venta venta) {
+        Vendedor vendedorEncontrado = this.vendedorConsultaServicio.buscarVendedorPorId(venta.getVendedor().getIdVendedor());
         if (vendedorEncontrado != null){
             vendedorEncontrado.setNumeroVentas(vendedorEncontrado.getNumeroVentas()+1);
             return this.guardarDatosVendedor(vendedorEncontrado);
         }else {
-            throw new RuntimeException("El vendedor con ID: "+ vendedor+ " no existe");
+            throw new RuntimeException("El vendedor con ID: "+ vendedorEncontrado.getIdVendedor()+ " no existe");
         }
     }
 }

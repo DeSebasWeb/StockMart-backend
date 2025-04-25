@@ -7,5 +7,5 @@ import java.util.List;
 public interface ITipoUsuarioServicio {
     public List<TipoUsuario> mostrarTiposDeUsuario();
 
-    public TipoUsuario mostrarUsuarioPorID(TipoUsuario tipoUsuario);
+    public TipoUsuario mostrarUsuarioPorID(Integer idTipoUsuario);
 }

@@ -13,7 +13,7 @@ public class VendedorConsultaServicio implements IVendedorConsultaServicio {
     private VendedorRepositorio vendedorRepositorio;
 
     @Override
-    public Vendedor buscarVendedorPorId(Long idVendedor) {
+    public Vendedor buscarVendedorPorId(Integer idVendedor) {
         return this.vendedorRepositorio.findById(idVendedor).orElse(null);
     }
 

@@ -5,7 +5,7 @@ import sl.sistemaInventarios.modelo.usuario.Vendedor;
 import java.util.List;
 
 public interface IVendedorConsultaServicio {
-    public Vendedor buscarVendedorPorId(Long idVendedor);
+    public Vendedor buscarVendedorPorId(Integer idVendedor);
 
     public List<Vendedor> mostrarVendedores();
 
