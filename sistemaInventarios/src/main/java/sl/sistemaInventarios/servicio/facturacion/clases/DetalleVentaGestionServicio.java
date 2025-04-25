@@ -44,6 +44,7 @@ public class DetalleVentaGestionServicio implements IDetalleVentaGestionServicio
         for (DetalleVenta detalleVenta : productosDetalleVenta){
             Double precioUnitario = detalleVenta.getPrecioUnitario();
             Integer cantidad = detalleVenta.getCantidad();
+            detalleVenta.getProducto().setCantProductoVendido(detalleVenta.getProducto().getCantProductoVendido()+cantidad);
             detalleVenta.setSubtotal(precioUnitario * cantidad);
             detallesVentaConSubtotal.add(detalleVenta);
         }

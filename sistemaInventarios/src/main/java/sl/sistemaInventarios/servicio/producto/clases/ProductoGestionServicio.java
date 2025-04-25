@@ -27,7 +27,6 @@ public class ProductoGestionServicio implements IProductoGestionServicio {
 
     private final EstadoServicio estadoServicio;
 
-    private final VentaConsultaServicio ventaConsultaServicio;
 
     @Autowired
     public ProductoGestionServicio(ProductoLecturaServicio productoLecturaServicio, DetalleVentaConsultaServicio detalleVentaConsultaServicio, ProductoRepositorio productoRepositorio, EstadoServicio estadoServicio, VentaConsultaServicio ventaConsultaServicio) {
@@ -35,20 +34,30 @@ public class ProductoGestionServicio implements IProductoGestionServicio {
         this.detalleVentaConsultaServicio = detalleVentaConsultaServicio;
         this.productoRepositorio = productoRepositorio;
         this.estadoServicio = estadoServicio;
-        this.ventaConsultaServicio = ventaConsultaServicio;
     }
 
     @Override
     public Producto softDelete(Producto producto) {
         Producto productoSoftDelete = this.productoLecturaServicio.buscarProductoPorId(producto);
         productoSoftDelete.setEstado(this.estadoServicio.estaEstadoInactivo());
-        Producto productoGuardado = this.guardarProducto(productoSoftDelete);
-        return productoGuardado;
+        Producto productoAlmacenado = this.guardarProducto(productoSoftDelete);
+        return productoAlmacenado;
     }
 
     @Override
     public Producto recuperarProducto(Producto producto) {
-        return null;
+        Producto productoEncontrado = this.productoLecturaServicio.buscarProductoPorId(producto);
+        if (productoEncontrado != null){
+            if (producto.getEstado().equals(this.estadoServicio.estaEstadoInactivo().getEstado())){
+                productoEncontrado.setEstado(this.estadoServicio.estaEstadoActivo());
+                Producto productoActualizado = this.guardarProducto(productoEncontrado);
+                return productoActualizado;
+            }else {
+                throw new RuntimeException("El producto esta activo, no se puede activar dos veces");
+            }
+        }else {
+            throw new RuntimeException("No existe ningun producto a recuperar");
+        }
     }
 
     @Override
