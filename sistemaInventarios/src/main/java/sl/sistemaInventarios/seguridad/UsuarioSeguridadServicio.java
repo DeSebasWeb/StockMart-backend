@@ -17,13 +17,12 @@ public class UsuarioSeguridadServicio implements UserDetailsService {
     private UsuarioRepositorio usuarioRepositorio;
 
     @Override
-    @Bean
     public UserDetails loadUserByUsername(String correo) throws UsernameNotFoundException {
         Usuario usuarioEncontrado = this.usuarioRepositorio.findByCorreo(correo).orElseThrow(() -> new RuntimeException("Usuario con el correo: " + correo+ " no existe"));
         //Aqui le doy a Spring security toda la informacion del usuario que se va a loguear
         return User.builder().username(usuarioEncontrado.getCorreo())
                 //Contraseña
             .password(usuarioEncontrado.getPassword())
-            .roles("ROLE_"+usuarioEncontrado.getTipoUsuario().getNombre().toString()).build();
+            .roles(usuarioEncontrado.getTipoUsuario().getNombre().toString()).build();
     }
 }
