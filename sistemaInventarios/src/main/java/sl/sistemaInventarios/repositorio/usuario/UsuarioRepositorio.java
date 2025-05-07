@@ -12,4 +12,5 @@ import java.util.Optional;
 public interface UsuarioRepositorio extends JpaRepository<Usuario, Integer> {
     Optional<Usuario> findByCedula(Long cedula);
     List<Usuario> findByEstado_Estado(EstadoEnum estadoEnum);
+    Optional<Usuario> findByCorreo(String correo);
 }

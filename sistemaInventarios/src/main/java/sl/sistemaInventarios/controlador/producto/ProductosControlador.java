@@ -18,6 +18,7 @@
 //@RestController
 //@RequestMapping("inventario-app/productos")
 //@CrossOrigin("http://localhost:4200")
+//Luego de pruebas iniciales, implementar las notaciones de seguridad por metodo para los roles
 ////    http://localhost:8080/inventario-app/productos
 //public class ProductosControlador {
 //    private static final Logger logger = LoggerFactory.getLogger(ProductosControlador.class);

@@ -85,6 +85,4 @@ public class UsuarioGestionServicio implements IUsuarioGestionServicio {
     public boolean validacionCredenciales(String rawPassword, Usuario usuario) {
         return this.encriptacionServicio.matches(rawPassword, usuario);
     }
-
-
 }
