@@ -1,6 +1,7 @@
 package sl.sistemaInventarios.servicio.facturacion.clases;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import sl.sistemaInventarios.modelo.facturacion.DetalleVenta;
 import sl.sistemaInventarios.modelo.facturacion.Venta;
 import sl.sistemaInventarios.repositorio.facturacion.DetalleVentaRepositorio;
@@ -8,6 +9,7 @@ import sl.sistemaInventarios.servicio.facturacion.interfaces.IDetalleVentaConsul
 
 import java.util.List;
 
+@Service
 public class DetalleVentaConsultaServicio implements IDetalleVentaConsultaServicio {
     @Autowired
     private DetalleVentaRepositorio detalleVentaRepositorio;

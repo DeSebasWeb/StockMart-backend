@@ -25,20 +25,14 @@ public class ConfiguracionSeguridad {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception{
         http.csrf(csrf -> csrf.disable())// 1. Desactiva CSRF (porque Angular no lo maneja por defecto)
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED))// 2. Manejo de sesiones
-                .authorizeHttpRequests(auth -> auth.requestMatchers("/auth/login","/auth/registro","/public/**").permitAll(). //3. Rutas publicas
-                        anyRequest().authenticated())//4. Todo lo demas necesita autenticacion
+                .authorizeHttpRequests(auth ->
+                        auth.requestMatchers("/auth/login","/auth/registro","/public/**").permitAll(). //3. Rutas publicas
+                        requestMatchers("/admin/**").hasRole("ADMINISTRADOR").//3.1Autorizo solo al administrador a que vea las paginas con la url admin
+                        requestMatchers("/estadistica/**").hasRole("ADMINISTRADOR").//3.2Autorizo solo al administrador acceder al modulo de estadistica
+                        requestMatchers("/ventas/**").hasAnyRole("ADMINISTRADOR","VENDEDOR"). //3.3Autorizo a que el administrador y el vendedor accedan al modulo de ventas
+                        anyRequest().authenticated())//4.Todo lo demas necesita autenticacion
                 .formLogin(AbstractHttpConfigurer::disable)// 5. No usaremos login por formulario
                 .httpBasic(AbstractHttpConfigurer::disable); // 6. No usaremos HTTP Basic (solo JSON)
-
-        //Autorizo solo al administrador a que vea las paginas con la url admin
-        http.authorizeHttpRequests(auth -> auth.requestMatchers("/admin/**").hasRole("ADMINISTRADOR")
-                //Autorizo solo al administrador acceder al modulo de estadistica
-                .requestMatchers("/estadistica/**").hasRole("ADMINISTRADOR")
-                //Autorizo solo a el administrador y al vendedor a acceder al modulo de ventas
-                .requestMatchers("/ventas/**").hasAnyRole("ADMINISTRADOR","VENDEDOR").
-                anyRequest().authenticated()
-        );
-
         return http.build();
     }
 
