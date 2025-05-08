@@ -8,10 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import sl.sistemaInventarios.dto.CredencialesRespuesta;
 
 @RestController
@@ -41,5 +38,15 @@ public class AuthControlador {
         }catch (Exception e){
             return ResponseEntity.status(401).body("Credenciales incorrectas");
         }
+    }
+
+    @GetMapping("/logout")
+    public ResponseEntity<?> logout(HttpServletRequest httpServletRequest){
+        HttpSession session = httpServletRequest.getSession(false);//No se crea una nueva sesion si no que se obtiene la actual
+        if (session!=null){//Se verifica que haya una sesion
+            session.invalidate();//Se invalida la sesion
+        }
+        SecurityContextHolder.clearContext();//Se limpia el contexto de seguridad
+        return ResponseEntity.ok("Se ha cerrado la sesion correctamente");
     }
 }
