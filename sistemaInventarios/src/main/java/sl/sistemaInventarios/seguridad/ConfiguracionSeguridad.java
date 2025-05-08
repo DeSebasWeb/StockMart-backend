@@ -26,7 +26,7 @@ public class ConfiguracionSeguridad {
         http.csrf(csrf -> csrf.disable())// 1. Desactiva CSRF (porque Angular no lo maneja por defecto)
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED))// 2. Manejo de sesiones
                 .authorizeHttpRequests(auth ->
-                        auth.requestMatchers("/auth/login","/auth/registro","/public/**").permitAll(). //3. Rutas publicas
+                        auth.requestMatchers("/inventario-app/auth/login","/inventario-app/auth/registro","/public/**").permitAll(). //3. Rutas publicas
                         requestMatchers("/admin/**").hasRole("ADMINISTRADOR").//3.1Autorizo solo al administrador a que vea las paginas con la url admin
                         requestMatchers("/estadistica/**").hasRole("ADMINISTRADOR").//3.2Autorizo solo al administrador acceder al modulo de estadistica
                         requestMatchers("/ventas/**").hasAnyRole("ADMINISTRADOR","VENDEDOR"). //3.3Autorizo a que el administrador y el vendedor accedan al modulo de ventas

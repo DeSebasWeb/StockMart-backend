@@ -3,26 +3,36 @@ package sl.sistemaInventarios.servicio.usuario.clases;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import sl.sistemaInventarios.modelo.estado.Estado;
+import sl.sistemaInventarios.modelo.tipoUsuario.TipoUsuario;
 import sl.sistemaInventarios.modelo.usuario.Usuario;
+import sl.sistemaInventarios.repositorio.tipoUsuario.TipoUsuarioRespositorio;
 import sl.sistemaInventarios.repositorio.usuario.UsuarioRepositorio;
+import sl.sistemaInventarios.servicio.estado.clases.EstadoConsulta;
 import sl.sistemaInventarios.servicio.estado.clases.EstadoServicio;
 import sl.sistemaInventarios.servicio.seguridad.clases.EncriptacionServicio;
+import sl.sistemaInventarios.servicio.tipoUsuario.clases.TipoUsuarioConsultaServicio;
 import sl.sistemaInventarios.servicio.usuario.interfaces.IUsuarioGestionServicio;
 
 @Service
 @Transactional
 public class UsuarioGestionServicio implements IUsuarioGestionServicio {
 
-    @Autowired
-    private UsuarioRepositorio usuarioRepositorio;
+    private final UsuarioRepositorio usuarioRepositorio;
     private final EstadoServicio estadoServicio;
     private final EncriptacionServicio encriptacionServicio;
     private final UsuarioConsultaServicio usuarioConsultaServicio;
+    private final TipoUsuarioConsultaServicio tipoUsuarioConsultaServicio;
+    private final EstadoConsulta estadoConsulta;
+
     @Autowired
-    public UsuarioGestionServicio(EstadoServicio estadoServicio, EncriptacionServicio encriptacionServicio, UsuarioConsultaServicio usuarioConsultaServicio) {
+    public UsuarioGestionServicio(EstadoServicio estadoServicio, EncriptacionServicio encriptacionServicio, UsuarioConsultaServicio usuarioConsultaServicio, TipoUsuarioConsultaServicio tipoUsuarioConsultaServicio, UsuarioRepositorio usuarioRepositorio, EstadoConsulta estadoConsulta) {
         this.estadoServicio = estadoServicio;
         this.encriptacionServicio = encriptacionServicio;
         this.usuarioConsultaServicio = usuarioConsultaServicio;
+        this.tipoUsuarioConsultaServicio = tipoUsuarioConsultaServicio;
+        this.usuarioRepositorio = usuarioRepositorio;
+        this.estadoConsulta = estadoConsulta;
     }
 
     @Override
@@ -31,6 +41,12 @@ public class UsuarioGestionServicio implements IUsuarioGestionServicio {
             String passwordSegura = this.encriptacionServicio.hashPassword(usuario);
             usuario.setPassword(passwordSegura);
         }
+        TipoUsuario tipoUsuario = this.tipoUsuarioConsultaServicio.mostrarUsuarioPorID(usuario.getTipoUsuario().getId());
+        usuario.setTipoUsuario(tipoUsuario);
+
+        Estado estado = this.estadoConsulta.buscarEstadoPorId(usuario.getEstado().getIdEstado());
+        usuario.setEstado(estado);
+
         Usuario usuarioGuardado = this.usuarioRepositorio.save(usuario);
         return usuarioGuardado;
     }

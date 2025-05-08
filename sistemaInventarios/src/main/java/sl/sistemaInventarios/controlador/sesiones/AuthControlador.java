@@ -1,4 +1,4 @@
-package sl.sistemaInventarios.controlador.autenticacion;
+package sl.sistemaInventarios.controlador.sesiones;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -9,16 +9,21 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
+import sl.sistemaInventarios.controlador.usuario.UsuarioControlador;
 import sl.sistemaInventarios.dto.CredencialesRespuesta;
+import sl.sistemaInventarios.modelo.usuario.Usuario;
+import sl.sistemaInventarios.servicio.usuario.clases.UsuarioGestionServicio;
 
 @RestController
 @RequestMapping("inventario-app/auth")
 public class AuthControlador {
     private final AuthenticationManager authenticationManager;
+    private final UsuarioGestionServicio usuarioGestionServicio;
 
     @Autowired
-    public AuthControlador(AuthenticationManager authenticationManager) {
+    public AuthControlador(AuthenticationManager authenticationManager, UsuarioGestionServicio usuarioGestionServicio) {
         this.authenticationManager = authenticationManager;
+        this.usuarioGestionServicio = usuarioGestionServicio;
     }
 
     @PostMapping("/login")
@@ -39,6 +44,17 @@ public class AuthControlador {
             return ResponseEntity.status(401).body("Credenciales incorrectas");
         }
     }
+
+    @PostMapping("/registro")
+    public ResponseEntity<?> registroUsuario(@RequestBody Usuario usuario){
+        Usuario usuarioGuardado = this.usuarioGestionServicio.guardarUsuario(usuario);
+        if (usuarioGuardado!=null){
+            return ResponseEntity.ok("El usuario ha sido creado de manera exitosa");
+        }else{
+            return ResponseEntity.status(401).body("El usuario no fue creado");
+        }
+    }
+
 
     @GetMapping("/logout")
     public ResponseEntity<?> logout(HttpServletRequest httpServletRequest){

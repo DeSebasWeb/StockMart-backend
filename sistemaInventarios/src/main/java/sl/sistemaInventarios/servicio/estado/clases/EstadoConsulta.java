@@ -1,0 +1,17 @@
+package sl.sistemaInventarios.servicio.estado.clases;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import sl.sistemaInventarios.modelo.estado.Estado;
+import sl.sistemaInventarios.repositorio.estado.EstadoRepositorio;
+import sl.sistemaInventarios.servicio.estado.interfaces.IEstadoConsulta;
+
+@Service
+public class EstadoConsulta implements IEstadoConsulta {
+    @Autowired
+    private EstadoRepositorio estadoRepositorio;
+    @Override
+    public Estado buscarEstadoPorId(Integer idEstado) {
+        return this.estadoRepositorio.findById(idEstado).orElseThrow(() -> new RuntimeException("No se ha encontrado ningun estado por el id "+idEstado));
+    }
+}
