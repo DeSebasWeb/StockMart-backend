@@ -1,4 +1,4 @@
-package sl.sistemaInventarios.modelo.categoriaProducto;
+package sl.sistemaInventarios.modelo.productoCategoria;
 
 import jakarta.persistence.*;
 import lombok.*;

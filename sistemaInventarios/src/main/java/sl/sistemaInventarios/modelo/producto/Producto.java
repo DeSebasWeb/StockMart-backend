@@ -2,7 +2,7 @@ package sl.sistemaInventarios.modelo.producto;
 
 import jakarta.persistence.*;
 import lombok.*;
-import sl.sistemaInventarios.modelo.categoriaProducto.ProductoCategoria;
+import sl.sistemaInventarios.modelo.productoCategoria.ProductoCategoria;
 import sl.sistemaInventarios.modelo.estado.Estado;
 import sl.sistemaInventarios.modelo.facturacion.DetalleVenta;
 
@@ -29,7 +29,7 @@ public class Producto {
     private String descripcion;
 
     @ManyToOne
-    @JoinColumn(name = "id_categoria", nullable = false)
+    @JoinColumn(name = "id_categoria")
     private ProductoCategoria productoCategoria;
 
     @ManyToOne

@@ -3,7 +3,7 @@ package sl.sistemaInventarios.servicio.categoriaProducto.clases;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import sl.sistemaInventarios.modelo.categoriaProducto.ProductoCategoria;
+import sl.sistemaInventarios.modelo.productoCategoria.ProductoCategoria;
 import sl.sistemaInventarios.repositorio.categoriaProducto.ProductoCategoriaRepositorio;
 import sl.sistemaInventarios.servicio.categoriaProducto.interfaces.IProductoCategoriaGestionServicio;
 import sl.sistemaInventarios.servicio.estado.clases.EstadoGestionServicio;

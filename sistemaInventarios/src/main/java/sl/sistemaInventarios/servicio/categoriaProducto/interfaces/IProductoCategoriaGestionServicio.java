@@ -1,6 +1,6 @@
 package sl.sistemaInventarios.servicio.categoriaProducto.interfaces;
 
-import sl.sistemaInventarios.modelo.categoriaProducto.ProductoCategoria;
+import sl.sistemaInventarios.modelo.productoCategoria.ProductoCategoria;
 
 public interface IProductoCategoriaGestionServicio {
     public ProductoCategoria guardarOActualizarCategoria(ProductoCategoria productoCategoria);
