@@ -3,11 +3,13 @@ package sl.sistemaInventarios.servicio.producto.clases;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import sl.sistemaInventarios.modelo.categoriaProducto.ProductoCategoria;
 import sl.sistemaInventarios.modelo.facturacion.DetalleVenta;
 import sl.sistemaInventarios.modelo.facturacion.Venta;
 import sl.sistemaInventarios.modelo.producto.Producto;
 import sl.sistemaInventarios.repositorio.producto.ProductoRepositorio;
-import sl.sistemaInventarios.servicio.estado.clases.EstadoServicio;
+import sl.sistemaInventarios.servicio.categoriaProducto.clases.ProductoCategoriaLecturaServicio;
+import sl.sistemaInventarios.servicio.estado.clases.EstadoGestionServicio;
 import sl.sistemaInventarios.servicio.facturacion.clases.DetalleVentaConsultaServicio;
 import sl.sistemaInventarios.servicio.facturacion.clases.VentaConsultaServicio;
 import sl.sistemaInventarios.servicio.producto.interfaces.IProductoGestionServicio;
@@ -23,17 +25,28 @@ public class ProductoGestionServicio implements IProductoGestionServicio {
 
     private final ProductoLecturaServicio productoLecturaServicio;
 
-    private final DetalleVentaConsultaServicio detalleVentaConsultaServicio;
+    private final EstadoGestionServicio estadoServicio;
 
-    private final EstadoServicio estadoServicio;
-
+    private final ProductoCategoriaLecturaServicio productoCategoriaLecturaServicio;
 
     @Autowired
-    public ProductoGestionServicio(ProductoLecturaServicio productoLecturaServicio, DetalleVentaConsultaServicio detalleVentaConsultaServicio, ProductoRepositorio productoRepositorio, EstadoServicio estadoServicio, VentaConsultaServicio ventaConsultaServicio) {
+    public ProductoGestionServicio(ProductoLecturaServicio productoLecturaServicio, ProductoRepositorio productoRepositorio, EstadoGestionServicio estadoServicio, VentaConsultaServicio ventaConsultaServicio, ProductoCategoriaLecturaServicio productoCategoriaLecturaServicio) {
         this.productoLecturaServicio = productoLecturaServicio;
-        this.detalleVentaConsultaServicio = detalleVentaConsultaServicio;
         this.productoRepositorio = productoRepositorio;
         this.estadoServicio = estadoServicio;
+        this.productoCategoriaLecturaServicio = productoCategoriaLecturaServicio;
+    }
+
+    @Override
+    public Producto guardarProducto(Producto producto) {
+        ProductoCategoria productoCategoriaEncontrado = this.productoCategoriaLecturaServicio.buscarCategoriaPorId(producto.getProductoCategoria());
+        if (productoCategoriaEncontrado != null){
+            producto.setProductoCategoria(productoCategoriaEncontrado);
+            Producto productoGuardado = this.productoRepositorio.save(producto);
+            return productoGuardado;
+        }else {
+            return null;
+        }
     }
 
     @Override
@@ -65,11 +78,6 @@ public class ProductoGestionServicio implements IProductoGestionServicio {
         this.productoRepositorio.delete(producto);
     }
 
-    @Override
-    public Producto guardarProducto(Producto producto) {
-        Producto productoGuardado = this.productoRepositorio.save(producto);
-        return productoGuardado;
-    }
     @Override
     public void actualizarStock(Venta venta) {
         List<Producto> productosActualizados = new ArrayList<>();
