@@ -4,10 +4,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import sl.sistemaInventarios.modelo.estado.Estado;
 import sl.sistemaInventarios.repositorio.estado.EstadoRepositorio;
-import sl.sistemaInventarios.servicio.estado.interfaces.IEstadoConsulta;
+import sl.sistemaInventarios.servicio.estado.interfaces.IEstadoConsultaServicio;
 
 @Service
-public class EstadoConsulta implements IEstadoConsulta {
+public class EstadoConsultaServicio implements IEstadoConsultaServicio {
     @Autowired
     private EstadoRepositorio estadoRepositorio;
     @Override

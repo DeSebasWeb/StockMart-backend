@@ -6,17 +6,17 @@ import org.springframework.transaction.annotation.Transactional;
 import sl.sistemaInventarios.modelo.categoriaProducto.ProductoCategoria;
 import sl.sistemaInventarios.repositorio.categoriaProducto.ProductoCategoriaRepositorio;
 import sl.sistemaInventarios.servicio.categoriaProducto.interfaces.IProductoCategoriaGestionServicio;
-import sl.sistemaInventarios.servicio.estado.clases.EstadoServicio;
+import sl.sistemaInventarios.servicio.estado.clases.EstadoGestionServicio;
 
 @Service
 @Transactional
 public class ProductoCategoriaGestionServicio implements IProductoCategoriaGestionServicio {
     private final ProductoCategoriaRepositorio productoCategoriaRepositorio;
-    private final EstadoServicio estadoServicio;
+    private final EstadoGestionServicio estadoServicio;
     private final ProductoCategoriaLecturaServicio productoCategoriaLecturaServicio;
 
     @Autowired
-    public ProductoCategoriaGestionServicio(ProductoCategoriaRepositorio productoCategoriaRepositorio, EstadoServicio estadoServicio, ProductoCategoriaLecturaServicio productoCategoriaLecturaServicio) {
+    public ProductoCategoriaGestionServicio(ProductoCategoriaRepositorio productoCategoriaRepositorio, EstadoGestionServicio estadoServicio, ProductoCategoriaLecturaServicio productoCategoriaLecturaServicio) {
         this.productoCategoriaRepositorio = productoCategoriaRepositorio;
         this.estadoServicio = estadoServicio;
         this.productoCategoriaLecturaServicio = productoCategoriaLecturaServicio;

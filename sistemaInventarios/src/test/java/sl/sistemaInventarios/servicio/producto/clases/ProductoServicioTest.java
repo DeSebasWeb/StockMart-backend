@@ -11,7 +11,7 @@ import sl.sistemaInventarios.modelo.estado.Estado;
 import sl.sistemaInventarios.modelo.estado.EstadoEnum;
 import sl.sistemaInventarios.modelo.producto.Producto;
 import sl.sistemaInventarios.repositorio.producto.ProductoRepositorio;
-import sl.sistemaInventarios.servicio.estado.clases.EstadoServicio;
+import sl.sistemaInventarios.servicio.estado.clases.EstadoGestionServicio;
 
 @ExtendWith(MockitoExtension.class)
 public class ProductoServicioTest {
@@ -19,7 +19,7 @@ public class ProductoServicioTest {
     private ProductoRepositorio productoRepositorio;
 
     @Mock
-    private EstadoServicio estadoServicio;
+    private EstadoGestionServicio estadoServicio;
 
     @InjectMocks
     private ProductoLecturaServicio productoServicio;

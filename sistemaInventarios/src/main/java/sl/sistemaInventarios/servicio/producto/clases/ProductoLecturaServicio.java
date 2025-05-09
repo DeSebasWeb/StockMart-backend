@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 import sl.sistemaInventarios.modelo.estado.EstadoEnum;
 import sl.sistemaInventarios.modelo.producto.Producto;
 import sl.sistemaInventarios.repositorio.producto.ProductoRepositorio;
-import sl.sistemaInventarios.servicio.estado.clases.EstadoServicio;
+import sl.sistemaInventarios.servicio.estado.clases.EstadoGestionServicio;
 import sl.sistemaInventarios.servicio.producto.interfaces.IProductosLecturaServicio;
 
 import java.util.List;
@@ -17,10 +17,10 @@ public class ProductoLecturaServicio implements IProductosLecturaServicio {
     @Autowired
     private ProductoRepositorio productoRepositorio;
 
-    private final EstadoServicio estadoServicio;
+    private final EstadoGestionServicio estadoServicio;
 
     @Autowired
-    public ProductoLecturaServicio(EstadoServicio estadoServicio) {
+    public ProductoLecturaServicio(EstadoGestionServicio estadoServicio) {
         this.estadoServicio = estadoServicio;
     }
 

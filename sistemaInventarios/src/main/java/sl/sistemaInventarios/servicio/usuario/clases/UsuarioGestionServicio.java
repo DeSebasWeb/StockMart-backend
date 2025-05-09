@@ -6,10 +6,9 @@ import org.springframework.transaction.annotation.Transactional;
 import sl.sistemaInventarios.modelo.estado.Estado;
 import sl.sistemaInventarios.modelo.tipoUsuario.TipoUsuario;
 import sl.sistemaInventarios.modelo.usuario.Usuario;
-import sl.sistemaInventarios.repositorio.tipoUsuario.TipoUsuarioRespositorio;
 import sl.sistemaInventarios.repositorio.usuario.UsuarioRepositorio;
-import sl.sistemaInventarios.servicio.estado.clases.EstadoConsulta;
-import sl.sistemaInventarios.servicio.estado.clases.EstadoServicio;
+import sl.sistemaInventarios.servicio.estado.clases.EstadoConsultaServicio;
+import sl.sistemaInventarios.servicio.estado.clases.EstadoGestionServicio;
 import sl.sistemaInventarios.servicio.seguridad.clases.EncriptacionServicio;
 import sl.sistemaInventarios.servicio.tipoUsuario.clases.TipoUsuarioConsultaServicio;
 import sl.sistemaInventarios.servicio.usuario.interfaces.IUsuarioGestionServicio;
@@ -19,14 +18,14 @@ import sl.sistemaInventarios.servicio.usuario.interfaces.IUsuarioGestionServicio
 public class UsuarioGestionServicio implements IUsuarioGestionServicio {
 
     private final UsuarioRepositorio usuarioRepositorio;
-    private final EstadoServicio estadoServicio;
+    private final EstadoGestionServicio estadoServicio;
     private final EncriptacionServicio encriptacionServicio;
     private final UsuarioConsultaServicio usuarioConsultaServicio;
     private final TipoUsuarioConsultaServicio tipoUsuarioConsultaServicio;
-    private final EstadoConsulta estadoConsulta;
+    private final EstadoConsultaServicio estadoConsulta;
 
     @Autowired
-    public UsuarioGestionServicio(EstadoServicio estadoServicio, EncriptacionServicio encriptacionServicio, UsuarioConsultaServicio usuarioConsultaServicio, TipoUsuarioConsultaServicio tipoUsuarioConsultaServicio, UsuarioRepositorio usuarioRepositorio, EstadoConsulta estadoConsulta) {
+    public UsuarioGestionServicio(EstadoGestionServicio estadoServicio, EncriptacionServicio encriptacionServicio, UsuarioConsultaServicio usuarioConsultaServicio, TipoUsuarioConsultaServicio tipoUsuarioConsultaServicio, UsuarioRepositorio usuarioRepositorio, EstadoConsultaServicio estadoConsulta) {
         this.estadoServicio = estadoServicio;
         this.encriptacionServicio = encriptacionServicio;
         this.usuarioConsultaServicio = usuarioConsultaServicio;
