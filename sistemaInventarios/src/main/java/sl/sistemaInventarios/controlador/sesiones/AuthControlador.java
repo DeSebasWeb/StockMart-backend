@@ -9,13 +9,13 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
-import sl.sistemaInventarios.controlador.usuario.UsuarioControlador;
 import sl.sistemaInventarios.dto.CredencialesRespuesta;
 import sl.sistemaInventarios.modelo.usuario.Usuario;
 import sl.sistemaInventarios.servicio.usuario.clases.UsuarioGestionServicio;
 
 @RestController
 @RequestMapping("inventario-app/auth")
+@CrossOrigin("http://localhost:4200")
 public class AuthControlador {
     private final AuthenticationManager authenticationManager;
     private final UsuarioGestionServicio usuarioGestionServicio;

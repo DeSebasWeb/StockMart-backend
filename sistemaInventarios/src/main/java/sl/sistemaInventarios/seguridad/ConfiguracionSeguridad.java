@@ -27,9 +27,10 @@ public class ConfiguracionSeguridad {
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED))// 2. Manejo de sesiones
                 .authorizeHttpRequests(auth ->
                         auth.requestMatchers("/inventario-app/auth/login","/inventario-app/auth/registro","/public/**").permitAll(). //3. Rutas publicas
-                        requestMatchers("/admin/**").hasRole("ADMINISTRADOR").//3.1Autorizo solo al administrador a que vea las paginas con la url admin
-                        requestMatchers("/estadistica/**").hasRole("ADMINISTRADOR").//3.2Autorizo solo al administrador acceder al modulo de estadistica
-                        requestMatchers("/ventas/**").hasAnyRole("ADMINISTRADOR","VENDEDOR"). //3.3Autorizo a que el administrador y el vendedor accedan al modulo de ventas
+                        requestMatchers("/inventario-app/admin/**").hasRole("ADMINISTRADOR").//3.1Autorizo solo al administrador a que vea las paginas con la url admin
+                        requestMatchers("/inventario-app/estadistica/**").hasRole("ADMINISTRADOR").//3.2Autorizo solo al administrador acceder al modulo de estadistica
+                                requestMatchers("/inventario-app/productos/**").hasAnyRole("ADMINISTRADOR", "VENDEDOR").
+                        requestMatchers("/inventario-app/ventas/**").hasAnyRole("ADMINISTRADOR","VENDEDOR"). //3.3Autorizo a que el administrador y el vendedor accedan al modulo de ventas
                         anyRequest().authenticated())//4.Todo lo demas necesita autenticacion
                 .formLogin(AbstractHttpConfigurer::disable)// 5. No usaremos login por formulario
                 .httpBasic(AbstractHttpConfigurer::disable); // 6. No usaremos HTTP Basic (solo JSON)
