@@ -29,12 +29,17 @@ public class ProductoControlador {
 
     @GetMapping("/mostrar")
     public List<Producto> mapeoProductos(){
-        List<Producto> productos = this.productoLecturaServicio.mostrarTodosLosProductos();
-        if (productos.isEmpty()){
-            logger.info("No hay productos para mostrar");
+        try{
+            List<Producto> productos = this.productoLecturaServicio.mostrarTodosLosProductos();
+            if (productos.isEmpty()){
+                logger.info("No hay productos para mostrar");
+                return null;
+            }else{
+                return productos;
+            }
+        }catch (Exception e){
+            logger.info("error"+ e);
             return null;
-        }else{
-            return productos;
         }
     }
 
@@ -48,7 +53,58 @@ public class ProductoControlador {
                 return ResponseEntity.ok("Se ha guardado correctamente el producto");
             }
         }catch (Exception e){
-            return ResponseEntity.status(404).body("error: "+ e.toString());
+            return ResponseEntity.status(404).body("error: "+ e);
         }
+    }
+
+    @GetMapping("/delete/{id}")
+    public ResponseEntity<?> softDelete(@PathVariable Integer id){
+        try{
+            Producto producto = new Producto();
+            producto.setIdProducto(id);
+            Producto productoEncontrado = this.productoLecturaServicio.buscarProductoPorId(producto);
+            if (productoEncontrado != null){
+                Producto productoEliminado = this.productoGestionServicio.softDelete(productoEncontrado);
+                if (productoEliminado!=null){
+                    return ResponseEntity.ok("Se ha eliminado correctamente el producto");
+                }else{
+                    return ResponseEntity.status(400).body("Ya esta eliminado el producto");
+                }
+            }else {
+                return ResponseEntity.status(404).body("No hay ningun dato");
+            }
+        }catch (Exception e){
+            return ResponseEntity.status(400).body("error: "+e);
+        }
+    }
+
+    @GetMapping("/recuperar/{id}")
+    public ResponseEntity<?> recuperarProducto(@PathVariable Integer id){
+        try {
+            Producto producto = new Producto();
+            producto.setIdProducto(id);
+            Producto productoEncontrado = this.productoLecturaServicio.buscarProductoPorId(producto);
+            if (productoEncontrado != null){
+                Producto productoRecuperado = this.productoGestionServicio.recuperarProducto(productoEncontrado);
+                return ResponseEntity.ok("El producto ha sido recuperado correctamente");
+            }else {
+                return ResponseEntity.status(409).body("No se ha encontrado el producto eliminado");
+            }
+        }catch (Exception e){
+            return ResponseEntity.status(400).body("error: "+e);
+        }
+    }
+
+    @GetMapping("/delete/hard/{id}")
+    public ResponseEntity<?> hardDelete(@PathVariable Integer id){
+        try {
+            Producto producto = new Producto();
+            producto.setIdProducto(id);
+            this.productoGestionServicio.hardDelete(producto);
+            return ResponseEntity.ok("El producto se ha eliminado correctamente");
+        }catch (Exception e){
+            return ResponseEntity.status(400).body("error: "+ e);
+        }
+
     }
 }

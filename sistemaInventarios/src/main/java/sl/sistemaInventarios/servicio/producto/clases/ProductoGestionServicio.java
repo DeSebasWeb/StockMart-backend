@@ -58,16 +58,20 @@ public class ProductoGestionServicio implements IProductoGestionServicio {
     @Override
     public Producto softDelete(Producto producto) {
         Producto productoSoftDelete = this.productoLecturaServicio.buscarProductoPorId(producto);
-        productoSoftDelete.setEstado(this.estadoServicio.estaEstadoInactivo());
-        Producto productoAlmacenado = this.guardarProducto(productoSoftDelete);
-        return productoAlmacenado;
+        if (productoSoftDelete.getEstado().getIdEstado() == 1){
+            productoSoftDelete.setEstado(this.estadoConsultaServicio.buscarEstadoPorId(2));
+            Producto productoAlmacenado = this.guardarProducto(productoSoftDelete);
+            return productoAlmacenado;
+        }else{
+            return null;
+        }
     }
 
     @Override
     public Producto recuperarProducto(Producto producto) {
         Producto productoEncontrado = this.productoLecturaServicio.buscarProductoPorId(producto);
         if (productoEncontrado != null){
-            if (producto.getEstado().equals(this.estadoServicio.estaEstadoInactivo().getEstado())){
+            if (producto.getEstado().getIdEstado()==this.estadoServicio.estaEstadoInactivo().getIdEstado()){
                 productoEncontrado.setEstado(this.estadoServicio.estaEstadoActivo());
                 Producto productoActualizado = this.guardarProducto(productoEncontrado);
                 return productoActualizado;
@@ -81,7 +85,16 @@ public class ProductoGestionServicio implements IProductoGestionServicio {
 
     @Override
     public void hardDelete(Producto producto) {
-        this.productoRepositorio.delete(producto);
+        Producto productoEncontrado = this.productoLecturaServicio.buscarProductoPorId(producto);
+        if (productoEncontrado!= null){
+            if (productoEncontrado.getEstado().getIdEstado() == this.estadoServicio.estaEstadoInactivo().getIdEstado()){
+                this.productoRepositorio.delete(producto);
+            }else{
+                throw new RuntimeException("El producto no puede eliminarse pq esta activo, primero desactivelo");
+            }
+        }else{
+
+        }
     }
 
     @Override
