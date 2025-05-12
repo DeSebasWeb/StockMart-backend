@@ -1,11 +1,11 @@
-package sl.sistemaInventarios.servicio.categoriaProducto.clases;
+package sl.sistemaInventarios.servicio.productoCategoria.clases;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import sl.sistemaInventarios.modelo.productoCategoria.ProductoCategoria;
 import sl.sistemaInventarios.repositorio.categoriaProducto.ProductoCategoriaRepositorio;
-import sl.sistemaInventarios.servicio.categoriaProducto.interfaces.IProductoCategoriaGestionServicio;
+import sl.sistemaInventarios.servicio.productoCategoria.interfaces.IProductoCategoriaGestionServicio;
 import sl.sistemaInventarios.servicio.estado.clases.EstadoGestionServicio;
 
 @Service
@@ -24,8 +24,19 @@ public class ProductoCategoriaGestionServicio implements IProductoCategoriaGesti
 
     @Override
     public ProductoCategoria guardarOActualizarCategoria(ProductoCategoria productoCategoria) {
-        ProductoCategoria productoCategoriaGuardar = this.productoCategoriaRepositorio.save(productoCategoria);
-        return productoCategoriaGuardar;
+        if(productoCategoria.getId() == null){
+            ProductoCategoria productoCategoriaGuardar = this.productoCategoriaRepositorio.save(productoCategoria);
+            return productoCategoriaGuardar;
+        }else{
+            ProductoCategoria productoCategoriaGuardar = this.productoCategoriaLecturaServicio.buscarCategoriaPorId(productoCategoria);
+            productoCategoriaGuardar.setNombre(productoCategoria.getNombre());
+            productoCategoriaGuardar.setEstado(productoCategoria.getEstado());
+            productoCategoriaGuardar.setDescripcion(productoCategoria.getDescripcion());
+            productoCategoriaGuardar.setPrecioMinimo(productoCategoria.getPrecioMinimo());
+            ProductoCategoria productoGuardado = this.productoCategoriaRepositorio.save(productoCategoriaGuardar);
+            return productoGuardado;
+        }
+
     }
 
     //Cambia el estado de una categoría a INACTIVO (soft delete).

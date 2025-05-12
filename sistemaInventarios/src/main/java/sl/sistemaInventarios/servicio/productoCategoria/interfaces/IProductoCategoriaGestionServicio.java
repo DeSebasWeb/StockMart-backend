@@ -1,4 +1,4 @@
-package sl.sistemaInventarios.servicio.categoriaProducto.interfaces;
+package sl.sistemaInventarios.servicio.productoCategoria.interfaces;
 
 import sl.sistemaInventarios.modelo.productoCategoria.ProductoCategoria;
 

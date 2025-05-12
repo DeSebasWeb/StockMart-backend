@@ -1,11 +1,11 @@
-package sl.sistemaInventarios.servicio.categoriaProducto.clases;
+package sl.sistemaInventarios.servicio.productoCategoria.clases;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import sl.sistemaInventarios.modelo.productoCategoria.ProductoCategoria;
 import sl.sistemaInventarios.modelo.estado.EstadoEnum;
 import sl.sistemaInventarios.repositorio.categoriaProducto.ProductoCategoriaRepositorio;
-import sl.sistemaInventarios.servicio.categoriaProducto.interfaces.IProductoCategoriaLecturaServicio;
+import sl.sistemaInventarios.servicio.productoCategoria.interfaces.IProductoCategoriaLecturaServicio;
 import sl.sistemaInventarios.servicio.estado.clases.EstadoGestionServicio;
 
 import java.util.List;

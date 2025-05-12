@@ -9,7 +9,7 @@ import sl.sistemaInventarios.modelo.facturacion.DetalleVenta;
 import sl.sistemaInventarios.modelo.facturacion.Venta;
 import sl.sistemaInventarios.modelo.producto.Producto;
 import sl.sistemaInventarios.repositorio.producto.ProductoRepositorio;
-import sl.sistemaInventarios.servicio.categoriaProducto.clases.ProductoCategoriaLecturaServicio;
+import sl.sistemaInventarios.servicio.productoCategoria.clases.ProductoCategoriaLecturaServicio;
 import sl.sistemaInventarios.servicio.estado.clases.EstadoConsultaServicio;
 import sl.sistemaInventarios.servicio.estado.clases.EstadoGestionServicio;
 import sl.sistemaInventarios.servicio.facturacion.clases.VentaConsultaServicio;
