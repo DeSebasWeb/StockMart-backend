@@ -46,7 +46,7 @@ public class ProductoControlador {
     @PostMapping("/agregar")
     public ResponseEntity<?> guardarOActualizarProducto(@RequestBody Producto producto){
         try {
-            Producto productoGuardado = this.productoGestionServicio.guardarProducto(producto);
+            Producto productoGuardado = this.productoGestionServicio.guardarOActualizarProducto(producto);
             if (productoGuardado == null){
                 return ResponseEntity.status(404).body("No se ha podido procesar el dato enviado");
             }else{
