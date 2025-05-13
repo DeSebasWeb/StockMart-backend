@@ -44,7 +44,7 @@ public class ProductoControlador {
     }
 
     @PostMapping("/agregar")
-    public ResponseEntity<?> agregarProducto(@RequestBody Producto producto){
+    public ResponseEntity<?> guardarOActualizarProducto(@RequestBody Producto producto){
         try {
             Producto productoGuardado = this.productoGestionServicio.guardarProducto(producto);
             if (productoGuardado == null){

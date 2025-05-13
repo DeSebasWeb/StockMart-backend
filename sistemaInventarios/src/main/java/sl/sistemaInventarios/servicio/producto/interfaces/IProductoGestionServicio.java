@@ -10,7 +10,7 @@ public interface IProductoGestionServicio {
 
     public Producto recuperarProducto(Producto producto);
 
-    public Producto guardarProducto(Producto producto);
+    public Producto guardarOActualizarProducto(Producto producto);
 
     public void actualizarStock(Venta venta);
 }
