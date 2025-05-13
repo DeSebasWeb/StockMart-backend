@@ -50,7 +50,7 @@ public class ProductoCategoria {
 //    nombre: Agregamos un campo para almacenar el nombre de la categoría. Sin esto, la tabla no sería útil.
 //
 //    @OneToMany(mappedBy = "categoria"): Relaciona Categoria con Productos, lo que permite obtener la lista de productos asociados a cada categoría.
-//     cascade = CascadeType.ALL: Si eliminas una categoría, sus productos relacionados también pueden eliminarse automáticamente (opcional, depende de tu lógica de negocio).
+//     cascade = CascadeType.ALL: Si eliminas una categoría, sus productos relacionados también pueden eliminarse automáticamente (opcional, depende de lógica de negocio).
 //
 //    orphanRemoval = true: Elimina productos si ya no tienen una categoría asociada.
 }

@@ -43,7 +43,7 @@ public class ProductoControlador {
         }
     }
 
-    @PostMapping("/agregar")
+    @PostMapping("/guardar/producto")
     public ResponseEntity<?> guardarOActualizarProducto(@RequestBody Producto producto){
         try {
             Producto productoGuardado = this.productoGestionServicio.guardarOActualizarProducto(producto);
@@ -95,7 +95,7 @@ public class ProductoControlador {
         }
     }
 
-    @GetMapping("/delete/hard/{id}")
+    @DeleteMapping("/delete/hard/{id}")
     public ResponseEntity<?> hardDelete(@PathVariable Integer id){
         try {
             Producto producto = new Producto();
