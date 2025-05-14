@@ -1,5 +1,6 @@
 package sl.sistemaInventarios.servicio.producto.interfaces;
 
+import sl.sistemaInventarios.dto.producto.ProductoDTO;
 import sl.sistemaInventarios.modelo.estado.EstadoEnum;
 import sl.sistemaInventarios.modelo.producto.Producto;
 
@@ -15,4 +16,8 @@ public interface IProductosLecturaServicio {
     public List<Producto> buscarPorCategoria(String categoria);
 
     public List<Producto> productosMasVendidos(int topN);
+
+    public ProductoDTO convertirAProductoDTO(Producto producto);
+
+    public List<ProductoDTO> convertirLista(List<Producto> productos);
 }

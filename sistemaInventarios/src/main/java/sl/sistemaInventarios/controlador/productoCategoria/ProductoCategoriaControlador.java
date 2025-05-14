@@ -5,9 +5,14 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import sl.sistemaInventarios.dto.producto.ProductoDTO;
+import sl.sistemaInventarios.modelo.producto.Producto;
 import sl.sistemaInventarios.modelo.productoCategoria.ProductoCategoria;
+import sl.sistemaInventarios.servicio.producto.clases.ProductoLecturaServicio;
 import sl.sistemaInventarios.servicio.productoCategoria.clases.ProductoCategoriaGestionServicio;
 import sl.sistemaInventarios.servicio.productoCategoria.clases.ProductoCategoriaLecturaServicio;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("inventario-app/categorias/productos")
@@ -17,11 +22,13 @@ public class ProductoCategoriaControlador {
 
     private final ProductoCategoriaLecturaServicio productoCategoriaLecturaServicio;
     private final ProductoCategoriaGestionServicio productoCategoriaGestionServicio;
+    private final ProductoLecturaServicio productoLecturaServicio;
 
     @Autowired
-    public ProductoCategoriaControlador(ProductoCategoriaLecturaServicio productoCategoriaLecturaServicio, ProductoCategoriaGestionServicio productoCategoriaGestionServicio) {
+    public ProductoCategoriaControlador(ProductoCategoriaLecturaServicio productoCategoriaLecturaServicio, ProductoLecturaServicio productoLecturaServicio, ProductoCategoriaGestionServicio productoCategoriaGestionServicio) {
         this.productoCategoriaLecturaServicio = productoCategoriaLecturaServicio;
         this.productoCategoriaGestionServicio = productoCategoriaGestionServicio;
+        this.productoLecturaServicio = productoLecturaServicio;
     }
 
     @PostMapping("/guardar")
@@ -54,5 +61,40 @@ public class ProductoCategoriaControlador {
         }
     }
 
+    @GetMapping("/recuperar/{id}")
+    public ResponseEntity<?> recuperar(@PathVariable Integer id){
+        try{
+            ProductoCategoria productoCategoria = new ProductoCategoria();
+            productoCategoria.setId(id);
+            this.productoCategoriaGestionServicio.recuperar(productoCategoria);
+            return ResponseEntity.ok("Se ha recuperado el producto exitosamente");
+        }catch (Exception e){
+            return ResponseEntity.status(400).body("Error: "+e);
+        }
+    }
 
+    @GetMapping("/asociados/{id}")
+    public ResponseEntity<List<ProductoDTO>> obtenerProductosPorCategoria(@PathVariable Integer id){
+        try {
+            ProductoCategoria productoCategoria = new ProductoCategoria();
+            productoCategoria.setId(id);
+            List<Producto> productos = this.productoCategoriaLecturaServicio.productosAsociados(productoCategoria);
+            List<ProductoDTO> productoDTOS = this.productoLecturaServicio.convertirLista(productos);
+            return ResponseEntity.ok(productoDTOS);
+        }catch (Exception e){
+            throw new RuntimeException("Error: "+e);
+        }
+    }
+
+    @DeleteMapping("/delete/hard/{id}")
+    public ResponseEntity<?> hardDelete(@PathVariable Integer id){
+        try {
+            ProductoCategoria productoCategoria = new ProductoCategoria();
+            productoCategoria.setId(id);
+            this.productoCategoriaGestionServicio.hardDelete(productoCategoria);
+            return ResponseEntity.ok("Se ha eliminado exitosamente");
+        }catch (Exception e){
+            return ResponseEntity.status(400).body("Error: "+e);
+        }
+    }
 }

@@ -2,6 +2,7 @@ package sl.sistemaInventarios.servicio.productoCategoria.clases;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import sl.sistemaInventarios.modelo.producto.Producto;
 import sl.sistemaInventarios.modelo.productoCategoria.ProductoCategoria;
 import sl.sistemaInventarios.modelo.estado.EstadoEnum;
 import sl.sistemaInventarios.repositorio.categoriaProducto.ProductoCategoriaRepositorio;
@@ -36,5 +37,14 @@ public class ProductoCategoriaLecturaServicio implements IProductoCategoriaLectu
     public ProductoCategoria buscarCategoriaPorId(ProductoCategoria productoCategoria) {
         ProductoCategoria productoCategoriaEncontradoId = this.productoCategoriaRepositorio.findById(productoCategoria.getId()).orElseThrow(() -> new RuntimeException("Categoria no encontrada con ID: "+ productoCategoria.getId()));
         return productoCategoriaEncontradoId;
+    }
+    @Override
+    public List<Producto> productosAsociados(ProductoCategoria productoCategoria) {
+        ProductoCategoria productoCategoriaEncontrado = this.buscarCategoriaPorId(productoCategoria);
+        if (productoCategoriaEncontrado != null){
+            return productoCategoriaEncontrado.getProductos();
+        }else {
+            throw new RuntimeException("No existe la categoria");
+        }
     }
 }

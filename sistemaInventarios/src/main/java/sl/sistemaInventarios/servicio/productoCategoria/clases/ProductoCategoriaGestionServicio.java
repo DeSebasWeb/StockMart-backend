@@ -4,11 +4,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import sl.sistemaInventarios.modelo.estado.Estado;
+import sl.sistemaInventarios.modelo.producto.Producto;
 import sl.sistemaInventarios.modelo.productoCategoria.ProductoCategoria;
 import sl.sistemaInventarios.repositorio.categoriaProducto.ProductoCategoriaRepositorio;
 import sl.sistemaInventarios.servicio.estado.clases.EstadoConsultaServicio;
 import sl.sistemaInventarios.servicio.productoCategoria.interfaces.IProductoCategoriaGestionServicio;
 import sl.sistemaInventarios.servicio.estado.clases.EstadoGestionServicio;
+
+import java.util.List;
 
 @Service
 @Transactional
@@ -76,6 +79,11 @@ public class ProductoCategoriaGestionServicio implements IProductoCategoriaGesti
 
     @Override
     public void hardDelete(ProductoCategoria productoCategoria) {
-        this.productoCategoriaRepositorio.delete(productoCategoria);
+        ProductoCategoria productoCategoriaEncontrado = this.productoCategoriaLecturaServicio.buscarCategoriaPorId(productoCategoria);
+        if (productoCategoriaEncontrado.getEstado().getIdEstado() == this.estadoGestionServicio.estaEstadoInactivo().getIdEstado()){
+            this.productoCategoriaRepositorio.delete(productoCategoria);
+        }else {
+            throw new RuntimeException("La categoria se encuentra activa, descativela si quiere eliminarla permanentemente");
+        }
     }
 }

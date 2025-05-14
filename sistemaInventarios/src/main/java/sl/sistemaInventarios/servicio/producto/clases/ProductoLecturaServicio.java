@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import sl.sistemaInventarios.dto.producto.ProductoDTO;
 import sl.sistemaInventarios.modelo.estado.EstadoEnum;
 import sl.sistemaInventarios.modelo.producto.Producto;
 import sl.sistemaInventarios.repositorio.producto.ProductoRepositorio;
@@ -11,6 +12,7 @@ import sl.sistemaInventarios.servicio.estado.clases.EstadoGestionServicio;
 import sl.sistemaInventarios.servicio.producto.interfaces.IProductosLecturaServicio;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class ProductoLecturaServicio implements IProductosLecturaServicio {
@@ -56,5 +58,28 @@ public class ProductoLecturaServicio implements IProductosLecturaServicio {
     public List<Producto> productosMasVendidos(int topN) {
         Pageable pageable = PageRequest.of(0, topN);
         return this.productoRepositorio.findTopProductos(pageable);
+    }
+
+    //Para enviar productos sin valores con tanta relevancia ni con valores sensibles convertirlo a dto
+    @Override
+    public ProductoDTO convertirAProductoDTO(Producto producto){
+        ProductoDTO dto = new ProductoDTO();
+        dto.setIdProducto(producto.getIdProducto());
+        dto.setNombre(producto.getNombre());
+        dto.setDescripcion(producto.getDescripcion());
+        if (producto.getProductoCategoria() != null){
+            dto.setNombreCategoria(producto.getProductoCategoria().getNombre());
+        }
+        dto.setEstado(producto.getEstado());
+        dto.setStock(producto.getStock());
+        dto.setPrecioVenta(producto.getPrecioVenta());
+        dto.setMarca(producto.getMarca());
+        return dto;
+    }
+
+    //Convertir los producto en productoDTO
+    @Override
+    public List<ProductoDTO> convertirLista(List<Producto> productos) {
+        return productos.stream().map(this::convertirAProductoDTO).collect(Collectors.toList());
     }
 }

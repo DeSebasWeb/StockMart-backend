@@ -9,7 +9,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
-import sl.sistemaInventarios.dto.CredencialesRespuesta;
+import sl.sistemaInventarios.dto.credenciales.CredencialesRespuestaDTO;
 import sl.sistemaInventarios.modelo.usuario.Usuario;
 import sl.sistemaInventarios.servicio.usuario.clases.UsuarioGestionServicio;
 
@@ -27,10 +27,10 @@ public class AuthControlador {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody CredencialesRespuesta credencialesRespuesta, HttpServletRequest httpServletRequest){
+    public ResponseEntity<?> login(@RequestBody CredencialesRespuestaDTO credencialesRespuestaDTO, HttpServletRequest httpServletRequest){
         try{
             //Aca recibe las credenciales que manda el usuario
-            UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(credencialesRespuesta.getCorreo(), credencialesRespuesta.getPassword());
+            UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(credencialesRespuestaDTO.getCorreo(), credencialesRespuestaDTO.getPassword());
             //Se autentican que las credenciales sean correctas dentro de la variable authToken con la DB
             Authentication authentication = this.authenticationManager.authenticate(authToken);
             // Se establece el contexto de seguridad

@@ -1,4 +1,4 @@
-package sl.sistemaInventarios.dto;
+package sl.sistemaInventarios.dto.credenciales;
 
 import lombok.*;
 
@@ -7,7 +7,7 @@ import lombok.*;
 @EqualsAndHashCode
 @AllArgsConstructor
 @NoArgsConstructor
-public class CredencialesRespuesta {
+public class CredencialesRespuestaDTO {
     private String correo;
     private String password;
 }
