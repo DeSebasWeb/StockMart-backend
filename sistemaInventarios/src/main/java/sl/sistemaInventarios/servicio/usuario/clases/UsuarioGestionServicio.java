@@ -18,32 +18,35 @@ import sl.sistemaInventarios.servicio.usuario.interfaces.IUsuarioGestionServicio
 public class UsuarioGestionServicio implements IUsuarioGestionServicio {
 
     private final UsuarioRepositorio usuarioRepositorio;
-    private final EstadoGestionServicio estadoServicio;
+    private final EstadoGestionServicio estadoGestionServicio;
     private final EncriptacionServicio encriptacionServicio;
     private final UsuarioConsultaServicio usuarioConsultaServicio;
     private final TipoUsuarioConsultaServicio tipoUsuarioConsultaServicio;
-    private final EstadoConsultaServicio estadoConsulta;
+    private final EstadoConsultaServicio estadoConsultaServicio;
 
     @Autowired
-    public UsuarioGestionServicio(EstadoGestionServicio estadoServicio, EncriptacionServicio encriptacionServicio, UsuarioConsultaServicio usuarioConsultaServicio, TipoUsuarioConsultaServicio tipoUsuarioConsultaServicio, UsuarioRepositorio usuarioRepositorio, EstadoConsultaServicio estadoConsulta) {
-        this.estadoServicio = estadoServicio;
+    public UsuarioGestionServicio(EstadoGestionServicio estadoGestionServicio, EncriptacionServicio encriptacionServicio, UsuarioConsultaServicio usuarioConsultaServicio, TipoUsuarioConsultaServicio tipoUsuarioConsultaServicio, UsuarioRepositorio usuarioRepositorio, EstadoConsultaServicio estadoConsultaServicio) {
+        this.estadoGestionServicio = estadoGestionServicio;
         this.encriptacionServicio = encriptacionServicio;
         this.usuarioConsultaServicio = usuarioConsultaServicio;
         this.tipoUsuarioConsultaServicio = tipoUsuarioConsultaServicio;
         this.usuarioRepositorio = usuarioRepositorio;
-        this.estadoConsulta = estadoConsulta;
+        this.estadoConsultaServicio = estadoConsultaServicio;
     }
 
     @Override
     public Usuario guardarUsuario(Usuario usuario) {
+
         if (usuario.getIdUsuario() == null){
             String passwordSegura = this.encriptacionServicio.hashPassword(usuario);
             usuario.setPassword(passwordSegura);
 
             TipoUsuario tipoUsuario = this.tipoUsuarioConsultaServicio.mostrarUsuarioPorID(usuario.getTipoUsuario().getId());
             usuario.setTipoUsuario(tipoUsuario);
-
-            Estado estado = this.estadoConsulta.buscarEstadoPorId(usuario.getEstado().getIdEstado());
+            if (tipoUsuario.getId() == this.tipoUsuarioConsultaServicio.esVendedor().getId()){
+                //Poner nueva construccion de un vendedor
+            }
+            Estado estado = this.estadoConsultaServicio.buscarEstadoPorId(usuario.getEstado().getIdEstado());
             usuario.setEstado(estado);
 
             Usuario usuarioGuardado = this.usuarioRepositorio.save(usuario);
@@ -61,15 +64,14 @@ public class UsuarioGestionServicio implements IUsuarioGestionServicio {
             Usuario usuarioGuardado = this.usuarioRepositorio.save(usuarioEncontrado);
             return usuarioGuardado;
         }
-
     }
 
     @Override
     public Usuario softDelete(Usuario usuario) {
         Usuario usuarioEncontrado = this.usuarioConsultaServicio.buscarUsuarioPorId(usuario);
         if (usuarioEncontrado != null){
-            if (usuarioEncontrado.getEstado().getIdEstado() == this.estadoServicio.estaEstadoActivo().getIdEstado()){
-                usuarioEncontrado.setEstado(this.estadoServicio.estaEstadoInactivo());
+            if (usuarioEncontrado.getEstado().getIdEstado() == this.estadoGestionServicio.estaEstadoActivo().getIdEstado()){
+                usuarioEncontrado.setEstado(this.estadoGestionServicio.estaEstadoInactivo());
                 Usuario usuarioGuardado = this.usuarioRepositorio.save(usuarioEncontrado);
                 return usuarioGuardado;
             }else {
@@ -84,7 +86,7 @@ public class UsuarioGestionServicio implements IUsuarioGestionServicio {
     public void hardDelete(Usuario usuario) {
         Usuario usuarioEncontrado = this.usuarioConsultaServicio.buscarUsuarioPorId(usuario);
         if (usuarioEncontrado!= null){
-            if (usuarioEncontrado.getEstado().equals(this.estadoServicio.estaEstadoInactivo().getEstado())){
+            if (usuarioEncontrado.getEstado().getIdEstado() == this.estadoGestionServicio.estaEstadoInactivo().getIdEstado()){
                 this.usuarioRepositorio.delete(usuarioEncontrado);
             }else {
                 throw new RuntimeException("El usuario tiene el estado Activo, si desea eliminarlo completamente, pongalo Inactivo");
@@ -98,8 +100,8 @@ public class UsuarioGestionServicio implements IUsuarioGestionServicio {
     public Usuario recuperar(Usuario usuario) {
         Usuario usuarioEncontrado = this.usuarioConsultaServicio.buscarUsuarioPorId(usuario);
         if (usuarioEncontrado!= null){
-            if (usuarioEncontrado.getEstado().equals(this.estadoServicio.estaEstadoInactivo().getEstado())){
-                usuarioEncontrado.setEstado(this.estadoServicio.estaEstadoActivo());
+            if (usuarioEncontrado.getEstado().getIdEstado() == this.estadoGestionServicio.estaEstadoInactivo().getIdEstado()){
+                usuarioEncontrado.setEstado(this.estadoGestionServicio.estaEstadoActivo());
                 Usuario usuarioGuardado = this.guardarUsuario(usuarioEncontrado);
                 return usuarioGuardado;
             }else {

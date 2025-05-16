@@ -50,4 +50,32 @@ public class UsuarioControlador {
             return ResponseEntity.status(400).body("Error: "+e);
         }
     }
+
+    @DeleteMapping("/delete/hard/{id}")
+    public ResponseEntity<?> hardDelete(@PathVariable Integer id){
+        try {
+            Usuario usuario = new Usuario();
+            usuario.setIdUsuario(id);
+            this.usuarioGestionServicio.hardDelete(usuario);
+            return ResponseEntity.ok("Se ha eliminado el usuario definitivamente");
+        }catch (Exception e){
+            return ResponseEntity.status(400).body("Error: "+ e);
+        }
+    }
+
+    @GetMapping("/recuperar/{id}")
+    public ResponseEntity<?> recuperarUsuario(@PathVariable Integer id){
+        try{
+            Usuario usuario = new Usuario();
+            usuario.setIdUsuario(id);
+            Usuario usuarioRecuperado = this.usuarioGestionServicio.recuperar(usuario);
+            if (usuarioRecuperado != null){
+                return ResponseEntity.ok("Se ha recuperado el usuario correctamente");
+            }else {
+                return ResponseEntity.status(404).body("Ha ocurriodo un error al recuperar el usuario");
+            }
+        } catch (Exception e) {
+            return ResponseEntity.status(400).body("Error: "+e);
+        }
+    }
 }
