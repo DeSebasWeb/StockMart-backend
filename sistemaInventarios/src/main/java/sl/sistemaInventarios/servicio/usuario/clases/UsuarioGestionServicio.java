@@ -39,27 +39,41 @@ public class UsuarioGestionServicio implements IUsuarioGestionServicio {
         if (usuario.getIdUsuario() == null){
             String passwordSegura = this.encriptacionServicio.hashPassword(usuario);
             usuario.setPassword(passwordSegura);
+
+            TipoUsuario tipoUsuario = this.tipoUsuarioConsultaServicio.mostrarUsuarioPorID(usuario.getTipoUsuario().getId());
+            usuario.setTipoUsuario(tipoUsuario);
+
+            Estado estado = this.estadoConsulta.buscarEstadoPorId(usuario.getEstado().getIdEstado());
+            usuario.setEstado(estado);
+
+            Usuario usuarioGuardado = this.usuarioRepositorio.save(usuario);
+            return usuarioGuardado;
+        }else {
+            Usuario usuarioEncontrado = this.usuarioConsultaServicio.buscarUsuarioPorId(usuario);
+            usuarioEncontrado.setNombre(usuario.getNombre());
+            usuarioEncontrado.setApellido(usuario.getApellido());
+            usuarioEncontrado.setCedula(usuario.getCedula());
+            usuarioEncontrado.setCorreo(usuario.getCorreo());
+            String passwordSegura = this.encriptacionServicio.hashPassword(usuario);
+            usuarioEncontrado.setPassword(passwordSegura);
+            usuarioEncontrado.setTipoUsuario(usuario.getTipoUsuario());
+            usuarioEncontrado.setEstado(usuario.getEstado());
+            Usuario usuarioGuardado = this.usuarioRepositorio.save(usuarioEncontrado);
+            return usuarioGuardado;
         }
-        TipoUsuario tipoUsuario = this.tipoUsuarioConsultaServicio.mostrarUsuarioPorID(usuario.getTipoUsuario().getId());
-        usuario.setTipoUsuario(tipoUsuario);
 
-        Estado estado = this.estadoConsulta.buscarEstadoPorId(usuario.getEstado().getIdEstado());
-        usuario.setEstado(estado);
-
-        Usuario usuarioGuardado = this.usuarioRepositorio.save(usuario);
-        return usuarioGuardado;
     }
 
     @Override
     public Usuario softDelete(Usuario usuario) {
         Usuario usuarioEncontrado = this.usuarioConsultaServicio.buscarUsuarioPorId(usuario);
         if (usuarioEncontrado != null){
-            if (usuarioEncontrado.getEstado().equals(this.estadoServicio.estaEstadoActivo().getEstado())){
+            if (usuarioEncontrado.getEstado().getIdEstado() == this.estadoServicio.estaEstadoActivo().getIdEstado()){
                 usuarioEncontrado.setEstado(this.estadoServicio.estaEstadoInactivo());
                 Usuario usuarioGuardado = this.usuarioRepositorio.save(usuarioEncontrado);
                 return usuarioGuardado;
             }else {
-                return null;
+                throw new RuntimeException("El usuario ya fue eliminado");
             }
         }else {
             throw new RuntimeException("El usuario con id: "+usuario.getIdUsuario() +" no existe");
