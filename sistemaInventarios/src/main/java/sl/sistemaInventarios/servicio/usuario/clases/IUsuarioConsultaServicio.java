@@ -5,12 +5,11 @@ import org.springframework.stereotype.Service;
 import sl.sistemaInventarios.modelo.estado.EstadoEnum;
 import sl.sistemaInventarios.modelo.usuario.Usuario;
 import sl.sistemaInventarios.repositorio.usuario.UsuarioRepositorio;
-import sl.sistemaInventarios.servicio.usuario.interfaces.IUsuarioConsultaServicio;
 
 import java.util.List;
 
 @Service
-public class UsuarioConsultaServicio implements IUsuarioConsultaServicio {
+public class IUsuarioConsultaServicio implements sl.sistemaInventarios.servicio.usuario.interfaces.IUsuarioConsultaServicio {
     @Autowired
     private UsuarioRepositorio usuarioRepositorio;
 
@@ -34,6 +33,11 @@ public class UsuarioConsultaServicio implements IUsuarioConsultaServicio {
         }else {
             return usuariosPorEstado;
         }
+    }
+
+    @Override
+    public Usuario buscarUsuarioPorCorreo(String correo) {
+        return this.usuarioRepositorio.findByCorreo(correo).orElseThrow(()-> new RuntimeException("No se encuentra el usuario con el correo indicado"));
     }
 
     @Override

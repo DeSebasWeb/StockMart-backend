@@ -7,7 +7,7 @@ import sl.sistemaInventarios.modelo.productoCategoria.ProductoCategoria;
 import sl.sistemaInventarios.modelo.estado.EstadoEnum;
 import sl.sistemaInventarios.repositorio.categoriaProducto.ProductoCategoriaRepositorio;
 import sl.sistemaInventarios.servicio.productoCategoria.interfaces.IProductoCategoriaLecturaServicio;
-import sl.sistemaInventarios.servicio.estado.clases.EstadoGestionServicio;
+import sl.sistemaInventarios.servicio.estado.clases.IEstadoGestionServicio;
 
 import java.util.List;
 
@@ -17,7 +17,7 @@ public class ProductoCategoriaLecturaServicio implements IProductoCategoriaLectu
     private ProductoCategoriaRepositorio productoCategoriaRepositorio;
 
     @Autowired
-    private EstadoGestionServicio estadoServicio;
+    private IEstadoGestionServicio estadoServicio;
     //Muestra todos los objetos de tipo ProductoCategoria
     @Override
     public List<ProductoCategoria> mostrarTodasCategorias() {

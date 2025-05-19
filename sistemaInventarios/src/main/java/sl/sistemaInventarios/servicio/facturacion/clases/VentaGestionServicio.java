@@ -6,11 +6,11 @@ import org.springframework.transaction.annotation.Transactional;
 import sl.sistemaInventarios.modelo.facturacion.DetalleVenta;
 import sl.sistemaInventarios.modelo.facturacion.Venta;
 import sl.sistemaInventarios.repositorio.facturacion.VentaRepositorio;
-import sl.sistemaInventarios.servicio.estado.clases.EstadoGestionServicio;
+import sl.sistemaInventarios.servicio.estado.clases.IEstadoGestionServicio;
 import sl.sistemaInventarios.servicio.facturacion.interfaces.IVentaGestionServicio;
 import sl.sistemaInventarios.servicio.producto.clases.ProductoGestionServicio;
 import sl.sistemaInventarios.servicio.producto.clases.ProductoLecturaServicio;
-import sl.sistemaInventarios.servicio.usuario.clases.VendedorGestionServicio;
+import sl.sistemaInventarios.servicio.usuario.clases.IVendedorGestionServicio;
 
 import java.util.List;
 
@@ -20,24 +20,24 @@ public class VentaGestionServicio implements IVentaGestionServicio {
 
     private final VentaRepositorio ventaRepositorio;
 
-    private final EstadoGestionServicio estadoServicio;
+    private final IEstadoGestionServicio estadoServicio;
 
     private final ProductoLecturaServicio productoLecturaServicio;
 
     private final VentaConsultaServicio ventaConsultaServicio;
 
-    private final VendedorGestionServicio vendedorGestionServicio;
+    private final IVendedorGestionServicio IVendedorGestionServicio;
 
     private final DetalleVentaGestionServicio detalleVentaGestionServicio;
 
     private final ProductoGestionServicio productoGestionServicio;
     @Autowired
-    public VentaGestionServicio(EstadoGestionServicio estadoServicio, ProductoLecturaServicio productoLecturaServicio, VentaRepositorio ventaRepositorio, VentaConsultaServicio ventaConsultaServicio, VendedorGestionServicio vendedorGestionServicio, DetalleVentaGestionServicio detalleVentaGestionServicio, ProductoGestionServicio productoGestionServicio) {
+    public VentaGestionServicio(IEstadoGestionServicio estadoServicio, ProductoLecturaServicio productoLecturaServicio, VentaRepositorio ventaRepositorio, VentaConsultaServicio ventaConsultaServicio, IVendedorGestionServicio IVendedorGestionServicio, DetalleVentaGestionServicio detalleVentaGestionServicio, ProductoGestionServicio productoGestionServicio) {
         this.estadoServicio = estadoServicio;
         this.productoLecturaServicio = productoLecturaServicio;
         this.ventaRepositorio = ventaRepositorio;
         this.ventaConsultaServicio = ventaConsultaServicio;
-        this.vendedorGestionServicio = vendedorGestionServicio;
+        this.IVendedorGestionServicio = IVendedorGestionServicio;
         this.detalleVentaGestionServicio = detalleVentaGestionServicio;
         this.productoGestionServicio = productoGestionServicio;
     }
@@ -104,7 +104,7 @@ public class VentaGestionServicio implements IVentaGestionServicio {
         Venta ventaGuardada = this.guardarVenta(venta);
         List<DetalleVenta> detallesGuardados = this.detalleVentaGestionServicio.guardarDetallesVenta(detalleVentas, ventaGuardada);
         Venta ventaCompleta = this.calcularTotalVenta(venta, detallesGuardados);
-        this.vendedorGestionServicio.incrementarVenta(venta);
+        this.IVendedorGestionServicio.incrementarVenta(venta);
         this.productoGestionServicio.actualizarStock(venta);
         return ventaCompleta;
     }

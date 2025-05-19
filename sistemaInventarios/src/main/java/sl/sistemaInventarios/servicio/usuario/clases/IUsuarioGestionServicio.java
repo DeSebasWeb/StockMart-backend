@@ -7,49 +7,51 @@ import sl.sistemaInventarios.modelo.estado.Estado;
 import sl.sistemaInventarios.modelo.tipoUsuario.TipoUsuario;
 import sl.sistemaInventarios.modelo.usuario.Usuario;
 import sl.sistemaInventarios.repositorio.usuario.UsuarioRepositorio;
-import sl.sistemaInventarios.servicio.estado.clases.EstadoConsultaServicio;
-import sl.sistemaInventarios.servicio.estado.clases.EstadoGestionServicio;
-import sl.sistemaInventarios.servicio.seguridad.clases.EncriptacionServicio;
-import sl.sistemaInventarios.servicio.tipoUsuario.clases.TipoUsuarioConsultaServicio;
-import sl.sistemaInventarios.servicio.usuario.interfaces.IUsuarioGestionServicio;
+import sl.sistemaInventarios.servicio.estado.clases.IEstadoConsultaServicio;
+import sl.sistemaInventarios.servicio.estado.clases.IEstadoGestionServicio;
+import sl.sistemaInventarios.servicio.seguridad.clases.IEncriptacionServicio;
+import sl.sistemaInventarios.servicio.tipoUsuario.clases.ITipoUsuarioConsultaServicio;
 
 @Service
 @Transactional
-public class UsuarioGestionServicio implements IUsuarioGestionServicio {
+public class IUsuarioGestionServicio implements sl.sistemaInventarios.servicio.usuario.interfaces.IUsuarioGestionServicio {
 
     private final UsuarioRepositorio usuarioRepositorio;
-    private final EstadoGestionServicio estadoGestionServicio;
-    private final EncriptacionServicio encriptacionServicio;
-    private final UsuarioConsultaServicio usuarioConsultaServicio;
-    private final TipoUsuarioConsultaServicio tipoUsuarioConsultaServicio;
-    private final EstadoConsultaServicio estadoConsultaServicio;
+    private final IEstadoGestionServicio estadoGestionServicio;
+    private final IEncriptacionServicio encriptacionServicio;
+    private final IUsuarioConsultaServicio usuarioConsultaServicio;
+    private final ITipoUsuarioConsultaServicio tipoUsuarioConsultaServicio;
+    private final IEstadoConsultaServicio estadoConsultaServicio;
+    private final IVendedorGestionServicio vendedorGestionServicio;
 
     @Autowired
-    public UsuarioGestionServicio(EstadoGestionServicio estadoGestionServicio, EncriptacionServicio encriptacionServicio, UsuarioConsultaServicio usuarioConsultaServicio, TipoUsuarioConsultaServicio tipoUsuarioConsultaServicio, UsuarioRepositorio usuarioRepositorio, EstadoConsultaServicio estadoConsultaServicio) {
+    public IUsuarioGestionServicio(IEstadoGestionServicio estadoGestionServicio, IVendedorGestionServicio vendedorGestionServicio, IEncriptacionServicio encriptacionServicio, IUsuarioConsultaServicio usuarioConsultaServicio, ITipoUsuarioConsultaServicio tipoUsuarioConsultaServicio, UsuarioRepositorio usuarioRepositorio, IEstadoConsultaServicio estadoConsultaServicio) {
         this.estadoGestionServicio = estadoGestionServicio;
         this.encriptacionServicio = encriptacionServicio;
         this.usuarioConsultaServicio = usuarioConsultaServicio;
         this.tipoUsuarioConsultaServicio = tipoUsuarioConsultaServicio;
         this.usuarioRepositorio = usuarioRepositorio;
         this.estadoConsultaServicio = estadoConsultaServicio;
+        this.vendedorGestionServicio = vendedorGestionServicio;
     }
 
     @Override
     public Usuario guardarUsuario(Usuario usuario) {
-
         if (usuario.getIdUsuario() == null){
             String passwordSegura = this.encriptacionServicio.hashPassword(usuario);
             usuario.setPassword(passwordSegura);
 
             TipoUsuario tipoUsuario = this.tipoUsuarioConsultaServicio.mostrarUsuarioPorID(usuario.getTipoUsuario().getId());
             usuario.setTipoUsuario(tipoUsuario);
-            if (tipoUsuario.getId() == this.tipoUsuarioConsultaServicio.esVendedor().getId()){
-                //Poner nueva construccion de un vendedor
-            }
             Estado estado = this.estadoConsultaServicio.buscarEstadoPorId(usuario.getEstado().getIdEstado());
             usuario.setEstado(estado);
 
             Usuario usuarioGuardado = this.usuarioRepositorio.save(usuario);
+
+            // Si el tipo de usuario es VENDEDOR, se crea también la entidad Vendedor asociada.
+            if (tipoUsuario.getId() == this.tipoUsuarioConsultaServicio.esVendedor().getId()){
+                this.vendedorGestionServicio.crearDesdeUsuario(usuarioGuardado);
+            }
             return usuarioGuardado;
         }else {
             Usuario usuarioEncontrado = this.usuarioConsultaServicio.buscarUsuarioPorId(usuario);

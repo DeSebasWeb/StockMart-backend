@@ -10,7 +10,7 @@ import sl.sistemaInventarios.servicio.tipoUsuario.interfaces.ITipoUsuarioServici
 import java.util.List;
 
 @Service
-public class TipoUsuarioConsultaServicio implements ITipoUsuarioServicio {
+public class ITipoUsuarioConsultaServicio implements ITipoUsuarioServicio {
     @Autowired
     private TipoUsuarioRespositorio tipoUsuarioRespositorio;
 

@@ -8,7 +8,7 @@ import sl.sistemaInventarios.dto.producto.ProductoDTO;
 import sl.sistemaInventarios.modelo.estado.EstadoEnum;
 import sl.sistemaInventarios.modelo.producto.Producto;
 import sl.sistemaInventarios.repositorio.producto.ProductoRepositorio;
-import sl.sistemaInventarios.servicio.estado.clases.EstadoGestionServicio;
+import sl.sistemaInventarios.servicio.estado.clases.IEstadoGestionServicio;
 import sl.sistemaInventarios.servicio.producto.interfaces.IProductosLecturaServicio;
 
 import java.util.List;
@@ -19,10 +19,10 @@ public class ProductoLecturaServicio implements IProductosLecturaServicio {
     @Autowired
     private ProductoRepositorio productoRepositorio;
 
-    private final EstadoGestionServicio estadoServicio;
+    private final IEstadoGestionServicio estadoServicio;
 
     @Autowired
-    public ProductoLecturaServicio(EstadoGestionServicio estadoServicio) {
+    public ProductoLecturaServicio(IEstadoGestionServicio estadoServicio) {
         this.estadoServicio = estadoServicio;
     }
 

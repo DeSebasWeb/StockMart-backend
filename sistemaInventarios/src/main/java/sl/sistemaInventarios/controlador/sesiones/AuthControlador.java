@@ -11,19 +11,19 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import sl.sistemaInventarios.dto.credenciales.CredencialesRespuestaDTO;
 import sl.sistemaInventarios.modelo.usuario.Usuario;
-import sl.sistemaInventarios.servicio.usuario.clases.UsuarioGestionServicio;
+import sl.sistemaInventarios.servicio.usuario.clases.IUsuarioGestionServicio;
 
 @RestController
 @RequestMapping("inventario-app/auth")
 @CrossOrigin("http://localhost:4200")
 public class AuthControlador {
     private final AuthenticationManager authenticationManager;
-    private final UsuarioGestionServicio usuarioGestionServicio;
+    private final IUsuarioGestionServicio IUsuarioGestionServicio;
 
     @Autowired
-    public AuthControlador(AuthenticationManager authenticationManager, UsuarioGestionServicio usuarioGestionServicio) {
+    public AuthControlador(AuthenticationManager authenticationManager, IUsuarioGestionServicio IUsuarioGestionServicio) {
         this.authenticationManager = authenticationManager;
-        this.usuarioGestionServicio = usuarioGestionServicio;
+        this.IUsuarioGestionServicio = IUsuarioGestionServicio;
     }
 
     @PostMapping("/login")
@@ -47,7 +47,7 @@ public class AuthControlador {
 
     @PostMapping("/registro")
     public ResponseEntity<?> registroUsuario(@RequestBody Usuario usuario){
-        Usuario usuarioGuardado = this.usuarioGestionServicio.guardarUsuario(usuario);
+        Usuario usuarioGuardado = this.IUsuarioGestionServicio.guardarUsuario(usuario);
         if (usuarioGuardado!=null){
             return ResponseEntity.ok("El usuario ha sido creado de manera exitosa");
         }else{

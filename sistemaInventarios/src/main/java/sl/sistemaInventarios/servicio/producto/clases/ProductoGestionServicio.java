@@ -10,8 +10,8 @@ import sl.sistemaInventarios.modelo.facturacion.Venta;
 import sl.sistemaInventarios.modelo.producto.Producto;
 import sl.sistemaInventarios.repositorio.producto.ProductoRepositorio;
 import sl.sistemaInventarios.servicio.productoCategoria.clases.ProductoCategoriaLecturaServicio;
-import sl.sistemaInventarios.servicio.estado.clases.EstadoConsultaServicio;
-import sl.sistemaInventarios.servicio.estado.clases.EstadoGestionServicio;
+import sl.sistemaInventarios.servicio.estado.clases.IEstadoConsultaServicio;
+import sl.sistemaInventarios.servicio.estado.clases.IEstadoGestionServicio;
 import sl.sistemaInventarios.servicio.facturacion.clases.VentaConsultaServicio;
 import sl.sistemaInventarios.servicio.producto.interfaces.IProductoGestionServicio;
 
@@ -26,26 +26,26 @@ public class ProductoGestionServicio implements IProductoGestionServicio {
 
     private final ProductoLecturaServicio productoLecturaServicio;
 
-    private final EstadoGestionServicio estadoServicio;
+    private final IEstadoGestionServicio estadoServicio;
 
-    private final EstadoConsultaServicio estadoConsultaServicio;
+    private final IEstadoConsultaServicio IEstadoConsultaServicio;
 
     private final ProductoCategoriaLecturaServicio productoCategoriaLecturaServicio;
 
     @Autowired
-    public ProductoGestionServicio(ProductoLecturaServicio productoLecturaServicio, ProductoRepositorio productoRepositorio, EstadoGestionServicio estadoServicio, EstadoConsultaServicio estadoConsultaServicio, VentaConsultaServicio ventaConsultaServicio, ProductoCategoriaLecturaServicio productoCategoriaLecturaServicio) {
+    public ProductoGestionServicio(ProductoLecturaServicio productoLecturaServicio, ProductoRepositorio productoRepositorio, IEstadoGestionServicio estadoServicio, IEstadoConsultaServicio IEstadoConsultaServicio, VentaConsultaServicio ventaConsultaServicio, ProductoCategoriaLecturaServicio productoCategoriaLecturaServicio) {
         this.productoLecturaServicio = productoLecturaServicio;
         this.productoRepositorio = productoRepositorio;
         this.estadoServicio = estadoServicio;
         this.productoCategoriaLecturaServicio = productoCategoriaLecturaServicio;
-        this.estadoConsultaServicio = estadoConsultaServicio;
+        this.IEstadoConsultaServicio = IEstadoConsultaServicio;
     }
 
     @Override
     public Producto guardarOActualizarProducto(Producto producto) {
         if (producto.getIdProducto() == null){
             ProductoCategoria productoCategoriaEncontrado = this.productoCategoriaLecturaServicio.buscarCategoriaPorId(producto.getProductoCategoria());
-            Estado estadoEncontrado = this.estadoConsultaServicio.buscarEstadoPorId(producto.getEstado().getIdEstado());
+            Estado estadoEncontrado = this.IEstadoConsultaServicio.buscarEstadoPorId(producto.getEstado().getIdEstado());
             if (productoCategoriaEncontrado != null && estadoEncontrado!= null){
                 producto.setProductoCategoria(productoCategoriaEncontrado);
                 producto.setEstado(estadoEncontrado);
@@ -60,7 +60,7 @@ public class ProductoGestionServicio implements IProductoGestionServicio {
                 throw new RuntimeException("El producto a actualizar no existe, intentelo nuevamente");
             }else{
                 ProductoCategoria productoCategoriaEncontrado = this.productoCategoriaLecturaServicio.buscarCategoriaPorId(producto.getProductoCategoria());
-                Estado estadoEncontrado = this.estadoConsultaServicio.buscarEstadoPorId(producto.getEstado().getIdEstado());
+                Estado estadoEncontrado = this.IEstadoConsultaServicio.buscarEstadoPorId(producto.getEstado().getIdEstado());
                 if (productoCategoriaEncontrado != null && estadoEncontrado!= null) {
                     productoAGuardar.setNombre(producto.getNombre());
                     productoAGuardar.setDescripcion(producto.getDescripcion());
@@ -85,7 +85,7 @@ public class ProductoGestionServicio implements IProductoGestionServicio {
     public Producto softDelete(Producto producto) {
         Producto productoSoftDelete = this.productoLecturaServicio.buscarProductoPorId(producto);
         if (productoSoftDelete.getEstado().getIdEstado() == 1){
-            productoSoftDelete.setEstado(this.estadoConsultaServicio.buscarEstadoPorId(2));
+            productoSoftDelete.setEstado(this.IEstadoConsultaServicio.buscarEstadoPorId(2));
             Producto productoAlmacenado = this.guardarOActualizarProducto(productoSoftDelete);
             return productoAlmacenado;
         }else{

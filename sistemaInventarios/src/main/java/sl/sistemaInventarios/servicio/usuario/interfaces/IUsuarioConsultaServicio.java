@@ -12,5 +12,7 @@ public interface IUsuarioConsultaServicio {
 
     public List<Usuario> mostrarUsuariosPorEstado(EstadoEnum estadoEnum);
 
+    public Usuario buscarUsuarioPorCorreo(String correo);
+
     public List<Usuario> mostrarTodosUsuarios();
 }

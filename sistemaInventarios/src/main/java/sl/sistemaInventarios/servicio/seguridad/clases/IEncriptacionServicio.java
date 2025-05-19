@@ -4,15 +4,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import sl.sistemaInventarios.modelo.usuario.Usuario;
-import sl.sistemaInventarios.servicio.seguridad.interfaces.IEncriptacionServicio;
 
 @Service
-public class EncriptacionServicio implements IEncriptacionServicio {
+public class IEncriptacionServicio implements sl.sistemaInventarios.servicio.seguridad.interfaces.IEncriptacionServicio {
 
     private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    public EncriptacionServicio(PasswordEncoder passwordEncoder) {
+    public IEncriptacionServicio(PasswordEncoder passwordEncoder) {
         this.passwordEncoder = passwordEncoder;
     }
 
