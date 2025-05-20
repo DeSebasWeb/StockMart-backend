@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import sl.sistemaInventarios.dto.producto.ProductoCompletoDTO;
 import sl.sistemaInventarios.dto.producto.ProductoDTO;
 import sl.sistemaInventarios.modelo.estado.EstadoEnum;
 import sl.sistemaInventarios.modelo.producto.Producto;
@@ -12,18 +13,20 @@ import sl.sistemaInventarios.servicio.estado.clases.IEstadoGestionServicio;
 import sl.sistemaInventarios.servicio.producto.interfaces.IProductosLecturaServicio;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class ProductoLecturaServicio implements IProductosLecturaServicio {
-    @Autowired
-    private ProductoRepositorio productoRepositorio;
+    private final ProductoRepositorio productoRepositorio;
 
     private final IEstadoGestionServicio estadoServicio;
 
+    private final ConvertidorProductoDTOServicio convertidorProductoDTOServicio;
+
     @Autowired
-    public ProductoLecturaServicio(IEstadoGestionServicio estadoServicio) {
+    public ProductoLecturaServicio(ProductoRepositorio productoRepositorio, IEstadoGestionServicio estadoServicio, ConvertidorProductoDTOServicio convertidorProductoDTOServicio) {
         this.estadoServicio = estadoServicio;
+        this.productoRepositorio = productoRepositorio;
+        this.convertidorProductoDTOServicio = convertidorProductoDTOServicio;
     }
 
 
@@ -34,14 +37,30 @@ public class ProductoLecturaServicio implements IProductosLecturaServicio {
     }
 
     @Override
-    public List<Producto> mostrarTodosLosProductos() {
-        return this.productoRepositorio.findAll();
+    public List<ProductoDTO> mostrarTodosLosProductos() {
+        List<Producto> productos = this.productoRepositorio.findAll();
+        return this.convertidorProductoDTOServicio.convertirLista(productos);
+
     }
 
     @Override
-    public Producto buscarProductoPorId(Producto producto) {
-        Producto productoEncontrado = this.productoRepositorio.findById(producto.getIdProducto()).orElseThrow(() -> new RuntimeException("No se ha encontrado ningun producto con el ID: "+ producto.getIdProducto()));
+    public Producto buscarProductoPorId(Integer idProducto){
+        Producto productoEncontrado = this.productoRepositorio.findById(idProducto).orElseThrow(()-> new RuntimeException("No se ha podido encontrar el producto"));
         return productoEncontrado;
+    }
+
+    @Override
+    public ProductoDTO buscarProductoPorIdADTO(Integer idProducto) {
+        Producto productoEncontrado = this.buscarProductoPorId(idProducto);
+        ProductoDTO productoDTO = this.convertidorProductoDTOServicio.convertirAProductoDTO(productoEncontrado);
+        return productoDTO;
+    }
+
+    @Override
+    public ProductoCompletoDTO buscarProductoPorIdConDetalles(Integer idProducto) {
+        Producto productoEncontrado = this.buscarProductoPorId(idProducto);
+        ProductoCompletoDTO productoCompletoDTO = this.convertidorProductoDTOServicio.convertirAProductoCompletoDTO(productoEncontrado);
+        return productoCompletoDTO;
     }
 
     @Override
@@ -58,28 +77,5 @@ public class ProductoLecturaServicio implements IProductosLecturaServicio {
     public List<Producto> productosMasVendidos(int topN) {
         Pageable pageable = PageRequest.of(0, topN);
         return this.productoRepositorio.findTopProductos(pageable);
-    }
-
-    //Para enviar productos sin valores con tanta relevancia ni con valores sensibles convertirlo a dto
-    @Override
-    public ProductoDTO convertirAProductoDTO(Producto producto){
-        ProductoDTO dto = new ProductoDTO();
-        dto.setIdProducto(producto.getIdProducto());
-        dto.setNombre(producto.getNombre());
-        dto.setDescripcion(producto.getDescripcion());
-        if (producto.getProductoCategoria() != null){
-            dto.setNombreCategoria(producto.getProductoCategoria().getNombre());
-        }
-        dto.setEstado(producto.getEstado());
-        dto.setStock(producto.getStock());
-        dto.setPrecioVenta(producto.getPrecioVenta());
-        dto.setMarca(producto.getMarca());
-        return dto;
-    }
-
-    //Convertir los producto en productoDTO
-    @Override
-    public List<ProductoDTO> convertirLista(List<Producto> productos) {
-        return productos.stream().map(this::convertirAProductoDTO).collect(Collectors.toList());
     }
 }

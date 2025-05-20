@@ -3,12 +3,16 @@ package sl.sistemaInventarios.dto.producto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 import sl.sistemaInventarios.modelo.estado.Estado;
 
+import java.time.LocalDateTime;
+
 @Data
+@ToString
 @AllArgsConstructor
 @NoArgsConstructor
-public class ProductoDTO {
+public class ProductoCompletoDTO {
     private Integer idProducto;
     private String nombre;
     private String descripcion;
@@ -17,4 +21,8 @@ public class ProductoDTO {
     private Integer stock;
     private Integer precioVenta;
     private String marca;
+    private LocalDateTime fechaRegistro;
+    private LocalDateTime fechaModificacion;
+    private LocalDateTime fechaEliminacion;
+    private Integer cantProductoVendido;
 }

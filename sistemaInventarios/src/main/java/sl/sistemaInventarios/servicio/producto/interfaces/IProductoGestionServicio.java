@@ -4,11 +4,11 @@ import sl.sistemaInventarios.modelo.facturacion.Venta;
 import sl.sistemaInventarios.modelo.producto.Producto;
 
 public interface IProductoGestionServicio {
-    public Producto softDelete(Producto producto);
+    public Producto softDelete(Integer idProducto);
 
-    public void hardDelete(Producto producto);
+    public void hardDelete(Integer idProducto);
 
-    public Producto recuperarProducto(Producto producto);
+    public Producto recuperarProducto(Integer idProducto);
 
     public Producto guardarOActualizarProducto(Producto producto);
 

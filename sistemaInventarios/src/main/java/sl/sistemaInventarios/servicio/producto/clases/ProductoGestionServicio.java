@@ -54,14 +54,14 @@ public class ProductoGestionServicio implements IProductoGestionServicio {
             }else {
                 throw new RuntimeException("No se encuentra la categoria o el estado a asignar. Verifique que exista y intentelo nuevamente");
             }
-        }else{
-            Producto productoAGuardar = this.productoLecturaServicio.buscarProductoPorId(producto);
-            if (productoAGuardar == null){
+        }else {
+            Producto productoAGuardar = this.productoLecturaServicio.buscarProductoPorId(producto.getIdProducto());
+            if (productoAGuardar == null) {
                 throw new RuntimeException("El producto a actualizar no existe, intentelo nuevamente");
-            }else{
+            } else {
                 ProductoCategoria productoCategoriaEncontrado = this.productoCategoriaLecturaServicio.buscarCategoriaPorId(producto.getProductoCategoria());
                 Estado estadoEncontrado = this.IEstadoConsultaServicio.buscarEstadoPorId(producto.getEstado().getIdEstado());
-                if (productoCategoriaEncontrado != null && estadoEncontrado!= null) {
+                if (productoCategoriaEncontrado != null && estadoEncontrado != null) {
                     productoAGuardar.setNombre(producto.getNombre());
                     productoAGuardar.setDescripcion(producto.getDescripcion());
                     productoAGuardar.setProductoCategoria(productoCategoriaEncontrado);
@@ -72,32 +72,30 @@ public class ProductoGestionServicio implements IProductoGestionServicio {
                     productoAGuardar.setMarca(producto.getMarca());
                     Producto productoGuardado = this.productoRepositorio.save(productoAGuardar);
                     return productoGuardado;
-                }else {
+                } else {
                     throw new RuntimeException("No se encuentra la categoria o el estado a asignar. Verifique que exista y intentelo nuevamente");
                 }
             }
-
         }
-
     }
 
     @Override
-    public Producto softDelete(Producto producto) {
-        Producto productoSoftDelete = this.productoLecturaServicio.buscarProductoPorId(producto);
-        if (productoSoftDelete.getEstado().getIdEstado() == 1){
+    public Producto softDelete(Integer idProducto) {
+        Producto productoSoftDelete = this.productoLecturaServicio.buscarProductoPorId(idProducto);
+        if (productoSoftDelete.getEstado().getIdEstado() == this.estadoServicio.estaEstadoActivo().getIdEstado()){
             productoSoftDelete.setEstado(this.IEstadoConsultaServicio.buscarEstadoPorId(2));
             Producto productoAlmacenado = this.guardarOActualizarProducto(productoSoftDelete);
             return productoAlmacenado;
         }else{
-            return null;
+            throw new RuntimeException("No se puede eliminar el producto, ya se encuentra desactivado");
         }
     }
 
     @Override
-    public Producto recuperarProducto(Producto producto) {
-        Producto productoEncontrado = this.productoLecturaServicio.buscarProductoPorId(producto);
+    public Producto recuperarProducto(Integer idProducto) {
+        Producto productoEncontrado = this.productoLecturaServicio.buscarProductoPorId(idProducto);
         if (productoEncontrado != null){
-            if (producto.getEstado().getIdEstado()==this.estadoServicio.estaEstadoInactivo().getIdEstado()){
+            if (productoEncontrado.getEstado().getIdEstado()==this.estadoServicio.estaEstadoInactivo().getIdEstado()){
                 productoEncontrado.setEstado(this.estadoServicio.estaEstadoActivo());
                 Producto productoActualizado = this.guardarOActualizarProducto(productoEncontrado);
                 return productoActualizado;
@@ -110,11 +108,11 @@ public class ProductoGestionServicio implements IProductoGestionServicio {
     }
 
     @Override
-    public void hardDelete(Producto producto) {
-        Producto productoEncontrado = this.productoLecturaServicio.buscarProductoPorId(producto);
+    public void hardDelete(Integer idProducto) {
+        Producto productoEncontrado = this.productoLecturaServicio.buscarProductoPorId(idProducto);
         if (productoEncontrado!= null){
             if (productoEncontrado.getEstado().getIdEstado() == this.estadoServicio.estaEstadoInactivo().getIdEstado()){
-                this.productoRepositorio.delete(producto);
+                this.productoRepositorio.delete(productoEncontrado);
             }else{
                 throw new RuntimeException("El producto no puede eliminarse pq esta activo, primero desactivelo");
             }

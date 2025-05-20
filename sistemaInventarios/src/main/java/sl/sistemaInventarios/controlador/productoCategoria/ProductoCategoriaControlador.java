@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import sl.sistemaInventarios.dto.producto.ProductoDTO;
 import sl.sistemaInventarios.modelo.producto.Producto;
 import sl.sistemaInventarios.modelo.productoCategoria.ProductoCategoria;
+import sl.sistemaInventarios.servicio.producto.clases.ConvertidorProductoDTOServicio;
 import sl.sistemaInventarios.servicio.producto.clases.ProductoLecturaServicio;
 import sl.sistemaInventarios.servicio.productoCategoria.clases.ProductoCategoriaGestionServicio;
 import sl.sistemaInventarios.servicio.productoCategoria.clases.ProductoCategoriaLecturaServicio;
@@ -23,12 +24,14 @@ public class ProductoCategoriaControlador {
     private final ProductoCategoriaLecturaServicio productoCategoriaLecturaServicio;
     private final ProductoCategoriaGestionServicio productoCategoriaGestionServicio;
     private final ProductoLecturaServicio productoLecturaServicio;
+    private final ConvertidorProductoDTOServicio convertidorProductoDTOServicio;
 
     @Autowired
-    public ProductoCategoriaControlador(ProductoCategoriaLecturaServicio productoCategoriaLecturaServicio, ProductoLecturaServicio productoLecturaServicio, ProductoCategoriaGestionServicio productoCategoriaGestionServicio) {
+    public ProductoCategoriaControlador(ConvertidorProductoDTOServicio convertidorProductoDTOServicio, ProductoCategoriaLecturaServicio productoCategoriaLecturaServicio, ProductoLecturaServicio productoLecturaServicio, ProductoCategoriaGestionServicio productoCategoriaGestionServicio) {
         this.productoCategoriaLecturaServicio = productoCategoriaLecturaServicio;
         this.productoCategoriaGestionServicio = productoCategoriaGestionServicio;
         this.productoLecturaServicio = productoLecturaServicio;
+        this.convertidorProductoDTOServicio = convertidorProductoDTOServicio;
     }
 
     @PostMapping("/guardar")
@@ -79,7 +82,7 @@ public class ProductoCategoriaControlador {
             ProductoCategoria productoCategoria = new ProductoCategoria();
             productoCategoria.setId(id);
             List<Producto> productos = this.productoCategoriaLecturaServicio.productosAsociados(productoCategoria);
-            List<ProductoDTO> productoDTOS = this.productoLecturaServicio.convertirLista(productos);
+            List<ProductoDTO> productoDTOS = this.convertidorProductoDTOServicio.convertirLista(productos);
             return ResponseEntity.ok(productoDTOS);
         }catch (Exception e){
             throw new RuntimeException("Error: "+e);
