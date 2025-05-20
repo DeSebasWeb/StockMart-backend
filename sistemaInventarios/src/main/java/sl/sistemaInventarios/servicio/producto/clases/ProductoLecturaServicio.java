@@ -1,15 +1,18 @@
 package sl.sistemaInventarios.servicio.producto.clases;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import sl.sistemaInventarios.dto.producto.ProductoCompletoDTO;
 import sl.sistemaInventarios.dto.producto.ProductoDTO;
-import sl.sistemaInventarios.modelo.estado.EstadoEnum;
+import sl.sistemaInventarios.modelo.estado.Estado;
 import sl.sistemaInventarios.modelo.producto.Producto;
 import sl.sistemaInventarios.repositorio.producto.ProductoRepositorio;
-import sl.sistemaInventarios.servicio.estado.clases.IEstadoGestionServicio;
+import sl.sistemaInventarios.servicio.estado.clases.EstadoConsultaServicio;
+import sl.sistemaInventarios.servicio.estado.interfaces.IEstadoConsultaServicio;
 import sl.sistemaInventarios.servicio.producto.interfaces.IProductosLecturaServicio;
 
 import java.util.List;
@@ -18,29 +21,43 @@ import java.util.List;
 public class ProductoLecturaServicio implements IProductosLecturaServicio {
     private final ProductoRepositorio productoRepositorio;
 
-    private final IEstadoGestionServicio estadoServicio;
+    private final IEstadoConsultaServicio estadoConsultaServicio;
 
     private final ConvertidorProductoDTOServicio convertidorProductoDTOServicio;
 
+    private static final Logger logger = LoggerFactory.getLogger(ProductoLecturaServicio.class);
+
     @Autowired
-    public ProductoLecturaServicio(ProductoRepositorio productoRepositorio, IEstadoGestionServicio estadoServicio, ConvertidorProductoDTOServicio convertidorProductoDTOServicio) {
-        this.estadoServicio = estadoServicio;
+    public ProductoLecturaServicio(EstadoConsultaServicio estadoConsultaServicio, ProductoRepositorio productoRepositorio,  ConvertidorProductoDTOServicio convertidorProductoDTOServicio) {
         this.productoRepositorio = productoRepositorio;
         this.convertidorProductoDTOServicio = convertidorProductoDTOServicio;
+        this.estadoConsultaServicio = estadoConsultaServicio;
     }
 
-
     @Override
-    public List<Producto> mostrarProductosPorEstado(EstadoEnum estadoEnum) {
-        List<Producto> productos = this.productoRepositorio.findByEstado_Estado(estadoEnum);
-        return productos;
+    public List<ProductoDTO> mostrarProductosPorEstado(Integer idEstado) {
+        Estado estadoEncontrado = this.estadoConsultaServicio.buscarEstadoPorId(idEstado);
+        if (estadoEncontrado !=null){
+            List<Producto> productos = this.productoRepositorio.findByEstado(estadoEncontrado);
+            if(productos!= null){
+                if (!productos.isEmpty()) {
+                    List<ProductoDTO> productoDTOS = this.convertidorProductoDTOServicio.convertirLista(productos);
+                    return productoDTOS;
+                }else {
+                    throw new RuntimeException("No hay ningun producto con ese estado");
+                }
+            }else {
+                throw new RuntimeException("No se ha logrado encontrar los productos con el estado indicado");
+            }
+        }else {
+            throw new RuntimeException("Error el estado indicado no existe");
+        }
     }
 
     @Override
     public List<ProductoDTO> mostrarTodosLosProductos() {
         List<Producto> productos = this.productoRepositorio.findAll();
         return this.convertidorProductoDTOServicio.convertirLista(productos);
-
     }
 
     @Override
@@ -64,9 +81,14 @@ public class ProductoLecturaServicio implements IProductosLecturaServicio {
     }
 
     @Override
-    public List<Producto> buscarPorCategoria(String categoria) {
+    public List<ProductoDTO> buscarPorCategoria(String categoria) {
         List<Producto> productos = this.productoRepositorio.findByProductoCategoria_Nombre(categoria);
-        return productos;
+        if (!productos.isEmpty() && productos != null){
+            logger.info("Se ha puesto en marcha el metodo");
+            return this.convertidorProductoDTOServicio.convertirLista(productos);
+        }else{
+            throw new RuntimeException("No se ha podido encontrar ningun producto con la categoria que indica, Asegurese que exista en verdad");
+        }
     }
 
     // Use Pageable para limitar la cantidad de productos traídos desde la base de datos.
@@ -74,8 +96,9 @@ public class ProductoLecturaServicio implements IProductosLecturaServicio {
     // con un tamaño de 'topN' elementos, ordenados por cantidad de productos vendidos.
     // Esto permite obtener eficientemente el Top N de productos más vendidos sin traer todos los registros.
     @Override
-    public List<Producto> productosMasVendidos(int topN) {
+    public List<ProductoDTO> productosMasVendidos(int topN) {
         Pageable pageable = PageRequest.of(0, topN);
-        return this.productoRepositorio.findTopProductos(pageable);
+        List<Producto> topProductos = this.productoRepositorio.findTopProductos(pageable);
+        return this.convertidorProductoDTOServicio.convertirLista(topProductos);
     }
 }

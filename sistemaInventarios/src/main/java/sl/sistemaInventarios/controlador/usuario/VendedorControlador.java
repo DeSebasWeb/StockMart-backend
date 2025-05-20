@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import sl.sistemaInventarios.modelo.usuario.Vendedor;
-import sl.sistemaInventarios.servicio.estado.clases.IEstadoGestionServicio;
+import sl.sistemaInventarios.servicio.estado.clases.EstadoGestionServicio;
 import sl.sistemaInventarios.servicio.usuario.clases.VendedorConsultaServicio;
 import sl.sistemaInventarios.servicio.usuario.clases.IVendedorGestionServicio;
 
@@ -19,13 +19,13 @@ import java.util.List;
 public class VendedorControlador {
     private final VendedorConsultaServicio vendedorConsultaServicio;
     private final IVendedorGestionServicio IVendedorGestionServicio;
-    private final IEstadoGestionServicio IEstadoGestionServicio;
+    private final EstadoGestionServicio EstadoGestionServicio;
 
     @Autowired
-    public VendedorControlador(VendedorConsultaServicio vendedorConsultaServicio, IVendedorGestionServicio IVendedorGestionServicio, IEstadoGestionServicio IEstadoGestionServicio) {
+    public VendedorControlador(VendedorConsultaServicio vendedorConsultaServicio, IVendedorGestionServicio IVendedorGestionServicio, EstadoGestionServicio EstadoGestionServicio) {
         this.vendedorConsultaServicio = vendedorConsultaServicio;
         this.IVendedorGestionServicio = IVendedorGestionServicio;
-        this.IEstadoGestionServicio = IEstadoGestionServicio;
+        this.EstadoGestionServicio = EstadoGestionServicio;
     }
 
     @PostMapping("/listar")

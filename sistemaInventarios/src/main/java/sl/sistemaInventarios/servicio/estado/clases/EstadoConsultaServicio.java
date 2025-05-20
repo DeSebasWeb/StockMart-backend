@@ -6,7 +6,7 @@ import sl.sistemaInventarios.modelo.estado.Estado;
 import sl.sistemaInventarios.repositorio.estado.EstadoRepositorio;
 
 @Service
-public class IEstadoConsultaServicio implements sl.sistemaInventarios.servicio.estado.interfaces.IEstadoConsultaServicio {
+public class EstadoConsultaServicio implements sl.sistemaInventarios.servicio.estado.interfaces.IEstadoConsultaServicio {
     @Autowired
     private EstadoRepositorio estadoRepositorio;
     @Override

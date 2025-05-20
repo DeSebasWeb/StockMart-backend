@@ -6,7 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 import sl.sistemaInventarios.modelo.facturacion.DetalleVenta;
 import sl.sistemaInventarios.modelo.facturacion.Venta;
 import sl.sistemaInventarios.repositorio.facturacion.VentaRepositorio;
-import sl.sistemaInventarios.servicio.estado.clases.IEstadoGestionServicio;
+import sl.sistemaInventarios.servicio.estado.clases.EstadoGestionServicio;
 import sl.sistemaInventarios.servicio.facturacion.interfaces.IVentaGestionServicio;
 import sl.sistemaInventarios.servicio.producto.clases.ProductoGestionServicio;
 import sl.sistemaInventarios.servicio.producto.clases.ProductoLecturaServicio;
@@ -20,7 +20,7 @@ public class VentaGestionServicio implements IVentaGestionServicio {
 
     private final VentaRepositorio ventaRepositorio;
 
-    private final IEstadoGestionServicio estadoServicio;
+    private final EstadoGestionServicio estadoServicio;
 
     private final ProductoLecturaServicio productoLecturaServicio;
 
@@ -32,7 +32,7 @@ public class VentaGestionServicio implements IVentaGestionServicio {
 
     private final ProductoGestionServicio productoGestionServicio;
     @Autowired
-    public VentaGestionServicio(IEstadoGestionServicio estadoServicio, ProductoLecturaServicio productoLecturaServicio, VentaRepositorio ventaRepositorio, VentaConsultaServicio ventaConsultaServicio, IVendedorGestionServicio IVendedorGestionServicio, DetalleVentaGestionServicio detalleVentaGestionServicio, ProductoGestionServicio productoGestionServicio) {
+    public VentaGestionServicio(EstadoGestionServicio estadoServicio, ProductoLecturaServicio productoLecturaServicio, VentaRepositorio ventaRepositorio, VentaConsultaServicio ventaConsultaServicio, IVendedorGestionServicio IVendedorGestionServicio, DetalleVentaGestionServicio detalleVentaGestionServicio, ProductoGestionServicio productoGestionServicio) {
         this.estadoServicio = estadoServicio;
         this.productoLecturaServicio = productoLecturaServicio;
         this.ventaRepositorio = ventaRepositorio;

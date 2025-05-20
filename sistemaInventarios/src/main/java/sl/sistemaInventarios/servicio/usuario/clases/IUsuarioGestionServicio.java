@@ -7,8 +7,8 @@ import sl.sistemaInventarios.modelo.estado.Estado;
 import sl.sistemaInventarios.modelo.tipoUsuario.TipoUsuario;
 import sl.sistemaInventarios.modelo.usuario.Usuario;
 import sl.sistemaInventarios.repositorio.usuario.UsuarioRepositorio;
-import sl.sistemaInventarios.servicio.estado.clases.IEstadoConsultaServicio;
-import sl.sistemaInventarios.servicio.estado.clases.IEstadoGestionServicio;
+import sl.sistemaInventarios.servicio.estado.clases.EstadoConsultaServicio;
+import sl.sistemaInventarios.servicio.estado.clases.EstadoGestionServicio;
 import sl.sistemaInventarios.servicio.seguridad.clases.IEncriptacionServicio;
 import sl.sistemaInventarios.servicio.tipoUsuario.clases.ITipoUsuarioConsultaServicio;
 
@@ -17,15 +17,15 @@ import sl.sistemaInventarios.servicio.tipoUsuario.clases.ITipoUsuarioConsultaSer
 public class IUsuarioGestionServicio implements sl.sistemaInventarios.servicio.usuario.interfaces.IUsuarioGestionServicio {
 
     private final UsuarioRepositorio usuarioRepositorio;
-    private final IEstadoGestionServicio estadoGestionServicio;
+    private final EstadoGestionServicio estadoGestionServicio;
     private final IEncriptacionServicio encriptacionServicio;
     private final IUsuarioConsultaServicio usuarioConsultaServicio;
     private final ITipoUsuarioConsultaServicio tipoUsuarioConsultaServicio;
-    private final IEstadoConsultaServicio estadoConsultaServicio;
+    private final EstadoConsultaServicio estadoConsultaServicio;
     private final IVendedorGestionServicio vendedorGestionServicio;
 
     @Autowired
-    public IUsuarioGestionServicio(IEstadoGestionServicio estadoGestionServicio, IVendedorGestionServicio vendedorGestionServicio, IEncriptacionServicio encriptacionServicio, IUsuarioConsultaServicio usuarioConsultaServicio, ITipoUsuarioConsultaServicio tipoUsuarioConsultaServicio, UsuarioRepositorio usuarioRepositorio, IEstadoConsultaServicio estadoConsultaServicio) {
+    public IUsuarioGestionServicio(EstadoGestionServicio estadoGestionServicio, IVendedorGestionServicio vendedorGestionServicio, IEncriptacionServicio encriptacionServicio, IUsuarioConsultaServicio usuarioConsultaServicio, ITipoUsuarioConsultaServicio tipoUsuarioConsultaServicio, UsuarioRepositorio usuarioRepositorio, EstadoConsultaServicio estadoConsultaServicio) {
         this.estadoGestionServicio = estadoGestionServicio;
         this.encriptacionServicio = encriptacionServicio;
         this.usuarioConsultaServicio = usuarioConsultaServicio;

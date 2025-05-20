@@ -8,7 +8,7 @@ import sl.sistemaInventarios.modelo.facturacion.DetalleVenta;
 import sl.sistemaInventarios.modelo.facturacion.Venta;
 import sl.sistemaInventarios.modelo.usuario.Vendedor;
 import sl.sistemaInventarios.repositorio.facturacion.VentaRepositorio;
-import sl.sistemaInventarios.servicio.estado.clases.IEstadoGestionServicio;
+import sl.sistemaInventarios.servicio.estado.clases.EstadoGestionServicio;
 import sl.sistemaInventarios.servicio.facturacion.interfaces.IVentaConsultaServicio;
 import sl.sistemaInventarios.servicio.producto.clases.ProductoLecturaServicio;
 
@@ -21,7 +21,7 @@ public class VentaConsultaServicio implements IVentaConsultaServicio {
     private final VentaRepositorio ventaRepositorio;
 
     @Autowired
-    public VentaConsultaServicio(IEstadoGestionServicio estadoServicio, ProductoLecturaServicio productoServicio, VentaRepositorio ventaRepositorio) {
+    public VentaConsultaServicio(EstadoGestionServicio estadoServicio, ProductoLecturaServicio productoServicio, VentaRepositorio ventaRepositorio) {
         this.ventaRepositorio = ventaRepositorio;
     }
 

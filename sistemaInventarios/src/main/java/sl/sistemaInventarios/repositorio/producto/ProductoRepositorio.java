@@ -4,6 +4,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
+import sl.sistemaInventarios.modelo.estado.Estado;
 import sl.sistemaInventarios.modelo.estado.EstadoEnum;
 import sl.sistemaInventarios.modelo.producto.Producto;
 
@@ -11,7 +12,7 @@ import java.util.List;
 
 @Repository
 public interface ProductoRepositorio extends JpaRepository<Producto, Integer> {
-    List<Producto> findByEstado_Estado(EstadoEnum estadoEnum);
+    List<Producto> findByEstado(Estado estado);
 
     List<Producto> findByProductoCategoria_Nombre(String nombreCategoria);
 

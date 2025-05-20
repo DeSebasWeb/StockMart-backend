@@ -7,6 +7,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import sl.sistemaInventarios.dto.producto.ProductoCompletoDTO;
 import sl.sistemaInventarios.dto.producto.ProductoDTO;
+import sl.sistemaInventarios.modelo.estado.Estado;
+import sl.sistemaInventarios.modelo.estado.EstadoEnum;
 import sl.sistemaInventarios.modelo.producto.Producto;
 import sl.sistemaInventarios.servicio.producto.clases.ProductoGestionServicio;
 import sl.sistemaInventarios.servicio.producto.clases.ProductoLecturaServicio;
@@ -52,6 +54,26 @@ public class ProductoControlador {
        }catch (Exception e){
            return ResponseEntity.status(400).body("Error: "+e);
        }
+    }
+
+    @GetMapping("/estado/{idEstado}")
+    public ResponseEntity<?> mostrarProductosPorEstado(@PathVariable Integer idEstado){
+        try {
+            List<ProductoDTO> productoDTOS = this.productoLecturaServicio.mostrarProductosPorEstado(idEstado);
+            return ResponseEntity.ok(productoDTOS);
+        }catch (Exception e){
+            return ResponseEntity.status(400).body("Error: "+e);
+        }
+    }
+
+    @GetMapping("/categoria/{nombreCategoria}")
+    public ResponseEntity<?> buscarPorCategoria(@PathVariable String nombreCategoria){
+        try {
+            List<ProductoDTO> productosEncontradosDTOs = this.productoLecturaServicio.buscarPorCategoria(nombreCategoria);
+            return ResponseEntity.ok(productosEncontradosDTOs);
+        }catch (Exception e){
+            return ResponseEntity.status(400).body("Error: "+e);
+        }
     }
 
     @GetMapping("/buscar/detalles/{idProducto}")

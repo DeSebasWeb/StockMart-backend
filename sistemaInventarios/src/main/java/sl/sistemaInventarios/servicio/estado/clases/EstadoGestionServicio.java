@@ -7,7 +7,7 @@ import sl.sistemaInventarios.modelo.estado.EstadoEnum;
 import sl.sistemaInventarios.repositorio.estado.EstadoRepositorio;
 
 @Service
-public class IEstadoGestionServicio implements sl.sistemaInventarios.servicio.estado.interfaces.IEstadoGestionServicio {
+public class EstadoGestionServicio implements sl.sistemaInventarios.servicio.estado.interfaces.IEstadoGestionServicio {
     @Autowired
     private EstadoRepositorio estadoRepositorio;
 
