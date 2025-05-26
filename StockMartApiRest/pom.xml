@@ -8,7 +8,7 @@
 		<version>3.3.9</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>com.StockMart</groupId>
+	<groupId>com.stockmart.api</groupId>
 	<artifactId>StockMartApiRest</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>StockMartApiRest</name>
