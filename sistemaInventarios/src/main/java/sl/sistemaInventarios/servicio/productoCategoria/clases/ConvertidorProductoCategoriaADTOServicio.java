@@ -1,5 +1,6 @@
 package sl.sistemaInventarios.servicio.productoCategoria.clases;
 
+import org.springframework.stereotype.Service;
 import sl.sistemaInventarios.dto.productoCategoria.ProductoCategoriaCompletoDTO;
 import sl.sistemaInventarios.dto.productoCategoria.ProductoCategoriaDTO;
 import sl.sistemaInventarios.modelo.productoCategoria.ProductoCategoria;
@@ -8,6 +9,7 @@ import sl.sistemaInventarios.servicio.productoCategoria.interfaces.IConvertidorP
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Service
 public class ConvertidorProductoCategoriaADTOServicio implements IConvertidorProductoADTOServicio {
     @Override
     public ProductoCategoriaDTO convertirAProductoDTO(ProductoCategoria productoCategoria) {

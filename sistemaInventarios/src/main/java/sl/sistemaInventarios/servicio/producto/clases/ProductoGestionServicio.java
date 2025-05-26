@@ -44,7 +44,7 @@ public class ProductoGestionServicio implements IProductoGestionServicio {
     @Override
     public Producto guardarOActualizarProducto(Producto producto) {
         if (producto.getIdProducto() == null){
-            ProductoCategoria productoCategoriaEncontrado = this.productoCategoriaLecturaServicio.buscarCategoriaPorId(producto.getProductoCategoria());
+            ProductoCategoria productoCategoriaEncontrado = this.productoCategoriaLecturaServicio.buscarCategoriaPorId(producto.getProductoCategoria().getId());
             Estado estadoEncontrado = this.EstadoConsultaServicio.buscarEstadoPorId(producto.getEstado().getIdEstado());
             if (productoCategoriaEncontrado != null && estadoEncontrado!= null){
                 producto.setProductoCategoria(productoCategoriaEncontrado);
@@ -59,7 +59,7 @@ public class ProductoGestionServicio implements IProductoGestionServicio {
             if (productoAGuardar == null) {
                 throw new RuntimeException("El producto a actualizar no existe, intentelo nuevamente");
             } else {
-                ProductoCategoria productoCategoriaEncontrado = this.productoCategoriaLecturaServicio.buscarCategoriaPorId(producto.getProductoCategoria());
+                ProductoCategoria productoCategoriaEncontrado = this.productoCategoriaLecturaServicio.buscarCategoriaPorId(producto.getProductoCategoria().getId());
                 Estado estadoEncontrado = this.EstadoConsultaServicio.buscarEstadoPorId(producto.getEstado().getIdEstado());
                 if (productoCategoriaEncontrado != null && estadoEncontrado != null) {
                     productoAGuardar.setNombre(producto.getNombre());
