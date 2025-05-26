@@ -12,6 +12,5 @@ import org.springframework.context.annotation.Configuration;
                 description = "Documentación de la API REST de StockMart para gestión de inventario, productos, ventas, etc."
         )
 )
-
 public class SwaggerConfig {
 }
