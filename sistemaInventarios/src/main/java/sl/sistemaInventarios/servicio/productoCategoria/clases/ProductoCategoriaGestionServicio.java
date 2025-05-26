@@ -38,7 +38,7 @@ public class ProductoCategoriaGestionServicio implements IProductoCategoriaGesti
                 return productoCategoriaGuardar;
             }
         }else{
-            ProductoCategoria productoCategoriaGuardar = this.productoCategoriaLecturaServicio.buscarCategoriaPorId(productoCategoria);
+            ProductoCategoria productoCategoriaGuardar = this.productoCategoriaLecturaServicio.buscarCategoriaPorId(productoCategoria.getId());
             Estado estadoEncontrado = this.EstadoConsultaServicio.buscarEstadoPorId(productoCategoria.getEstado().getIdEstado());
             productoCategoriaGuardar.setNombre(productoCategoria.getNombre());
             productoCategoriaGuardar.setEstado(estadoEncontrado);
@@ -52,8 +52,8 @@ public class ProductoCategoriaGestionServicio implements IProductoCategoriaGesti
 
     //Cambia el estado de una categoría a INACTIVO (soft delete).
     @Override
-    public ProductoCategoria softDelete(ProductoCategoria productoCategoria) {
-        ProductoCategoria productoSoftDelete = this.productoCategoriaLecturaServicio.buscarCategoriaPorId(productoCategoria);
+    public ProductoCategoria softDelete(Integer idCategoria) {
+        ProductoCategoria productoSoftDelete = this.productoCategoriaLecturaServicio.buscarCategoriaPorId(idCategoria);
         if (productoSoftDelete.getEstado().getIdEstado() == this.EstadoGestionServicio.estaEstadoInactivo().getIdEstado()){
             throw new RuntimeException("El producto no se encuentra activo");
         }else{
@@ -66,8 +66,8 @@ public class ProductoCategoriaGestionServicio implements IProductoCategoriaGesti
     //Recupera los productosCategoria buscandolos y verificando si existen
     // y si existen y tienen el estado Inactivo los vuelve Activos
     @Override
-    public ProductoCategoria recuperar(ProductoCategoria productoCategoria) {
-        ProductoCategoria productoARecuperar = this.productoCategoriaLecturaServicio.buscarCategoriaPorId(productoCategoria);
+    public ProductoCategoria recuperar(Integer idCategoria) {
+        ProductoCategoria productoARecuperar = this.productoCategoriaLecturaServicio.buscarCategoriaPorId(idCategoria);
         if (productoARecuperar.getEstado() == this.EstadoGestionServicio.estaEstadoInactivo()){
             productoARecuperar.setEstado(this.EstadoGestionServicio.estaEstadoActivo());
         }
@@ -75,10 +75,10 @@ public class ProductoCategoriaGestionServicio implements IProductoCategoriaGesti
     }
 
     @Override
-    public void hardDelete(ProductoCategoria productoCategoria) {
-        ProductoCategoria productoCategoriaEncontrado = this.productoCategoriaLecturaServicio.buscarCategoriaPorId(productoCategoria);
+    public void hardDelete(Integer idCategoria) {
+        ProductoCategoria productoCategoriaEncontrado = this.productoCategoriaLecturaServicio.buscarCategoriaPorId(idCategoria);
         if (productoCategoriaEncontrado.getEstado().getIdEstado() == this.EstadoGestionServicio.estaEstadoInactivo().getIdEstado()){
-            this.productoCategoriaRepositorio.delete(productoCategoria);
+            this.productoCategoriaRepositorio.delete(productoCategoriaEncontrado);
         }else {
             throw new RuntimeException("La categoria se encuentra activa, descativela si quiere eliminarla permanentemente");
         }

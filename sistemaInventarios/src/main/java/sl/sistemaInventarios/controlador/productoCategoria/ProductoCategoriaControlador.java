@@ -34,6 +34,15 @@ public class ProductoCategoriaControlador {
         this.convertidorProductoDTOServicio = convertidorProductoDTOServicio;
     }
 
+    @GetMapping("/mostrar")
+    public ResponseEntity<?> mapeoCategorias(){
+        try{
+            List<ProductoCategoria> categorias = this.productoCategoriaLecturaServicio.mostrarTodasCategorias();
+            return ResponseEntity.ok(categorias);
+        }catch (Exception e){
+            return ResponseEntity.status(400).body("Error: "+e);
+        }
+    }
     @PostMapping("/guardar")
     public ResponseEntity<?> guardarOActualizarCategoria(@RequestBody ProductoCategoria productoCategoria){
         try {
