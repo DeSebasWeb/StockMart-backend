@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import sl.sistemaInventarios.dto.producto.ProductoDTO;
+import sl.sistemaInventarios.dto.productoCategoria.ProductoCategoriaDTO;
 import sl.sistemaInventarios.modelo.producto.Producto;
 import sl.sistemaInventarios.modelo.productoCategoria.ProductoCategoria;
 import sl.sistemaInventarios.servicio.producto.clases.ConvertidorProductoDTOServicio;
@@ -37,7 +38,7 @@ public class ProductoCategoriaControlador {
     @GetMapping("/mostrar")
     public ResponseEntity<?> mapeoCategorias(){
         try{
-            List<ProductoCategoria> categorias = this.productoCategoriaLecturaServicio.mostrarTodasCategorias();
+            List<ProductoCategoriaDTO> categorias = this.productoCategoriaLecturaServicio.mostrarTodasCategorias();
             return ResponseEntity.ok(categorias);
         }catch (Exception e){
             return ResponseEntity.status(400).body("Error: "+e);
@@ -62,7 +63,7 @@ public class ProductoCategoriaControlador {
         try{
             ProductoCategoria productoCategoria = new ProductoCategoria();
             productoCategoria.setId(id);
-            ProductoCategoria productoEliminado = this.productoCategoriaGestionServicio.softDelete(productoCategoria);
+            ProductoCategoria productoEliminado = this.productoCategoriaGestionServicio.softDelete(id);
             if(productoEliminado == null){
                 return ResponseEntity.status(404).body("No se ha podido eliminar la categoria");
             }else {
@@ -78,7 +79,7 @@ public class ProductoCategoriaControlador {
         try{
             ProductoCategoria productoCategoria = new ProductoCategoria();
             productoCategoria.setId(id);
-            this.productoCategoriaGestionServicio.recuperar(productoCategoria);
+            this.productoCategoriaGestionServicio.recuperar(id);
             return ResponseEntity.ok("Se ha recuperado el producto exitosamente");
         }catch (Exception e){
             return ResponseEntity.status(400).body("Error: "+e);
@@ -88,11 +89,8 @@ public class ProductoCategoriaControlador {
     @GetMapping("/asociados/{id}")
     public ResponseEntity<List<ProductoDTO>> obtenerProductosPorCategoria(@PathVariable Integer id){
         try {
-            ProductoCategoria productoCategoria = new ProductoCategoria();
-            productoCategoria.setId(id);
-            List<Producto> productos = this.productoCategoriaLecturaServicio.productosAsociados(productoCategoria);
-            List<ProductoDTO> productoDTOS = this.convertidorProductoDTOServicio.convertirLista(productos);
-            return ResponseEntity.ok(productoDTOS);
+            List<ProductoDTO> productos = this.productoCategoriaLecturaServicio.productosAsociados(id);
+            return ResponseEntity.ok(productos);
         }catch (Exception e){
             throw new RuntimeException("Error: "+e);
         }
@@ -103,7 +101,7 @@ public class ProductoCategoriaControlador {
         try {
             ProductoCategoria productoCategoria = new ProductoCategoria();
             productoCategoria.setId(id);
-            this.productoCategoriaGestionServicio.hardDelete(productoCategoria);
+            this.productoCategoriaGestionServicio.hardDelete(id);
             return ResponseEntity.ok("Se ha eliminado exitosamente");
         }catch (Exception e){
             return ResponseEntity.status(400).body("Error: "+e);
