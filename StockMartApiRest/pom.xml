@@ -8,10 +8,10 @@
 		<version>3.3.9</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>sl</groupId>
+	<groupId>com.StockMart</groupId>
 	<artifactId>StockMartApiRest</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>sistemaInventarios</name>
+	<name>StockMartApiRest</name>
 	<description>Demo project for Spring Boot</description>
 	<url/>
 	<licenses>
