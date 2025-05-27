@@ -21,7 +21,7 @@ import com.stockmart.api.servicio.usuario.clases.IUsuarioGestionServicio;
 
 import java.util.List;
 
-@Tag(name = "auth", description = "Operaciones de autenticacion.")
+@Tag(name = "Auth-Controlador", description = "Operaciones de autenticacion.")
 @RestController
 @RequestMapping("inventario-app/auth")
 @CrossOrigin("http://localhost:4200")
