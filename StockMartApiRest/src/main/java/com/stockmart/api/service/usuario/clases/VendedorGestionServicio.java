@@ -10,12 +10,12 @@ import com.stockmart.api.repository.usuario.VendedorRepositorio;
 
 @Service
 @Transactional
-public class IVendedorGestionServicio implements com.stockmart.api.service.usuario.interfaces.IVendedorGestionServicio {
+public class VendedorGestionServicio implements com.stockmart.api.service.usuario.interfaces.IVendedorGestionServicio {
     private final VendedorRepositorio vendedorRepositorio;
     private final VendedorConsultaServicio vendedorConsultaServicio;
 
     @Autowired
-    public IVendedorGestionServicio(VendedorRepositorio vendedorRepositorio, VendedorConsultaServicio vendedorConsultaServicio) {
+    public VendedorGestionServicio(VendedorRepositorio vendedorRepositorio, VendedorConsultaServicio vendedorConsultaServicio) {
         this.vendedorRepositorio = vendedorRepositorio;
         this.vendedorConsultaServicio = vendedorConsultaServicio;
     }

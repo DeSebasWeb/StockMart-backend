@@ -14,18 +14,18 @@ import com.stockmart.api.service.tipoUsuario.clases.ITipoUsuarioConsultaServicio
 
 @Service
 @Transactional
-public class IUsuarioGestionServicio implements com.stockmart.api.service.usuario.interfaces.IUsuarioGestionServicio {
+public class UsuarioGestionServicio implements com.stockmart.api.service.usuario.interfaces.IUsuarioGestionServicio {
 
     private final UsuarioRepositorio usuarioRepositorio;
     private final EstadoGestionServicio estadoGestionServicio;
     private final IEncriptacionServicio encriptacionServicio;
-    private final IUsuarioConsultaServicio usuarioConsultaServicio;
+    private final UsuarioConsultaServicio usuarioConsultaServicio;
     private final ITipoUsuarioConsultaServicio tipoUsuarioConsultaServicio;
     private final EstadoConsultaServicio estadoConsultaServicio;
-    private final IVendedorGestionServicio vendedorGestionServicio;
+    private final VendedorGestionServicio vendedorGestionServicio;
 
     @Autowired
-    public IUsuarioGestionServicio(EstadoGestionServicio estadoGestionServicio, IVendedorGestionServicio vendedorGestionServicio, IEncriptacionServicio encriptacionServicio, IUsuarioConsultaServicio usuarioConsultaServicio, ITipoUsuarioConsultaServicio tipoUsuarioConsultaServicio, UsuarioRepositorio usuarioRepositorio, EstadoConsultaServicio estadoConsultaServicio) {
+    public UsuarioGestionServicio(EstadoGestionServicio estadoGestionServicio, VendedorGestionServicio vendedorGestionServicio, IEncriptacionServicio encriptacionServicio, UsuarioConsultaServicio usuarioConsultaServicio, ITipoUsuarioConsultaServicio tipoUsuarioConsultaServicio, UsuarioRepositorio usuarioRepositorio, EstadoConsultaServicio estadoConsultaServicio) {
         this.estadoGestionServicio = estadoGestionServicio;
         this.encriptacionServicio = encriptacionServicio;
         this.usuarioConsultaServicio = usuarioConsultaServicio;

@@ -10,7 +10,7 @@ import com.stockmart.api.service.estado.clases.EstadoGestionServicio;
 import com.stockmart.api.service.facturacion.interfaces.IVentaGestionServicio;
 import com.stockmart.api.service.producto.clases.ProductoGestionServicio;
 import com.stockmart.api.service.producto.clases.ProductoLecturaServicio;
-import com.stockmart.api.service.usuario.clases.IVendedorGestionServicio;
+import com.stockmart.api.service.usuario.clases.VendedorGestionServicio;
 
 import java.util.List;
 
@@ -26,18 +26,18 @@ public class VentaGestionServicio implements IVentaGestionServicio {
 
     private final VentaConsultaServicio ventaConsultaServicio;
 
-    private final IVendedorGestionServicio IVendedorGestionServicio;
+    private final VendedorGestionServicio VendedorGestionServicio;
 
     private final DetalleVentaGestionServicio detalleVentaGestionServicio;
 
     private final ProductoGestionServicio productoGestionServicio;
     @Autowired
-    public VentaGestionServicio(EstadoGestionServicio estadoServicio, ProductoLecturaServicio productoLecturaServicio, VentaRepositorio ventaRepositorio, VentaConsultaServicio ventaConsultaServicio, IVendedorGestionServicio IVendedorGestionServicio, DetalleVentaGestionServicio detalleVentaGestionServicio, ProductoGestionServicio productoGestionServicio) {
+    public VentaGestionServicio(EstadoGestionServicio estadoServicio, ProductoLecturaServicio productoLecturaServicio, VentaRepositorio ventaRepositorio, VentaConsultaServicio ventaConsultaServicio, VendedorGestionServicio VendedorGestionServicio, DetalleVentaGestionServicio detalleVentaGestionServicio, ProductoGestionServicio productoGestionServicio) {
         this.estadoServicio = estadoServicio;
         this.productoLecturaServicio = productoLecturaServicio;
         this.ventaRepositorio = ventaRepositorio;
         this.ventaConsultaServicio = ventaConsultaServicio;
-        this.IVendedorGestionServicio = IVendedorGestionServicio;
+        this.VendedorGestionServicio = VendedorGestionServicio;
         this.detalleVentaGestionServicio = detalleVentaGestionServicio;
         this.productoGestionServicio = productoGestionServicio;
     }
@@ -104,7 +104,7 @@ public class VentaGestionServicio implements IVentaGestionServicio {
         Venta ventaGuardada = this.guardarVenta(venta);
         List<DetalleVenta> detallesGuardados = this.detalleVentaGestionServicio.guardarDetallesVenta(detalleVentas, ventaGuardada);
         Venta ventaCompleta = this.calcularTotalVenta(venta, detallesGuardados);
-        this.IVendedorGestionServicio.incrementarVenta(venta);
+        this.VendedorGestionServicio.incrementarVenta(venta);
         this.productoGestionServicio.actualizarStock(venta);
         return ventaCompleta;
     }

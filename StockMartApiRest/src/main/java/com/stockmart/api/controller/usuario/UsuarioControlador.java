@@ -12,8 +12,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import com.stockmart.api.dto.usuario.BuscarUsuarioDTO;
 import com.stockmart.api.entity.usuario.Usuario;
-import com.stockmart.api.service.usuario.clases.IUsuarioConsultaServicio;
-import com.stockmart.api.service.usuario.clases.IUsuarioGestionServicio;
+import com.stockmart.api.service.usuario.clases.UsuarioConsultaServicio;
+import com.stockmart.api.service.usuario.clases.UsuarioGestionServicio;
 
 import java.util.List;
 
@@ -23,13 +23,13 @@ import java.util.List;
 @RequestMapping("stockmart/users")
 @CrossOrigin("http://localhost:4200")
 public class UsuarioControlador {
-    private final IUsuarioGestionServicio IUsuarioGestionServicio;
-    private final IUsuarioConsultaServicio IUsuarioConsultaServicio;
+    private final UsuarioGestionServicio UsuarioGestionServicio;
+    private final UsuarioConsultaServicio UsuarioConsultaServicio;
 
     @Autowired
-    public UsuarioControlador(IUsuarioGestionServicio IUsuarioGestionServicio, IUsuarioConsultaServicio IUsuarioConsultaServicio) {
-        this.IUsuarioGestionServicio = IUsuarioGestionServicio;
-        this.IUsuarioConsultaServicio = IUsuarioConsultaServicio;
+    public UsuarioControlador(UsuarioGestionServicio UsuarioGestionServicio, UsuarioConsultaServicio UsuarioConsultaServicio) {
+        this.UsuarioGestionServicio = UsuarioGestionServicio;
+        this.UsuarioConsultaServicio = UsuarioConsultaServicio;
     }
 
     @Operation(
@@ -49,7 +49,7 @@ public class UsuarioControlador {
     @GetMapping("/listar")
     public ResponseEntity<?> mostrarUsuarios(){
         try{
-            List<Usuario> usuarios = this.IUsuarioConsultaServicio.mostrarTodosUsuarios();
+            List<Usuario> usuarios = this.UsuarioConsultaServicio.mostrarTodosUsuarios();
             return ResponseEntity.ok(usuarios);
         }catch (Exception e){
             return ResponseEntity.status(400).body("Error: "+e);
@@ -74,7 +74,7 @@ public class UsuarioControlador {
         try {
             Usuario usuario = new Usuario();
             usuario.setIdUsuario(id);
-            Usuario usuarioEncontrado = this.IUsuarioConsultaServicio.buscarUsuarioPorId(usuario);
+            Usuario usuarioEncontrado = this.UsuarioConsultaServicio.buscarUsuarioPorId(usuario);
             if (usuarioEncontrado != null){
                 return ResponseEntity.ok(usuarioEncontrado);
             }else {
@@ -103,7 +103,7 @@ public class UsuarioControlador {
     @PostMapping("/buscar")
     public ResponseEntity<?> buscarPorCedula(@RequestBody BuscarUsuarioDTO correo){
         try{
-            Usuario usuarioEncontrado = this.IUsuarioConsultaServicio.buscarUsuarioPorCorreo(correo.getCorreo());
+            Usuario usuarioEncontrado = this.UsuarioConsultaServicio.buscarUsuarioPorCorreo(correo.getCorreo());
             if (usuarioEncontrado !=null){
                 return ResponseEntity.ok(usuarioEncontrado);
             }else {
@@ -132,7 +132,7 @@ public class UsuarioControlador {
     @PostMapping("/guardar")
     public ResponseEntity<?> guardarUsuario(@RequestBody Usuario usuario){
         try{
-            Usuario usuarioGuardado = this.IUsuarioGestionServicio.guardarUsuario(usuario);
+            Usuario usuarioGuardado = this.UsuarioGestionServicio.guardarUsuario(usuario);
             if (usuarioGuardado != null){
                 return ResponseEntity.ok("Usuario guardado con exito");
             }else {
@@ -163,7 +163,7 @@ public class UsuarioControlador {
         try{
             Usuario usuario = new Usuario();
             usuario.setIdUsuario(id);
-            Usuario usuarioEliminado = this.IUsuarioGestionServicio.softDelete(usuario);
+            Usuario usuarioEliminado = this.UsuarioGestionServicio.softDelete(usuario);
             if (usuarioEliminado != null){
                 return ResponseEntity.ok("Se ha eliminado el usuario correctamente");
             }else {
@@ -194,7 +194,7 @@ public class UsuarioControlador {
         try {
             Usuario usuario = new Usuario();
             usuario.setIdUsuario(id);
-            this.IUsuarioGestionServicio.hardDelete(usuario);
+            this.UsuarioGestionServicio.hardDelete(usuario);
             return ResponseEntity.ok("Se ha eliminado el usuario definitivamente");
         }catch (Exception e){
             return ResponseEntity.status(400).body("Error: "+ e);
@@ -221,7 +221,7 @@ public class UsuarioControlador {
         try{
             Usuario usuario = new Usuario();
             usuario.setIdUsuario(id);
-            Usuario usuarioRecuperado = this.IUsuarioGestionServicio.recuperar(usuario);
+            Usuario usuarioRecuperado = this.UsuarioGestionServicio.recuperar(usuario);
             if (usuarioRecuperado != null){
                 return ResponseEntity.ok("Se ha recuperado el usuario correctamente");
             }else {

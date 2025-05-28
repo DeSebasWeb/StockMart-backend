@@ -9,7 +9,7 @@ import com.stockmart.api.repository.usuario.UsuarioRepositorio;
 import java.util.List;
 
 @Service
-public class IUsuarioConsultaServicio implements com.stockmart.api.service.usuario.interfaces.IUsuarioConsultaServicio {
+public class UsuarioConsultaServicio implements com.stockmart.api.service.usuario.interfaces.IUsuarioConsultaServicio {
     @Autowired
     private UsuarioRepositorio usuarioRepositorio;
 

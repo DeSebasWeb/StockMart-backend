@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.stockmart.api.entity.usuario.Vendedor;
 import com.stockmart.api.service.estado.clases.EstadoGestionServicio;
 import com.stockmart.api.service.usuario.clases.VendedorConsultaServicio;
-import com.stockmart.api.service.usuario.clases.IVendedorGestionServicio;
+import com.stockmart.api.service.usuario.clases.VendedorGestionServicio;
 
 import java.util.List;
 
@@ -18,13 +18,13 @@ import java.util.List;
 @CrossOrigin("http://localhost:4200")
 public class VendedorControlador {
     private final VendedorConsultaServicio vendedorConsultaServicio;
-    private final IVendedorGestionServicio IVendedorGestionServicio;
+    private final VendedorGestionServicio VendedorGestionServicio;
     private final EstadoGestionServicio EstadoGestionServicio;
 
     @Autowired
-    public VendedorControlador(VendedorConsultaServicio vendedorConsultaServicio, IVendedorGestionServicio IVendedorGestionServicio, EstadoGestionServicio EstadoGestionServicio) {
+    public VendedorControlador(VendedorConsultaServicio vendedorConsultaServicio, VendedorGestionServicio VendedorGestionServicio, EstadoGestionServicio EstadoGestionServicio) {
         this.vendedorConsultaServicio = vendedorConsultaServicio;
-        this.IVendedorGestionServicio = IVendedorGestionServicio;
+        this.VendedorGestionServicio = VendedorGestionServicio;
         this.EstadoGestionServicio = EstadoGestionServicio;
     }
 

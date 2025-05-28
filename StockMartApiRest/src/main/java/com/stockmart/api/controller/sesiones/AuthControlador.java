@@ -16,7 +16,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import com.stockmart.api.dto.credenciales.CredencialesRespuestaDTO;
 import com.stockmart.api.entity.usuario.Usuario;
-import com.stockmart.api.service.usuario.clases.IUsuarioGestionServicio;
+import com.stockmart.api.service.usuario.clases.UsuarioGestionServicio;
 
 @Tag(name = "Auth-Controlador", description = "Operaciones de autenticacion.")
 @RestController
@@ -24,12 +24,12 @@ import com.stockmart.api.service.usuario.clases.IUsuarioGestionServicio;
 @CrossOrigin("http://localhost:4200")
 public class AuthControlador {
     private final AuthenticationManager authenticationManager;
-    private final IUsuarioGestionServicio IUsuarioGestionServicio;
+    private final UsuarioGestionServicio UsuarioGestionServicio;
 
     @Autowired
-    public AuthControlador(AuthenticationManager authenticationManager, IUsuarioGestionServicio IUsuarioGestionServicio) {
+    public AuthControlador(AuthenticationManager authenticationManager, UsuarioGestionServicio UsuarioGestionServicio) {
         this.authenticationManager = authenticationManager;
-        this.IUsuarioGestionServicio = IUsuarioGestionServicio;
+        this.UsuarioGestionServicio = UsuarioGestionServicio;
     }
 
     @Operation(
@@ -77,7 +77,7 @@ public class AuthControlador {
     })
     @PostMapping("/registro")
     public ResponseEntity<?> registroUsuario(@RequestBody Usuario usuario){
-        Usuario usuarioGuardado = this.IUsuarioGestionServicio.guardarUsuario(usuario);
+        Usuario usuarioGuardado = this.UsuarioGestionServicio.guardarUsuario(usuario);
         if (usuarioGuardado!=null){
             return ResponseEntity.ok("El usuario ha sido creado de manera exitosa");
         }else{
