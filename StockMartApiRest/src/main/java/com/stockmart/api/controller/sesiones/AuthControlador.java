@@ -20,7 +20,7 @@ import com.stockmart.api.service.usuario.clases.IUsuarioGestionServicio;
 
 @Tag(name = "Auth-Controlador", description = "Operaciones de autenticacion.")
 @RestController
-@RequestMapping("inventario-app/auth")
+@RequestMapping("stockmart/auth")
 @CrossOrigin("http://localhost:4200")
 public class AuthControlador {
     private final AuthenticationManager authenticationManager;
