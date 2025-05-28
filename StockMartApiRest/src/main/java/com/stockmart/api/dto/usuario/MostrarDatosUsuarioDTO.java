@@ -4,8 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
-import com.stockmart.api.modelo.estado.Estado;
-import com.stockmart.api.modelo.tipoUsuario.TipoUsuario;
+import com.stockmart.api.entity.estado.Estado;
+import com.stockmart.api.entity.tipoUsuario.TipoUsuario;
 
 
 @Data
