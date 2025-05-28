@@ -14,7 +14,7 @@ import com.stockmart.api.service.usuario.clases.IVendedorGestionServicio;
 import java.util.List;
 
 @RestController
-@RequestMapping("inventario-app/vendedor")
+@RequestMapping("stockmart/vendedor")
 @CrossOrigin("http://localhost:4200")
 public class VendedorControlador {
     private final VendedorConsultaServicio vendedorConsultaServicio;

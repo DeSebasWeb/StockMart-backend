@@ -20,7 +20,7 @@ import java.util.List;
 //Luego de pruebas iniciales, implementar las notaciones de seguridad por metodo para los roles
 @Tag(name = "usuario-controlador", description = "Operaciones CRUD sobre usuarios.")
 @RestController
-@RequestMapping("inventario-app/users")
+@RequestMapping("stockmart/users")
 @CrossOrigin("http://localhost:4200")
 public class UsuarioControlador {
     private final IUsuarioGestionServicio IUsuarioGestionServicio;

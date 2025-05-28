@@ -21,7 +21,7 @@ import java.util.List;
 
 @Tag(name = "Producto-controlador", description = "Operaciones CRUD sobre productos.")
 @RestController
-@RequestMapping("inventario-app/productos")
+@RequestMapping("stockmart/productos")
 @CrossOrigin("http://localhost:4200")
 //Luego de pruebas iniciales, implementar las notaciones de seguridad por metodo para los roles
 //    http://localhost:8080/inventario-app/productos
