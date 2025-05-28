@@ -63,6 +63,16 @@ public class ProductoCategoriaControlador {
         }
     }
 
+    @Operation(
+            summary = "Mostrar categorias por un estado",
+            description = "Este endpoint busca y muestra las categorias filtrandolas por su estado, en este caso, se tienen dos tipos, ACTIVO y INACTIVO.",
+            tags = "Categoria-controlador"
+    )@ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "La categoria se ha guardado correctamente", content =  @Content),
+            @ApiResponse(responseCode = "403", description = "Necesita autenticacion para usar este endpoint", content = @Content),
+            @ApiResponse(responseCode = "404", description = "No se ha podido guardar la categoria", content = @Content),
+            @ApiResponse(responseCode = "500", description = "Error interno del servidor", content = @Content)
+    })
     @GetMapping("/mostrar/{idEstado}/estado")
     public ResponseEntity<?> mostrarCategoriasPorEstado(@PathVariable Integer idEstado){
         try {
