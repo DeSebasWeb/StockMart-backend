@@ -11,7 +11,7 @@ import java.util.List;
 public interface IProductoCategoriaLecturaServicio {
     public List<ProductoCategoriaDTO> mostrarTodasCategorias();
 
-    public List<ProductoCategoriaDTO> mostrarCategoriasEstado(EstadoEnum estadoEnum);
+    public List<ProductoCategoriaDTO> mostrarCategoriasEstado(Integer idEstado);
 
     public ProductoCategoria buscarCategoriaPorId(Integer idCategoria);
 

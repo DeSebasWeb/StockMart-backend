@@ -62,6 +62,21 @@ public class ProductoCategoriaControlador {
             return ResponseEntity.status(400).body("Error: "+e);
         }
     }
+
+    @GetMapping("/mostrar/{idEstado}/estado")
+    public ResponseEntity<?> mostrarCategoriasPorEstado(@PathVariable Integer idEstado){
+        try {
+            List<ProductoCategoriaDTO> categorias = this.productoCategoriaLecturaServicio.mostrarCategoriasEstado(idEstado);
+            if (categorias.isEmpty() && categorias == null){
+                return ResponseEntity.status(404).body("No se ha logrado encontrar las categorias con ese estado");
+            }else {
+                return ResponseEntity.ok(categorias);
+            }
+        }catch (Exception e){
+            return ResponseEntity.status(400).body("Error: "+e);
+        }
+    }
+
     @Operation(
             summary = "Guardado de categorias",
             description = "Este endpoint almacena la categoria enviada por medio del archivo JSON en la base de datos",
@@ -96,6 +111,7 @@ public class ProductoCategoriaControlador {
             @ApiResponse(responseCode = "404", description = "No se ha podido actualizado la categoria", content = @Content),
             @ApiResponse(responseCode = "500", description = "Error interno del servidor", content = @Content)
     })
+
     @PutMapping("/guardar")
     public ResponseEntity<?> actualizarCategoria(@PathVariable Integer idCategoria, @RequestBody ProductoCategoria productoCategoria){
         try {
@@ -141,8 +157,8 @@ public class ProductoCategoriaControlador {
             description = "Este endpoint actualiza el estado de una categoria, haciendo la respectiva validacion para saber si la categoria realmente se encuentra en estado INACTIVO y asi no hacer ninguna consulta inecesaria.",
             tags = "Categoria-controlador"
     )@ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Se ha recuperado el producto exitosamente", content =  @Content),
-            @ApiResponse(responseCode = "400", description = "No se ha podido recuperar el producto, verifique el estado del mismo", content = @Content),
+            @ApiResponse(responseCode = "200", description = "Se ha recuperado la categoria exitosamente", content =  @Content),
+            @ApiResponse(responseCode = "400", description = "No se ha podido recuperar la categoria, verifique el estado del mismo", content = @Content),
             @ApiResponse(responseCode = "403", description = "Necesita autenticacion para usar este endpoint", content = @Content),
             @ApiResponse(responseCode = "500", description = "Error interno del servidor", content = @Content)
     })
@@ -153,9 +169,9 @@ public class ProductoCategoriaControlador {
             productoCategoria.setId(id);
             ProductoCategoria productoCategoriaRecuperado = this.productoCategoriaGestionServicio.recuperar(id);
             if (productoCategoriaRecuperado!= null){
-                return ResponseEntity.ok("Se ha recuperado el producto exitosamente");
+                return ResponseEntity.ok("Se ha recuperado la categoria exitosamente");
             }else {
-                return ResponseEntity.status(400).body("No se ha podido recuperar el producto, verifique el estado del mismo");
+                return ResponseEntity.status(400).body("No se ha podido recuperar la categoria, verifique el estado del mismo");
             }
         }catch (Exception e){
             return ResponseEntity.status(500).body("Error: "+e);
@@ -197,7 +213,7 @@ public class ProductoCategoriaControlador {
             ProductoCategoria productoCategoria = new ProductoCategoria();
             productoCategoria.setId(id);
             this.productoCategoriaGestionServicio.hardDelete(id);
-            return ResponseEntity.ok("Se ha eliminado exitosamente");
+            return ResponseEntity.ok("Se ha eliminado la categoria exitosamente");
         }catch (Exception e){
             return ResponseEntity.status(400).body("Error: "+e);
         }

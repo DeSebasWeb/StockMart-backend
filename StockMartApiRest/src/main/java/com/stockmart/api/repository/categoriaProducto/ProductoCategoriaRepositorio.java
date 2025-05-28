@@ -1,5 +1,6 @@
 package com.stockmart.api.repository.categoriaProducto;
 
+import com.stockmart.api.entity.estado.Estado;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 import com.stockmart.api.entity.productoCategoria.ProductoCategoria;
@@ -9,5 +10,5 @@ import java.util.List;
 
 @Repository
 public interface ProductoCategoriaRepositorio extends JpaRepository<ProductoCategoria, Integer> {
-    List<ProductoCategoria> findByEstado_Estado(EstadoEnum estadoEnum);
+    List<ProductoCategoria> findByEstado(Estado estado);
 }

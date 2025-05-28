@@ -1,5 +1,7 @@
 package com.stockmart.api.service.productoCategoria.clases;
 
+import com.stockmart.api.entity.estado.Estado;
+import com.stockmart.api.service.estado.clases.EstadoConsultaServicio;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.stockmart.api.dto.producto.ProductoDTO;
@@ -20,16 +22,18 @@ public class ProductoCategoriaLecturaServicio implements IProductoCategoriaLectu
 
 
     private final ProductoCategoriaRepositorio productoCategoriaRepositorio;
-    private final EstadoGestionServicio estadoServicio;
+    private final EstadoGestionServicio estadoGestionServicio;
+    private final EstadoConsultaServicio estadoConsultaServicio;
     private final ConvertidorProductoCategoriaADTOServicio convertidorProductoCategoriaADTOServicio;
     private final ConvertidorProductoDTOServicio convertidorProductoDTOServicio;
 
     @Autowired
-    public ProductoCategoriaLecturaServicio(ConvertidorProductoDTOServicio convertidorProductoDTOServicio, ProductoCategoriaRepositorio productoCategoriaRepositorio, EstadoGestionServicio estadoServicio, ConvertidorProductoCategoriaADTOServicio convertidorProductoCategoriaADTOServicio) {
+    public ProductoCategoriaLecturaServicio(EstadoConsultaServicio estadoConsultaServicio, ConvertidorProductoDTOServicio convertidorProductoDTOServicio, ProductoCategoriaRepositorio productoCategoriaRepositorio, EstadoGestionServicio estadoGestionServicio, ConvertidorProductoCategoriaADTOServicio convertidorProductoCategoriaADTOServicio) {
         this.productoCategoriaRepositorio = productoCategoriaRepositorio;
-        this.estadoServicio = estadoServicio;
+        this.estadoGestionServicio = estadoGestionServicio;
         this.convertidorProductoCategoriaADTOServicio = convertidorProductoCategoriaADTOServicio;
         this.convertidorProductoDTOServicio = convertidorProductoDTOServicio;
+        this.estadoConsultaServicio = estadoConsultaServicio;
     }
 
 
@@ -44,9 +48,23 @@ public class ProductoCategoriaLecturaServicio implements IProductoCategoriaLectu
     //CategoriaProducto dependiendo si se quiere que este activa o inactiva y lo devuelve como
     // lista para enviarlo al controlador
     @Override
-    public List<ProductoCategoriaDTO> mostrarCategoriasEstado(EstadoEnum estadoEnum) {
-        List<ProductoCategoria> productosCategorias = this.productoCategoriaRepositorio.findByEstado_Estado(estadoEnum);
-        return this.convertidorProductoCategoriaADTOServicio.convertirLista(productosCategorias);
+    public List<ProductoCategoriaDTO> mostrarCategoriasEstado(Integer idEstado) {
+        Estado estadoEncontrado = this.estadoConsultaServicio.buscarEstadoPorId(idEstado);
+        if (estadoEncontrado !=null){
+            List<ProductoCategoria> categorias = this.productoCategoriaRepositorio.findByEstado(estadoEncontrado);
+            if (categorias!= null){
+                if (!categorias.isEmpty()){
+                    List<ProductoCategoriaDTO> categoriasDTO = this.convertidorProductoCategoriaADTOServicio.convertirLista(categorias);
+                    return categoriasDTO;
+                }else {
+                    throw new RuntimeException("No hay ninguna categoria con ese estado");
+                }
+            }else {
+                throw new RuntimeException("No se ha logrado encontrar las categorias con el estado indicado");
+            }
+        }else {
+            throw new RuntimeException("El estado indicado no existe");
+        }
     }
 
     @Override

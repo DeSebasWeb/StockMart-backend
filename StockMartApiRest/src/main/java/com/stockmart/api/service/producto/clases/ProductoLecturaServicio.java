@@ -50,7 +50,7 @@ public class ProductoLecturaServicio implements IProductosLecturaServicio {
                 throw new RuntimeException("No se ha logrado encontrar los productos con el estado indicado");
             }
         }else {
-            throw new RuntimeException("Error el estado indicado no existe");
+            throw new RuntimeException("El estado indicado no existe");
         }
     }
 
